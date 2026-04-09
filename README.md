@@ -15,7 +15,7 @@ This repository contains:
 ```
 MOCS/
 │
-├── aux/ For README.md 
+├── figures/ For README.md 
 ├── reports/
 ├── code/
 ├── shared/
