@@ -169,4 +169,5 @@ git add .
 git commit -m "Update reports"
 git push
 ```
+5. Also if you only made changes to one .tex file, you can just commit and push that file after replacing the old one with the new latest one in Overleaf.
 ---
