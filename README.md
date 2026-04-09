@@ -170,4 +170,8 @@ git commit -m "Update reports"
 git push
 ```
 5. Also if you only made changes to one .tex file, you can just commit and push that file after replacing the old one with the new latest one in Overleaf.
+
+6. Another method could be to go directly to GitHub https://github.com/dragonesk22/MOCS/tree/main/reports/L1/src/texfiles 
+ and upload the new .tex file via click onf "Add file -> Upload files -> Choose file (with the same name)"
+7. Or just post the file in the WhatsApp group and who can can upload it on GitHub.
 ---
