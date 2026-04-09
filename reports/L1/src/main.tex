@@ -1,0 +1,68 @@
+\documentclass[a4paper,11pt]{article}
+
+\input{texfiles/preamble}
+\usepackage{xcolor}
+\usepackage{minted}
+\usemintedstyle{arduino}
+
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{}
+\lhead{1MA256 Modelling Complex Systems}
+
+\cfoot{--\ \thepage \ --}
+\definecolor{doc}{RGB}{0,60,110}
+\renewcommand{\arraystretch}{1.2}
+\title{\huge Laboration 1}
+\author{Group number: XXX\\
+        Vootele Mets \\    
+        Juan Rodriguez \\ 
+        Marco Malosti \\ 
+        Björk \\
+        Sofia Fernandes \\         
+        David}
+\date{\today} 
+\begin{document}
+\maketitle
+\vspace{5mm}
+\begin{figure}[htp]
+    \centering
+    \includegraphics[width=0.5\textwidth]{figs/uu_logo (1).png}
+\end{figure}
+\vspace*{\fill} 
+\pagenumbering{roman}
+\newpage
+\tableofcontents
+\setcounter{page}{1}
+\pagenumbering{arabic}
+\maketitle
+\newpage
+\linenumbers
+\input{texfiles/introduction}
+
+\newpage
+
+\input{texfiles/theory}
+
+\newpage
+
+\input{texfiles/methods}
+\nolinenumbers
+\newpage
+\input{texfiles/results}
+\newpage
+\linenumbers
+\input{texfiles/discussion}
+\nolinenumbers
+\newpage
+
+\paragraph{Test.} According to Source 1\cite{FEniCS2}, and Source 2\cite{FEM3}
+
+
+\bibliographystyle{plain}
+\bibliography{main.bib}
+
+
+\end{document}
+
