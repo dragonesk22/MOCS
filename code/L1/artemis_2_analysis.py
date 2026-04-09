@@ -69,6 +69,7 @@ def plotDistances(rows):
     plt.grid(True, alpha=0.3)
     plt.legend()
     plt.tight_layout()
+    plt.savefig("distancePlot.pdf", format="pdf")
 
 
 def plotMissionTimeline(rows):
