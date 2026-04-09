@@ -58,7 +58,7 @@ sudo apt install git
 Generate SSH key
 
 ```
-ssh-keygen -t ed25519 -C "your_email@example.com"
+ssh-keygen -t ed25519 -C "email_connected_to_github@example.com"
 ```
 
 Start ssh agent
