@@ -8,7 +8,7 @@ import numpy as np
 # -----------------------------
 # Parameters
 # -----------------------------
-dataFile = "../data/artemisII.csv"
+dataFile = "data/artemisII.csv"
 
 
 def parseOptionalFloat(value):
