@@ -1,2 +1,120 @@
 \section{Model and parameters}
-Present the model equations, define the variables and parameters, and explain the modeling interpretation.
+The model under investigation is 
+\begin{align}
+	x_{n+1} &= (1-\varepsilon)r_1 x_n(1 - x_n) + \varepsilon r_2 y_n(1-y_n)\\
+	y_{n+1} &= (1-\varepsilon)r_2 y_n(1 - y_n) + \varepsilon r_1 x_n(1-x_n)\\
+\end{align}
+which is equivalent to a non-linear perturbation of a linear map:
+
+\begin{equation}
+	\symbf{x}_{n+1} = \symbf{F}(\symbf{x}_n) = A \symbf{x}_n + \symbf{f}(\symbf{x}_n)
+\end{equation}
+
+
+with 
+\begin{equation}
+	A = 
+    \begin{bmatrix}
+			(1-\varepsilon)r_1 & \varepsilon r_2\\
+			\varepsilon r_1 & (1- \varepsilon)r_2
+    \end{bmatrix},
+		\hspace{5mm}
+		\symbf{f}(\symbf{x}) = A \symbf{g}(\symbf{x}),
+		\hspace{5mm}
+	\symbf{g}(\symbf{x}) = -x^2 \symbf{e}_x - y^2 \symbf{e}_y
+		\hspace{5mm}
+	\symbf{x} = \symbf{x}_n 
+\end{equation}
+so 
+
+\begin{equation}
+\symbf{F}(\symbf{x}) =
+		A \symbf{x} +
+		\symbf{f}(\symbf{x})
+		=
+		\begin{bmatrix}
+			(1-\varepsilon)r_1 & \varepsilon r_2\\
+			\varepsilon r_1 & (1- \varepsilon)r_2
+    \end{bmatrix}
+		\begin{bmatrix}
+			x\\
+			y
+    \end{bmatrix}
+		+
+		\begin{bmatrix}
+			(1-\varepsilon)r_1 & \varepsilon r_2\\
+			\varepsilon r_1 & (1- \varepsilon)r_2
+    \end{bmatrix}
+		\begin{bmatrix}
+			-x^2\\
+			-y^2
+    \end{bmatrix}.
+\end{equation}
+
+Looking for fixpoints amounts to the root finding problem
+
+\begin{align}
+	\symbf{G}(\symbf{x}) &= \symbf{F}(\symbf{x}) - \symbf{x} \\ 
+											 &= A \symbf{x} +\symbf{f}(\symbf{x}) \symbf{x}\\
+											 &= A \symbf{x} + A \symbf{g}(\symbf{x}) -\symbf{x}\\
+											 &= A(\symbf{x} + \symbf{g}(\symbf{x})) - \symbf{x} \\
+											 &= 0\\
+	\Rightarrow \symbf{x} + \symbf{g}(\symbf{x}) &= A^{-1}\symbf{x}\\
+	\iff \symbf{g}(\symbf{x}) &= (A^{-1} - I)\symbf{x}\\
+	A^{-1} &= \frac{1}{\det(A)}{\textrm{adj}}(A) =
+	\frac{1}{\det(A)}
+	\begin{bmatrix}
+		(1-\varepsilon)r_2 & -\varepsilon r_1\\
+		-\varepsilon r_2 & (1-\varepsilon) r_1
+	\end{bmatrix}^T
+	\\
+	\iff 
+	\begin{bmatrix}
+		-x^2\\
+		-y^2
+	\end{bmatrix}
+	&=
+	\begin{bmatrix}
+		a & b\\
+		c & d
+	\end{bmatrix}
+	\begin{bmatrix}
+		x\\
+		y
+	\end{bmatrix}
+\end{align}
+
+\begin{equation}
+	\begin{cases}
+		a = \frac{1-\varepsilon}{r_1(1-2\varepsilon)}-1 = \frac{\varepsilon - 1}{2r_1(\varepsilon - 1/2)}-1\\
+		b = \frac{-\varepsilon}{r_1(1-2\varepsilon)} = \frac{\varepsilon}{2r_1(\varepsilon - 1/2)}\\
+		c = \frac{-\varepsilon}{r_2(1-2\varepsilon)} = \frac{\varepsilon}{2r_2(\varepsilon - 1/2)}\\
+		d = \frac{1-\varepsilon}{r_2(1-2\varepsilon)} -1 = \frac{\varepsilon - 1}{2r_2(\varepsilon - 1/2)}-1
+	\end{cases}
+	\label{eq:system}
+\end{equation}
+
+\begin{equation}
+	\begin{cases}
+		x^2 + ax + by = x(x+a) + by = 0\\
+		y^2 + cx + dy = cx + y(y+d) = 0
+	\end{cases}
+	\label{eq:system}
+\end{equation}
+
+Thus the fixpoints belong to the intersections of 2 parabolic surfaces. The simple nullcline (that is if we ought to find a fixpoint it 
+is necessary for it to lie on this curve) is given by the first equation above
+\begin{equation}
+	y(x) = \frac{-x^2-ax}{b}
+	\label{eq:nullcline}
+\end{equation}
+Inserting Eq (\ref{eq:nullcline}) in the lower equation in (\ref{eq:system}) gives the following quartic polynomial:
+\begin{equation}
+	p(x) = x^4 + 2a x^3 + (a^2 - bd)x^2 + b(cd - ad)x
+\end{equation}
+from which we can readily factor $x$ and thus $\symbf{x}_1 = (0, 0)$ is the trivial root, and leaving
+\begin{equation}
+	q(x) = x^3 + 2a x^2 + (a^2 - bd)x + bd(c - a)
+\end{equation}
+since $\deg(q) = 3$ and $y(x)$ one-to-one for $b\neq 0$ then we can at most have 4 fixed points. 
+

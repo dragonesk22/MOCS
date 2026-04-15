@@ -7,6 +7,8 @@
   bottom=2.54cm,
   left=3.8cm,
   right=2.54cm]{geometry}
+\usepackage{parskip}
+\usepackage{url}
 
 % =========================
 % FONT (LuaLaTeX)
@@ -35,6 +37,10 @@
 \usepackage{bm}
 \usepackage{mathtools}
 
+% Graphs
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning, calc}
+
 % =========================
 % GRAPHICS / FIGURES
 % =========================
@@ -47,6 +53,8 @@
   labelfont=bf]{caption}
 \usepackage{subcaption}
 
+\newfloat{listing}{htbp}{lol}
+\floatname{listing}{Listing}
 % =========================
 % COLORS / BOXES
 % =========================
@@ -173,3 +181,4 @@ style6/.style={colback=red!5!white, colframe=red!80!black}
   title=Sats \thetcbcounter\ – #2,
   #1
 }
+
