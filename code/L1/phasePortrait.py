@@ -28,8 +28,14 @@ def get_trajectory(x0y0, params, traj_length=100, trans=20):
     return traj
 
 
-def plot_phase_portrait(x0y0, params, traj_length=100, trans=20):
+def plot_phase_portrait(x0y0,
+                        params,
+                        traj_length=200,
+                        trans=20,
+                        should_print=False):
     traj = get_trajectory(x0y0, params, traj_length, trans)
+    if should_print:
+        print(traj[-1])
     plt.scatter(
         *traj.T,
         c=np.array(range(traj_length)),
@@ -58,3 +64,4 @@ if __name__ == "__main__":
     plt.legend()
     plt.colorbar()
     plt.show()
+    get_report_figures()
