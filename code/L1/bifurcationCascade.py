@@ -19,7 +19,7 @@ def calc_timeline(xy0, r2, steps, discard):
 
 
 if __name__ == "__main__":
-    timelines = []
+    #timelines = []
     for element in r2:
         new_timeline = calc_timeline(xy_start, element, steps, discard)
         plt.plot([element]*(len(new_timeline)), new_timeline, '.')
@@ -29,6 +29,7 @@ if __name__ == "__main__":
     plt.xlabel('$r_2$')
     plt.ylabel('$x*$')
     plt.title('Bifurcation Cascade ($r_1=3.1$, $\epsilon = 0.3$)')
+    plt.grid()
     plt.savefig('figures/bifurcationcascade.png', dpi=300)
     plt.show()
     
