@@ -47,8 +47,15 @@ def get_report_figures():
     trans_val = 30
     plt.close()
     for param in [(2.8, 2.9, 0.1), (3.1, 3.4, 0.3), (3.85, 3.95, 0.2)]:
-        plot_phase_portrait(np.random.rand(2), param, trans=trans_val)
-        plot_phase_portrait(np.random.rand(2), param, trans=trans_val)
+        print(f"\n{param=}")
+        for _ in range(10):
+            plot_phase_portrait(np.random.rand(2),
+                                param,
+                                trans=trans_val,
+                                should_print=True)
+
+        print()
+        #plot_phase_portrait(np.random.rand(2), param, trans=trans_val)
         plt.xlabel("x")
         plt.ylabel("y")
         plt.suptitle(f"Phase Portrait for (r1, r2, $\\epsilon$)={param}")
