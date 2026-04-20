@@ -186,7 +186,7 @@ def plot_results(filename, valid_roots, convergence_mask, x_grid, y_grid, p, ε,
     """
     Plot the results of the grid search using a smooth background for convergence basins.
     """
-    plt.figure(figsize=(10, 8))
+    plt.figure(figsize=(8, 8))
 
     # Reshape convergence_mask to grid shape for smooth plotting
     M = x_grid.shape[0]
@@ -196,7 +196,7 @@ def plot_results(filename, valid_roots, convergence_mask, x_grid, y_grid, p, ε,
     # Using 'extent' to match the [0, 1] x [0, 1] domain
     # origin='lower' to match meshgrid behavior
     plt.imshow(convergence_grid, extent=(0, 1, 0, 1), origin='lower',
-               cmap='seismic', alpha=0.6, aspect='auto')
+               cmap='coolwarm', alpha=0.6, aspect='auto')
 
     # Add a custom legend proxy for the background
     from matplotlib.lines import Line2D
