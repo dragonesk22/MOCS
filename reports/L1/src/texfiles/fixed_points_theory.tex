@@ -1,1 +1,88 @@
-\section{The coupled system and its fix points}
+\section{Theoretical Background: Fixed Points, Periodic Points, and Newton's Method}
+
+A discrete-time dynamical system describes the evolution of a state variable through successive iterations of a given map. In this  project's model, the state of the system \(n\) is described by the vector
+\[
+z_n = (x_n,y_n),
+\]
+where \(x_n\) and \(y_n\) denote the normalized densities of two interacting populations. The evolution of the system is determined by a map \(F\), such that
+\[
+z_{n+1}=F(z_n).
+\]
+
+
+
+\subsection{Fixed Points}
+
+A fixed point of a map is a state that remains unchanged under one application of the map. Thus, a point \((x^*,y^*)\) is a fixed point of \(F\) if
+\[
+F(x^*,y^*)=(x^*,y^*).
+\]
+
+
+In this context, fixed points correspond to equilibrium states, where the reproductive dynamics and the interaction between the two populations are balanced. This reflects in a constant population density from one generation to the next. So, by definition, in order to get the fixed points, one has to find the roots of the system.
+
+\subsection{Periodic Points}
+
+Periodic points generalize the concept of fixed points. A point \((x,y)\) is said to be periodic with period \(p\) if it returns to itself after \(p\) applications of the map:
+\[
+F^p(x,y)=(x,y),
+\]
+For example,
+\[
+F^2(x,y)=F(F(x,y)),
+\]
+and
+\[
+F^3(x,y)=F(F(F(x,y))).
+\]
+
+A period-2 and 3 points therefore satisfy, respectively,
+\[
+F^2(x,y)=(x,y)
+\]
+and
+\[
+F^3(x,y)=(x,y),
+\]
+meaning that the orbit repeats after three iterations.
+
+It is important, however, to distinguish between a point satisfying \(F^p(x,y)=(x,y)\) and a point having \emph{minimal period} \(p\). The minimal period is the smallest positive integer \(k\) such that
+\[
+F^k(x,y)=(x,y).
+\]
+
+For example, every fixed point satisfies
+\[
+F^2(x,y)=(x,y),
+\]
+but it should not be classified as a genuine period-2 point, because it already returns to itself after one iteration. Therefore, after solving the equation \(F^p(x,y)=(x,y)\), it is necessary to verify that the solution does not have a smaller period.
+
+\subsection{Reformulation as a Root-Finding Problem}
+
+The numerical computation of periodic points can be formulated as a nonlinear root-finding problem. This problem is solved with the aid of Newton's method and, for that, it is necessary to adapt the problem. For a given period \(p\), the function is defined as
+\[
+G_p(x,y)=F^p(x,y)-(x,y).
+\]
+
+To determine id a point is periodic, the following condition has to be met:
+\[
+G_p(x,y)=
+\begin{pmatrix}
+0 \\
+0
+\end{pmatrix}.
+\]
+
+This way, the problem is reduced strictly to finding the zeros of the function without the occurrence of repeated orbits. For \(p=2\), it solves
+
+\[
+G_2(x,y)=F^2(x,y)-(x,y)=0,
+\]
+while for \(p=3\), it solves
+\[
+G_3(x,y)=F^3(x,y)-(x,y)=0.
+\]
+
+This reformulation is useful and necessary because the iterated maps \(F^2\) and \(F^3\) generate nonlinear systems that are generally too complicated to solve analytically. A numerical method is therefore required.
+
+

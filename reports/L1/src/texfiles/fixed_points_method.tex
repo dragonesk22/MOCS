@@ -1,6 +1,107 @@
 \subsection{Finding fixpoints in periodic orbits with Newtons Method}
-Recall that we have $\symbf{G}: \mathbb{R}^2 \rightarrow \mathbb{R}^2$:
-\begin{equation}
-	\symbf{G}(\symbf{x}) = \symbf{F}(\symbf{x}) - \symbf{x}
-\end{equation}
+\subsection*{Newton's Method}
 
+Newton's method comes to solve this problem. It is an iterative numerical procedure for solving nonlinear equations. In one dimension, it is used to solve equations of the form
+\[
+g(x)=0,
+\]
+which deeply resonates with the problem at hand.
+
+
+Starting from an initial approximation \(x_0\), Newton's method constructs a sequence of approximations according to
+\[
+x_{n+1}=x_n-\frac{g(x_n)}{g'(x_n)}.
+\]
+
+The method is based on a local linear approximation of the function. At each iteration, the function \(g\) is approximated by its tangent line at the current point \(x_n\), and the zero of this tangent line is used as the next approximation. When the initial guess is sufficiently close to a true root and the derivative is nonzero, Newton's method converges.
+
+In the present problem, the unknown is a two-dimensional vector, where
+\[
+z=
+\begin{pmatrix}
+x \\
+y
+\end{pmatrix}.
+\]
+
+The function to be solved is therefore:
+\[
+G_p(x,y)=
+\begin{pmatrix}
+G_{p,1}(x,y) \\
+G_{p,2}(x,y)
+\end{pmatrix}.
+\]
+
+Newton's method can then be applied through a system of two nonlinear equations,
+\[
+G_{p,1}(x,y)=0,
+\]
+\[
+G_{p,2}(x,y)=0.
+\]
+
+In this case, naturally,  the derivative needs to be replaced by the Jacobian matrix of \(G_p\):
+\[
+J_p(x,y)=DG_p(x,y)
+=
+\begin{pmatrix}
+\dfrac{\partial G_{p,1}}{\partial x} &
+\dfrac{\partial G_{p,1}}{\partial y} \\
+\dfrac{\partial G_{p,2}}{\partial x} &
+\dfrac{\partial G_{p,2}}{\partial y}
+\end{pmatrix}.
+\]
+
+At each iteration, the Newton correction \(s_n\) is obtained by solving the linear system
+\[
+J_p(x_n,y_n)s_n=-G_p(x_n,y_n).
+\]
+
+The approximation is then updated according to
+\[
+\begin{pmatrix}
+x_{n+1} \\
+y_{n+1}
+\end{pmatrix}
+=
+\begin{pmatrix}
+x_n \\
+y_n
+\end{pmatrix}
++s_n.
+\]
+
+In the implemented code, the Jacobian matrix is computed symbolically, and at each Newton iteration the corresponding linear system is solved numerically. This produces a correction vector that moves the current approximation closer to a root of \(G_p\). In the present implementation, the damping parameter is set equal to \(1\), corresponding to the standard Newton method.
+
+
+Newton's method is a local method, meaning that its convergence depends strongly on the choice of initial condition. Different initial guesses may converge to different roots, fail to converge, or lead to points outside the meaningful region. For this reason, the program applies Newton's method to a grid of initial points in the unit square.
+
+
+
+
+After the Newton iteration terminates, the resulting point must be verified. This is necessary because a small Newton step does not always guarantee that the point is an actual root of \(G_p\). The program therefore evaluates the residual
+\[
+\|G_p(x,y)\|.
+\]
+
+A point is accepted only if this residual is below a defined tolerance. This ensures that the computed point satisfies
+\[
+F^p(x,y)\approx (x,y).
+\]
+
+
+
+In addition, the program only accepts solutions within the meaningful domain, the unit square values,
+\[
+0\leq x\leq 1,
+\qquad
+0\leq y\leq 1.
+\]
+
+Finally, the minimal period of the point is checked. This step is essential because the solutions may include points of smaller period. For example, fixed points are also solutions of the period-2 equation. Therefore, the code tests the smallest integer \(k\leq p\) for which
+\[
+F^k(x,y)\approx (x,y).
+\]
+
+Only points whose minimal period is exactly \(p\) are retained as actual period-\(p\) points.
