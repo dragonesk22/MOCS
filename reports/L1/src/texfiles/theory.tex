@@ -55,7 +55,7 @@ Looking for fixpoints amounts to the root finding problem
 
 \begin{align}
 	\symbf{G}(\symbf{x}) &= \symbf{F}(\symbf{x}) - \symbf{x} \\ 
-											 &= A \symbf{x} +\symbf{f}(\symbf{x}) \symbf{x}\\
+											 &= A \symbf{x} +\symbf{f}(\symbf{x}) - \symbf{x}\\
 											 &= A \symbf{x} + A \symbf{g}(\symbf{x}) -\symbf{x}\\
 											 &= A(\symbf{x} + \symbf{g}(\symbf{x})) - \symbf{x} \\
 											 &= 0\\
@@ -67,6 +67,9 @@ Looking for fixpoints amounts to the root finding problem
 		(1-\varepsilon)r_2 & -\varepsilon r_1\\
 		-\varepsilon r_2 & (1-\varepsilon) r_1
 	\end{bmatrix}^T
+	\label{eq:singularityeq}
+	\\
+	\det(A) &= (1-\varepsilon)^2 r_1 r_2 - \varepsilon^2 r_1 r_2 = (1 - 2\varepsilon)r_1 r_2 
 	\\
 	\iff 
 	\begin{bmatrix}
@@ -116,5 +119,121 @@ from which we can readily factor $x$ and thus $\symbf{x}_1 = (0, 0)$ is the triv
 \begin{equation}
 	q(x) = x^3 + 2a x^2 + (a^2 - bd)x + bd(c - a)
 \end{equation}
-since $\deg(q) = 3$ and $y(x)$ one-to-one for $b\neq 0$ then we can at most have 4 fixed points. 
+since $\deg(q) = 3$ and $y(x)$ one-to-one for $b\neq 0$ then we can at most have 4 fixed points. In our case we might have even less
+than 4 fix points since we also treat population rates on the square $[0,1]^2$.
 
+\subsection{Population equilibrium}
+
+If we consider the line parametrisation $x = y = t$ where $t\in [0,1]$, which is the linear subspace of population rates of equal 
+magnitude, we could ask if there is a rate $t^*$ such that $\symbf{G}(t^*) = 0$? Let $x = y = t$, then
+
+\begin{align}
+	\symbf{G}(\symbf{x}) &= A\symbf{x} + A \symbf{g}(\symbf{x}) - \symbf{x} = 0\\
+	&= A\symbf{x} + A \symbf{g}(\symbf{x}) - \symbf{x}\\
+	&= \symbf{x} + \symbf{g}(\symbf{x}) - A^{-1}\symbf{x}\\
+	&= \symbf{g}(\symbf{x}) + \symbf{x} - A^{-1}\symbf{x}\\
+	&= -t^2
+	\begin{bmatrix}
+		1\\
+		1
+	\end{bmatrix}
+	+
+	t
+	\begin{bmatrix}
+		1\\1
+	\end{bmatrix}
+	-
+	\frac{1}{(1-2\varepsilon)r_1r_2}
+	\begin{bmatrix}
+		(1-\varepsilon)r_2 & -\varepsilon r_2\\
+		-\varepsilon r_1 & (1-\varepsilon) r_1
+	\end{bmatrix}
+	\begin{bmatrix}
+		1\\1
+	\end{bmatrix}
+	\\
+		&=
+	-t^2
+	\begin{bmatrix}
+		1\\1
+	\end{bmatrix}
+	+t 
+	\begin{bmatrix}
+		1 - \frac{1}{r_1}\\1 - \frac{1}{r_2}
+	\end{bmatrix}
+	=
+	\begin{bmatrix}
+		0\\0
+	\end{bmatrix}.
+\end{align}
+
+If we disregard the trival fixpoint $t\neq 0$, then we have that
+\begin{equation}
+	\begin{cases}
+		t = 1 - \frac{1}{r_1}\\
+		t = 1 - \frac{1}{r_2}\\	
+	\end{cases}
+\end{equation}
+which can hold simultaneously only if $r_1 = r_2 = r$. Thus, except for the trivial fixpoint then we can have a fixpoint of equally 
+large population rates if the growth factors of both populations are equal. The second fixpoint in the diagonal case is thus along a
+line through the origin $\symbf{x}=\lambda(r)\symbf{v}$: 
+
+\begin{equation}
+	\symbf{x}_1(r) = \left(1 -\frac{1}{r}\right)
+	\begin{bmatrix}
+		1\\1
+	\end{bmatrix}
+\end{equation}
+with the constraint $1\leq r$ since $(x, y) \in [0,1]^2$. The nontrivial diagonal fixed pointsa form a one-parameter family
+parametrized by $1\leq r$, corresponding to a one-dimensional branch of equilibria. Now we could linearize $\symbf{G}$ around
+$\symbf{x}_1$ to see wether $\symbf{x}_1$ is an isolated root. We do this by computing the Jacobian (for $x = y = t$ and $r_1 = r_2 = r$):
+
+\begin{align}
+	\frac{\partial \symbf{G}}{\partial \symbf{x}} &= \frac{\partial \symbf{F}}{\partial \symbf{x}} - \frac{\partial \symbf{x}}{\partial \symbf{x}}\\
+																								&= \frac{\partial \symbf{F}}{\partial \symbf{x}} - I\\
+																								&= \begin{bmatrix}(1-\varepsilon)r(1-2t)&\varepsilon r(1 - 2t)\\
+																									\varepsilon r(1 - 2t) & (1-\varepsilon)r(1-2t)
+																									\end{bmatrix} - I\\
+																								&=r(1-2t) 
+																								\begin{bmatrix}(1-\varepsilon) & \varepsilon\\
+																									\varepsilon & (1- \varepsilon)
+																								\end{bmatrix} - I\\
+																																							 &= (2-r)\begin{bmatrix}(1-\varepsilon) & \varepsilon\\
+																									\varepsilon & (1- \varepsilon)
+																								\end{bmatrix} - I\\
+																									\lambda ^2 - {\rm tr}\left(\frac{\partial \symbf{G}}{\partial \symbf{x}}\right) + \det \left(\frac{\partial \symbf{G}}{\partial \symbf{x}}\right) &= 0\\
+																									\lambda_{\pm} &=  \frac{1}{2}{\rm tr}\left(\frac{\partial \symbf{G}}{\partial \symbf{x}}\right) \pm \sqrt{ \frac{1}{4}{\rm tr}\left(\frac{\partial \symbf{G}}{\partial \symbf{x}}\right)^2 -  {\det}\left(\frac{\partial \symbf{G}}{\partial \symbf{x}}\right)}\\
+																																&= (2 - r)(1-\varepsilon) - 1 \pm \varepsilon (2 - r)\\
+																									\lambda_+&= 1-r\\
+																									\lambda_-&=(2-r)(1-2\varepsilon) -1
+\end{align}
+
+Since $ {\det}\left(\frac{\partial \symbf{G}}{\partial \symbf{x}}\right) = \lambda_+\lambda_-$, we know by the inverse function theorem
+that $\symbf{x}_1$ is an isolated zero to $\symbf{G}$ as long as neither $\lambda_+ = 0$ or $\lambda_- = 0$, otherwise the 
+linearization becomes inconclusive and another branch, possibly off-diagonal can bifurcate from $\symbf{x}_1$. To se wether we have 
+fixed points for the case $r_1\neq r_2$ we can consider the uncoupled case $\varepsilon = 0$
+
+
+\begin{equation}
+	\begin{bmatrix}
+		r_1 & 0 \\
+		0 & r_2
+	\end{bmatrix}
+	\begin{bmatrix}
+		x(1-x)\\y(1-y)
+	\end{bmatrix}
+	-
+	\begin{bmatrix}
+		x\\y
+	\end{bmatrix}
+	=
+	\begin{bmatrix}
+		0\\0
+	\end{bmatrix}
+\end{equation}
+
+Then, 
+\begin{equation}
+	\symbf{x}_2(r_1, r_2) = \left(1 - \frac{1}{r_1}, 1 - \frac{1}{r_2}\right)
+\end{equation}
+which is off-diagonal and away from the singularity $\varepsilon = 1/2$ found in the determinant in Equation (\ref{eq:singularityeq}). 
