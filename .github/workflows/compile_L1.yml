@@ -1,0 +1,32 @@
+name: compile-first-report
+run-name: Compile first report after push from ${{ github.actor }}
+on: push
+jobs:
+    build-report:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Setup repo normally
+          uses: actions/checkout@v6
+          if: ${{ github.event_name != 'pull_request' }}
+          with:
+            token: ${{ secrets.DAVIDS_TOKEN }}
+            persist-credentials: true
+        - name: Setup repo for a PR
+          uses: actions/checkout@v6
+          with:
+            ref: ${{ github.event.pull_request.head.ref }}
+            persist-credentials: true
+            token: ${{ secrets.DAVIDS_TOKEN }}
+          if: ${{ github.event_name == 'pull_request' }}
+        - name: compile
+          uses: xu-cheng/latex-action@v4
+          with:
+            root_file: main.tex
+            latexmk_use_xelatex: true
+            latexmk_shell_escape: true
+            working_directory: reports/L1/src
+        - name: add updated PDF to github
+          uses: EndBug/add-and-commit@v10
+          with:
+            add: reports/L1/src/main.pdf
+            message: "[skip actions] Automatic PDF compile"
