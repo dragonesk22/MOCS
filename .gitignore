@@ -1,11 +1,12 @@
-/reports/L1/src/main.synctex.gz
-/reports/L1/out/main.aux
-/reports/L1/out/main.bbl
-/reports/L1/out/main.blg
-/reports/L1/out/main.fdb_latexmk
-/reports/L1/out/main.fls
-/reports/L1/out/main.log
-/reports/L1/out/main.toc
+*.synctex.gz
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.toc
+_minted/
 /reports/L1/out/
 .DS_Store
 .idea
@@ -13,3 +14,4 @@
 /presentations/L1/src/beamerTemplate.synctex.gz
 /presentations/L1/out/
 .junie
+__pycache__/
