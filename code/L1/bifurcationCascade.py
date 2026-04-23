@@ -9,6 +9,7 @@ xy_start = np.array([0.2, 0.6])
 steps = 400
 discard = 150
 
+
 def calc_timeline(xy0, r2, steps, discard):
     xy_timeline = [xy0]
     for i in range(steps):
@@ -17,23 +18,18 @@ def calc_timeline(xy0, r2, steps, discard):
     return xy_timeline[discard:]
 
 
-
 if __name__ == "__main__":
-    #timelines = []
+    # timelines = []
     for element in r2:
         new_timeline = calc_timeline(xy_start, element, steps, discard)
         x_vals = [xy[0] for xy in new_timeline]
-        plt.plot([element]*(len(x_vals)), x_vals, '.')
-        #timelines.append([xy[0] for xy in new_timeline])
-        #timelines.append(calc_timeline(xy_start, element, 300, 50))
-    #plt.plot(list(r2)*(steps-discard),)
+        plt.plot([element] * (len(x_vals)), x_vals, '.')
+        # timelines.append([xy[0] for xy in new_timeline])
+        # timelines.append(calc_timeline(xy_start, element, 300, 50))
+    # plt.plot(list(r2)*(steps-discard),)
     plt.xlabel('$r_2$')
     plt.ylabel('$x*$')
-    plt.title('Bifurcation Cascade ($r_1=3.1$, $\epsilon = 0.3$)')
+    plt.title('Bifurcation Cascade ($r_1=3.1$, $\\epsilon = 0.3$)')
     plt.grid()
     plt.savefig('figures/bifurcationcascade.png', dpi=300)
     plt.show()
-    
-    
-
-
