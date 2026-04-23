@@ -1,6 +1,12 @@
 name: compile-first-report
 run-name: Compile first report after push from ${{ github.actor }}
-on: push
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - '**.tex'
+  push:
 jobs:
     build-report:
       runs-on: ubuntu-latest
