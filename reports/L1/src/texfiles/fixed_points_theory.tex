@@ -1,4 +1,4 @@
-\section{Theoretical Background: Fixed Points, Periodic Points, and Newton's Method}
+\subsection{Problem 1: Fixed Points, Periodic Points, and Newton's Method}
 
 A discrete-time dynamical system describes the evolution of a state variable through successive iterations of a given map. In this  project's model, the state of the system \(n\) is described by the vector
 \[
@@ -11,7 +11,7 @@ z_{n+1}=F(z_n).
 
 
 
-\subsection{Fixed Points}
+\subsubsection{Fixed Points}
 
 A fixed point of a map is a state that remains unchanged under one application of the map. Thus, a point \((x^*,y^*)\) is a fixed point of \(F\) if
 \[
@@ -21,7 +21,7 @@ F(x^*,y^*)=(x^*,y^*).
 
 In this context, fixed points correspond to equilibrium states, where the reproductive dynamics and the interaction between the two populations are balanced. This reflects in a constant population density from one generation to the next. So, by definition, in order to get the fixed points, one has to find the roots of the system.
 
-\subsection{Periodic Points}
+\subsubsection{Periodic Points}
 
 Periodic points generalize the concept of fixed points. A point \((x,y)\) is said to be periodic with period \(p\) if it returns to itself after \(p\) applications of the map:
 \[
