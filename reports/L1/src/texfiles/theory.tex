@@ -94,7 +94,7 @@ Looking for fixpoints amounts to the root finding problem
 		c = \frac{-\varepsilon}{r_2(1-2\varepsilon)} = \frac{\varepsilon}{2r_2(\varepsilon - 1/2)}\\
 		d = \frac{1-\varepsilon}{r_2(1-2\varepsilon)} -1 = \frac{\varepsilon - 1}{2r_2(\varepsilon - 1/2)}-1
 	\end{cases}
-	\label{eq:system}
+	\label{eq:system-help-vars}
 \end{equation}
 
 \begin{equation}
@@ -124,7 +124,7 @@ than 4 fix points since we also treat population rates on the square $[0,1]^2$.
 
 \subsection{Population equilibrium}
 
-If we consider the line parametrisation $x = y = t$ where $t\in [0,1]$, which is the linear subspace of population rates of equal 
+If we consider the line parameterization $x = y = t$ where $t\in [0,1]$, which is the linear subspace of population rates of equal
 magnitude, we could ask if there is a rate $t^*$ such that $\symbf{G}(t^*) = 0$? Let $x = y = t$, then
 
 \begin{align}
@@ -167,7 +167,7 @@ magnitude, we could ask if there is a rate $t^*$ such that $\symbf{G}(t^*) = 0$?
 	\end{bmatrix}.
 \end{align}
 
-If we disregard the trival fixpoint $t\neq 0$, then we have that
+If we disregard the trivial fixpoint $t\neq 0$, then we have that
 \begin{equation}
 	\begin{cases}
 		t = 1 - \frac{1}{r_1}\\
@@ -184,9 +184,9 @@ line through the origin $\symbf{x}=\lambda(r)\symbf{v}$:
 		1\\1
 	\end{bmatrix}
 \end{equation}
-with the constraint $1\leq r$ since $(x, y) \in [0,1]^2$. The nontrivial diagonal fixed pointsa form a one-parameter family
-parametrized by $1\leq r$, corresponding to a one-dimensional branch of equilibria. Now we could linearize $\symbf{G}$ around
-$\symbf{x}_1$ to see wether $\symbf{x}_1$ is an isolated root. We do this by computing the Jacobian (for $x = y = t$ and $r_1 = r_2 = r$):
+with the constraint $1\leq r$ since $(x, y) \in [0,1]^2$. The nontrivial diagonal fixed points form a one-parameter family
+parameterized by $1\leq r$, corresponding to a one-dimensional branch of equilibria. Now we could linearize $\symbf{G}$ around
+$\symbf{x}_1$ to see whether $\symbf{x}_1$ is an isolated root. We do this by computing the Jacobian (for $x = y = t$ and $r_1 = r_2 = r$):
 
 \begin{align}
 	\frac{\partial \symbf{G}}{\partial \symbf{x}} &= \frac{\partial \symbf{F}}{\partial \symbf{x}} - \frac{\partial \symbf{x}}{\partial \symbf{x}}\\
