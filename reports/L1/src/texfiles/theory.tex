@@ -235,8 +235,67 @@ Then,
 \begin{equation}
 	\symbf{x}_2(r_1, r_2) = \left(1 - \frac{1}{r_1}, 1 - \frac{1}{r_2}\right)
 \end{equation}
-which is off-diagonal and away from the singularity $\varepsilon = 1/2$ found in the determinant in Equation (\ref{eq:singularityeq}).
+which is off-diagonal and away from the singularity $\varepsilon = 1/2$ found in the determinant in Equation (\ref{eq:singularityeq}). 
 
+Let
+\[
+r_1=r_0+\delta r_1^{(1)}+\mathcal O(\delta^2), \qquad
+r_2=r_0+\delta r_2^{(1)}+\mathcal O(\delta^2),
+\]
+and seek a perturbative solution of the form
+\[
+x(\delta)=x_0+\delta x_1+\mathcal O(\delta^2), \qquad
+y(\delta)=y_0+\delta y_1+\mathcal O(\delta^2).
+\]
+
+Then
+\begin{align}
+x(1-x)
+&=
+\bigl(x_0+\delta x_1+\mathcal O(\delta^2)\bigr)
+\Bigl(1-x_0-\delta x_1+\mathcal O(\delta^2)\Bigr) \notag\\
+&=
+x_0(1-x_0)+\delta x_1(1-2x_0)+\mathcal O(\delta^2),
+\\[1em]
+y(1-y)
+&=
+y_0(1-y_0)+\delta y_1(1-2y_0)+\mathcal O(\delta^2).
+\end{align}
+
+Now consider the fixed-point equations
+\begin{align}
+P(x,y) &= (1-\varepsilon)r_1 x(1-x)+\varepsilon r_2 y(1-y)-x = 0,\\
+Q(x,y) &= (1-\varepsilon)r_2 y(1-y)+\varepsilon r_1 x(1-x)-y = 0.
+\end{align}
+
+Substituting the perturbation expansions gives
+\begin{align*}
+&(1-\varepsilon)\Bigl(r_0+\delta r_1^{(1)}\Bigr)
+\Bigl(x_0(1-x_0)+\delta x_1(1-2x_0)\Bigr)
++\varepsilon\Bigl(r_0+\delta r_2^{(1)}\Bigr)
+\Bigl(y_0(1-y_0)+\delta y_1(1-2y_0)\Bigr)
+\notag\\
+&\hspace{8cm}=
+x_0+\delta x_1+\mathcal O(\delta^2),
+\\[1em]
+&(1-\varepsilon)\Bigl(r_0+\delta r_2^{(1)}\Bigr)
+\Bigl(y_0(1-y_0)+\delta y_1(1-2y_0)\Bigr)
++\varepsilon\Bigl(r_0+\delta r_1^{(1)}\Bigr)
+\Bigl(x_0(1-x_0)+\delta x_1(1-2x_0)\Bigr)
+\notag\\
+&\hspace{8cm}=
+y_0+\delta y_1+\mathcal O(\delta^2).
+\end{align*}
+
+Collecting terms of order $\mathcal O(1)$ and $\mathcal O(\delta)$ yields the system
+\begin{align*}
+(1-\varepsilon)r_0\,x_0(1-x_0)+\varepsilon r_0\,y_0(1-y_0) &= x_0, \\
+(1-\varepsilon)r_0\,y_0(1-y_0)+\varepsilon r_0\,x_0(1-x_0) &= y_0, \\
+(1-\varepsilon)r_0\,x_1(1-2x_0)+\varepsilon r_0\,y_1(1-2y_0)
++(1-\varepsilon)r_1^{(1)}x_0(1-x_0)+\varepsilon r_2^{(1)}y_0(1-y_0) &= x_1, \\
+(1-\varepsilon)r_0\,y_1(1-2y_0)+\varepsilon r_0\,x_1(1-2x_0)
++(1-\varepsilon)r_2^{(1)}y_0(1-y_0)+\varepsilon r_1^{(1)}x_0(1-x_0) &= y_1.
+\end{align*}
 
 \newpage
 \section{Theoretical Background}
