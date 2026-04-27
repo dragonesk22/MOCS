@@ -1,3 +1,13 @@
+#!/usr/bin/env python3
+# created by Group Supermodels in VT2026
+# for the course Modelling of Complex Systems at Uppsala University
+# Group Members:
+# Juan Rodriguez
+# Björk Lucas
+# Vootele Mets
+# Marco Malosti
+# Sofia Fernandes
+# David Weingut
 from sympy import Matrix, lambdify, simplify
 from sympy import symbols as sym
 import numpy as np
