@@ -297,6 +297,126 @@ Collecting terms of order $\mathcal O(1)$ and $\mathcal O(\delta)$ yields the sy
 +(1-\varepsilon)r_2^{(1)}y_0(1-y_0)+\varepsilon r_1^{(1)}x_0(1-x_0) &= y_1.
 \end{align*}
 
+For $\mathcal{O}(\delta)$ we have, $c_1 = (1-\varepsilon)r_0$, $c_2 = \varepsilon r_0$, $\sigma = r_1^{(1)}+r_2^{(1)}$, $t = 1 - 1/r_0$ and $\Delta = r_2^{(1)}- r_1^{(1)}$
+
+\begin{equation}
+	\begin{bmatrix}
+		\alpha & \beta\\
+		\beta & \alpha
+	\end{bmatrix}
+	\begin{bmatrix}
+		x_1\\y_1
+	\end{bmatrix}
+	=
+	\begin{bmatrix}
+		c_1(1-2t) - 1 & c_2  (1-2t)\\
+		c_2(1-2t) & c_1(1-2t) - 1
+	\end{bmatrix}
+	\begin{bmatrix}
+	    x_1\\y_1
+	\end{bmatrix}
+	= 
+	-u(t)
+	\begin{bmatrix}
+		r_1^{(1)} + \varepsilon \Delta\\
+		r_2^{(1)} - \varepsilon \Delta
+	\end{bmatrix}
+	=
+	\begin{bmatrix}
+	    b_1\\b_2
+	\end{bmatrix}
+\end{equation}
+\begin{equation}
+	\begin{bmatrix}
+		\alpha & \beta\\
+		\beta & \alpha
+	\end{bmatrix}
+	\begin{bmatrix}
+		x_1\\y_1
+	\end{bmatrix}
+	=
+	VDV^{-1}
+	\symbf{x}
+	=
+	\begin{bmatrix}
+	    b_1\\b_2
+	\end{bmatrix}
+\end{equation}
+\begin{equation}
+	\symbf{x} = VD^{-1}V^{-1} \symbf{b} = VD^{-1}V^T\symbf{b}
+\end{equation}
+\begin{align}
+	\lambda_\pm &= \alpha \pm \beta = (c_1 \pm c_2)(1-2t) - 1 \\
+	\lambda_+ &= (c_1 + c_2)(1-2t) - 1= r_0(1-2t)-1  = (1-r_0)\\
+	\lambda_- &= (c_1 - c_2)(1-2t) - 1= (1-2\varepsilon)r_0(1-2t)-1 = (1-2\varepsilon)(2-r_0) - 1\\
+	\symbf{e}_\pm &= \frac{1}{\sqrt{2}}(\pm 1, 1)
+\end{align}
+This means that $a_-\symbf{e}_-$ forces $\symbf{x}$ away from the diagonal (smoothly).
+\begin{equation}
+	V =
+	\frac{1}{\sqrt{2}}
+	\begin{bmatrix}
+		1 & -1\\
+		1 & 1
+	\end{bmatrix}
+	,
+	D^{-1} =
+	\begin{bmatrix}
+		\frac{1}{\lambda_+} & 0\\
+		0 & \frac{1}{\lambda_-}
+	\end{bmatrix}
+\end{equation}
+So 
+\begin{equation}
+	\symbf{x} =
+		\frac{1}{2}
+	\begin{bmatrix}
+		1 & -1\\
+		1 & 1
+	\end{bmatrix}
+	\begin{bmatrix}
+		\frac{1}{\lambda_+} & 0\\
+		0 & \frac{1}{\lambda_-}
+	\end{bmatrix}
+	\begin{bmatrix}
+		1 & 1\\
+		-1 & 1
+	\end{bmatrix}
+	\begin{bmatrix}
+		b_1\\b_2
+	\end{bmatrix}
+\end{equation}
+\begin{align}
+	x_1 &= \frac{b_1+b_2}{2\lambda_+} - \frac{b_2-b_1}{2\lambda_-}\\
+	y_1 &= \frac{b_1+b_2}{2\lambda_+} + \frac{b_2 - b_1}{2\lambda_-}
+\end{align}
+\begin{align}
+	b_1 + b_2 &= -u(t)\sigma\\
+	b_2 - b_1 &= -u(t)(1-2\varepsilon)\Delta
+\end{align}
+\begin{align}
+	x_1 &= -\frac{1}{2\lambda_+}u(t)\sigma + \frac{1}{2\lambda_-} u(t)(1-2\varepsilon)\Delta =
+	u(t)\left(-\frac{1}{2\lambda_+}\sigma + \frac{1}{2\lambda_-} (1-2\varepsilon)\Delta \right)\\
+	y_1 &= -\frac{1}{2\lambda_+}u(t)\sigma - \frac{1}{2\lambda_-} u(t)(1-2\varepsilon)\Delta = 
+	u(t)\left( -\frac{1}{2\lambda_+}\sigma - \frac{1}{2\lambda_-}(1-2\varepsilon)\Delta\right)
+\end{align}
+\begin{align}
+	x_1 &= -\frac{u(t)}{2}\left(\frac{\sigma}{\lambda_+} + \frac{(1-2\varepsilon)\Delta}{\lambda_-}\right)\\
+	y_1 &= -\frac{u(t)}{2}\left(\frac{\sigma}{\lambda_+} - \frac{(1-2\varepsilon)\Delta}{\lambda_-}\right)
+\end{align}
+
+\begin{equation}
+	\symbf{x}_1 = -\frac{u(t)\sigma}{2\lambda_+} \symbf{e}_+ - \frac{u(t)(1-2\varepsilon)\Delta}{2\lambda_-}\symbf{e}_-
+\end{equation}
+Thus, the total perturbation of the diagonal fix point is given by:
+
+\begin{equation}
+	\symbf{x}(\delta) = t\symbf{e}_+ + \delta \left(-\frac{u(t)\sigma}{2\lambda_+} \symbf{e}_+ - \frac{u(t)(1-2\varepsilon)\Delta}{2\lambda_-}\symbf{e}_-\right ) + \mathcal{O}(\delta^2)
+\end{equation}
+
+Which satisfies the fix point equation up to first order as long as $\lambda_\pm \neq 0$ which are the same conditions the 
+jacobian needs to satisfy to achieve invertibility on the diagonal fixpoint.
+
 \newpage
 \section{Theoretical Background}
 \input{texfiles/fixed_points_theory.tex}
