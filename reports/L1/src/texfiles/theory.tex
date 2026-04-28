@@ -122,7 +122,9 @@ from which we can readily factor $x$ and thus $\symbf{x}_1 = (0, 0)$ is the triv
 since $\deg(q) = 3$ and $y(x)$ one-to-one for $b\neq 0$ then we can at most have 4 fixed points. In our case we might have even less
 than 4 fix points since we also treat population rates on the square $[0,1]^2$.
 
-\subsection{Population equilibrium}
+\subsection{Population equilibrium \& Fix points}
+
+\subsubsection{Symmetric fix points}
 
 If we consider the line parameterization $x = y = t$ where $t\in [0,1]$, which is the linear subspace of population rates of equal
 magnitude, we could ask if there is a rate $t^*$ such that $\symbf{G}(t^*) = 0$? Let $x = y = t$, then
@@ -210,7 +212,11 @@ $\symbf{x}_1$ to see whether $\symbf{x}_1$ is an isolated root. We do this by co
 
 Since $ {\det}\left(\frac{\partial \symbf{G}}{\partial \symbf{x}}\right) = \lambda_+\lambda_-$, we know by the inverse function theorem
 that $\symbf{x}_1$ is an isolated zero to $\symbf{G}$ as long as neither $\lambda_+ = 0$ or $\lambda_- = 0$, otherwise the 
-linearization becomes inconclusive and another branch, possibly off-diagonal can bifurcate from $\symbf{x}_1$. To see whether we have fixed points for the case $r_1\neq r_2$ we can consider the uncoupled case $\varepsilon = 0$
+linearization becomes inconclusive and another branch, possibly off-diagonal can bifurcate from $\symbf{x}_1$. 
+
+\subsubsection{Antisymmetric fix points}
+To see whether we have fixed points for the case $r_1\neq r_2$ we can consider the uncoupled case $\varepsilon = 0$
+
 
 
 \begin{equation}
@@ -236,17 +242,18 @@ Then,
 	\symbf{x}_2(r_1, r_2) = \left(1 - \frac{1}{r_1}, 1 - \frac{1}{r_2}\right)
 \end{equation}
 which is off-diagonal and away from the singularity $\varepsilon = 1/2$ found in the determinant in Equation (\ref{eq:singularityeq}). 
-
+\subsubsection{Perturbation theory \& Antisymmetric fix points}
 Let
 \[
 r_1=r_0+\delta r_1^{(1)}+\mathcal O(\delta^2), \qquad
 r_2=r_0+\delta r_2^{(1)}+\mathcal O(\delta^2),
 \]
-and seek a perturbative solution of the form
+and seek a perturbative solutions of the form
 \[
 x(\delta)=x_0+\delta x_1+\mathcal O(\delta^2), \qquad
 y(\delta)=y_0+\delta y_1+\mathcal O(\delta^2).
 \]
+to the fix point equation.
 
 Then
 \begin{align}
@@ -411,7 +418,7 @@ So
 Thus, the total perturbation of the diagonal fix point is given by:
 
 \begin{equation}
-	\symbf{x}(\delta) = t\symbf{e}_+ + \delta \left(-\frac{u(t)\sigma}{2\lambda_+} \symbf{e}_+ - \frac{u(t)(1-2\varepsilon)\Delta}{2\lambda_-}\symbf{e}_-\right ) + \mathcal{O}(\delta^2)
+	\symbf{x}(\delta) = \symbf{x}_0 + \delta \symbf{x}_1 + \mathcal{O}(\delta^2) =  t\symbf{e}_+ + \delta \left(-\frac{u(t)\sigma}{2\lambda_+} \symbf{e}_+ - \frac{u(t)(1-2\varepsilon)\Delta}{2\lambda_-}\symbf{e}_-\right ) + \mathcal{O}(\delta^2)
 \end{equation}
 
 Which satisfies the fix point equation up to first order as long as $\lambda_\pm \neq 0$ which are the same conditions the 
