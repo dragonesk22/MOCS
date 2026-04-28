@@ -8,6 +8,10 @@
 # Marco Malosti
 # Sofia Fernandes
 # David Weingut
+
+import sys
+import time
+
 from sympy import Matrix, lambdify, simplify
 from sympy import symbols as sym
 import numpy as np
@@ -18,6 +22,11 @@ try:
     from tqdm import tqdm
 except ImportError:
     tqdm = None
+
+try:
+    import plotext as plt_
+except ImportError:
+    plt_ = None
 
 rc('text', usetex=True)
 rc('font', family='serif', size=12)
@@ -83,6 +92,7 @@ def newton_raphson(x_0, y_0, G_p_num, J_p_num,
         if pbar is not None:
             singularity = np.linalg.cond(J_n)
             pbar.set_postfix(cond_J=f"{singularity:.2e}")
+
 
         if save_trajectory:
             X[:, n-1] = x_next
@@ -155,10 +165,10 @@ def grid_search(F_num, x_coords, y_coords, G_p_num, J_p_num, p, save_trajectorie
     # Use tqdm if available
     iterator = zip(x_coords, y_coords)
     if tqdm is not None:
-        iterator = tqdm(iterator, total=len(x_coords), desc="Starting guess")
+        iterator = tqdm(iterator, total=len(x_coords), desc="Running Gridsearch")
 
+    all_xr = []
     for i, (x0, y0) in enumerate(iterator):
-
         result = newton_raphson(
             x0, y0,
             G_p_num, J_p_num,
@@ -166,16 +176,18 @@ def grid_search(F_num, x_coords, y_coords, G_p_num, J_p_num, p, save_trajectorie
             ε_tol=ε_tol,
             pbar=iterator if tqdm is not None else None
         )
-
         if save_trajectories:
             X, x_r = result
         else:
             x_r = result
 
+
         is_valid = valid_root(F_num, x_r, p, ε_tol, points_list=None)
 
         if x_r is not None and is_valid:
             convergence_mask[i] = True
+            if save_trajectories:
+                trajectories.append(X)
             # Now check for uniqueness to add to valid_roots
             is_unique = True
             for q in valid_roots:
@@ -184,15 +196,39 @@ def grid_search(F_num, x_coords, y_coords, G_p_num, J_p_num, p, save_trajectorie
                     break
             if is_unique:
                 valid_roots.append(x_r.copy())
-                if save_trajectories:
-                    trajectories.append(X)
+        """
+        if plt_ is not None and (i % 100 == 99 or i == len(x_coords) - 1):
+            plt_.clf()
+            x_proc = x_coords[:i+1]
+            y_proc = y_coords[:i+1]
+            cv = convergence_mask[:i+1]
+            if np.any(cv):
+                plt_.scatter(x_proc[cv], y_proc[cv], color="blue")
+            fl = ~cv
+            if np.any(fl):
+                plt_.scatter(x_proc[fl], y_proc[fl], color="red")
+            if i+1 < len(x_coords):
+                x_pend = x_coords[i+1:]
+                y_pend = y_coords[i+1:]
+                if len(x_pend) > 1000:
+                    step = len(x_pend) // 1000
+                    plt_.scatter(x_pend[::step], y_pend[::step], color="green")
+                else:
+                    plt_.scatter(x_pend, y_pend, color="green")
+            plt_.xlim(0, 1)
+            plt_.ylim(0, 1)
+            plt_.title(f"Grid Search Progress: {i+1}/{len(x_coords)}")
+            plt_.show()
+            plt_.clear_terminal()
+        """
+
 
     if save_trajectories:
         return trajectories, valid_roots, convergence_mask
 
     return valid_roots, convergence_mask
 
-def plot_results(filename, valid_roots, convergence_mask, x_grid, y_grid, p, ε, r1, r2):
+def plot_results(filename, valid_roots, convergence_mask, x_grid, y_grid, p, ε, r1, r2, trajectories=None):
     """
     Plot the results of the grid search using a smooth background for convergence basins.
     """
@@ -203,10 +239,12 @@ def plot_results(filename, valid_roots, convergence_mask, x_grid, y_grid, p, ε,
     convergence_grid = convergence_mask.reshape((M, M))
 
     # Plot the convergence basin as a smooth background
-    # Using 'extent' to match the [0, 1] x [0, 1] domain
-    # origin='lower' to match meshgrid behavior
     plt.imshow(convergence_grid, extent=(0, 1, 0, 1), origin='lower',
                cmap='coolwarm', alpha=0.6, aspect='auto')
+
+    if trajectories:
+        for traj in trajectories:
+            plt.plot(traj[0, :], traj[1, :], color='black', alpha=0.3, linewidth=0.5)
 
     # Add a custom legend proxy for the background
     from matplotlib.lines import Line2D
@@ -248,7 +286,17 @@ def plot_results(filename, valid_roots, convergence_mask, x_grid, y_grid, p, ε,
 
 
 
-def main(p, ε, r_1 ,r_2, M):
+def main(argv):
+    if len(argv) == 6:
+        p, ε, r_1, r_2, M = argv[1:]
+        p, M = int(p), int(M)
+        ε, r_1, r_2 = [float(var) for var in (ε, r_1, r_2)]
+    else:
+        p, ε, r_1, r_2, M = argv
+
+    x_grid_flat, y_grid_flat, x_grid, y_grid = set_grid_search(0, 1, M)
+    save_trajectory = False
+
     x_, y_, ε_, r_1_, r_2_ = sym('x y ε r_1 r_2')
     F_ = Matrix([
         (1 - ε_) * r_1_ * x_ * (1 - x_) + ε_ * r_2_ * y_ * (1 - y_),
@@ -270,106 +318,62 @@ def main(p, ε, r_1 ,r_2, M):
     Jp_num = lambdify((x_, y_), Jp_sym, 'numpy')
     F_num = lambdify((x_, y_), F_.subs(map_), 'numpy')
 
-    x_grid_flat, y_grid_flat, x_grid, y_grid = set_grid_search(0, 1, M)
-    save_trajectory = False
-
-    # grid_search now returns (valid_roots, convergence_mask) if save_trajectory is False
-    fix_points, convergence_mask = grid_search(F_num, x_grid_flat, y_grid_flat, Gp_num, Jp_num, p, save_trajectory)
+    result = grid_search(F_num, x_grid_flat, y_grid_flat, Gp_num, Jp_num, p, save_trajectory)
+    
+    if save_trajectory:
+        trajectories, fix_points, convergence_mask = result
+    else:
+        fix_points, convergence_mask = result
+        trajectories = None
 
     print(f"Found {len(fix_points)} periodic points of minimal period {p}")
+    print(f"p = {p}, ε = {ε}, r_1 = {r_1}, r_2 = {r_2}")
 
-    plot_results(f'{p}_{ε}_{r_1}_{r_2}',fix_points, convergence_mask, x_grid, y_grid, p, ε, r_1, r_2)
+    plot_results(f'{p}_{ε}_{r_1}_{r_2}', fix_points, convergence_mask, x_grid, y_grid, p, ε, r_1, r_2, trajectories)
     for point in fix_points:
         print(point)
+    print()
 
 if __name__ == "__main__":
-    #main(1, 0.3, 3.1, 3.1, 100)
-    #main(1, 0.3, 3.1, 3.4, 100)
-    #main(1, 0.3, 3.1, 3.55, 100)
-    #main(1, 0.3, 3.1, 3.8, 100)
+    if len(sys.argv) == 2 and sys.argv[1] in ("-h", "--help"):
+        print("Usage:")
+        print("  python periodicPoints.py p ε r1 r2 M")
+        print("or")
+        print("  python periodicPoints.py") 
+        print("")
+        print("Arguments:")
+        print("  p        period")
+        print("  ε  coupling parameter")
+        print("  r_1       logistic parameter 1")
+        print("  r_2       logistic parameter 2")
+        print("  M        Gridsearch resolution M x-points times M y-points")
+        sys.exit(0)
 
-    #main(2, 0.3, 3.1, 3.1, 100)
-    #main(2, 0.3, 3.1, 3.4, 100)
-    #main(2, 0.3, 3.1, 3.55, 100)
-    #main(2, 0.3, 3.1, 3.8, 100)
+    if len(sys.argv) == 1:
 
-    main(4, 0.3, 3.1, 3.1, 100)
-    main(4, 0.3, 3.1, 3.4, 100)
-    main(4, 0.3, 3.1, 3.55, 100)
-    main(4, 0.3, 3.1, 3.8, 100)
+        main([1, 0.3, 3.1, 3.1, 50]) 
+        main([1, 0.3, 3.1, 3.4, 50]) 
+        main([1, 0.3, 3.1, 3.55, 50])
+        main([1, 0.3, 3.1, 3.8, 50])
+        
+        main([2, 0.3, 3.1, 3.1, 50]) 
+        main([2, 0.3, 3.1, 3.4, 50]) 
+        main([2, 0.3, 3.1, 3.55, 50])
+        main([2, 0.3, 3.1, 3.8, 50])
 
-"""
-(MachineLearning) student-210-173:L1 juanrodriguez$ python periodicPoints.py 
-Starting guess: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 10000/10000 [00:31<00:00, 321.71it/s, cond_J=1.46e+00]
-Found 2 periodic points of minimal period 1
-[0. 0.]
-[0.67741935 0.67741935]
-Starting guess: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 10000/10000 [00:27<00:00, 369.47it/s, cond_J=1.51e+00]
-Found 2 periodic points of minimal period 1
-[0. 0.]
-[0.68345666 0.70051177]
-Starting guess: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 10000/10000 [00:41<00:00, 241.03it/s, cond_J=1.55e+00]
-Found 2 periodic points of minimal period 1
-[0. 0.]
-[0.68615866 0.71094441]
-Starting guess: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 10000/10000 [00:31<00:00, 313.99it/s, cond_J=1.62e+00]
-Found 2 periodic points of minimal period 1
-[0. 0.]
-[0.69025989 0.72689488]
-Starting guess: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 10000/10000 [00:47<00:00, 212.33it/s, cond_J=2.21e+00]
-Found 2 periodic points of minimal period 2
-[0.76456652 0.76456652]
-[0.55801413 0.55801413]
-Starting guess: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 10000/10000 [00:35<00:00, 278.27it/s, cond_J=1.09e+00]
-Found 2 periodic points of minimal period 2
-[0.79737624 0.82726612]
-[0.49635601 0.49035224]
-Starting guess: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 10000/10000 [00:42<00:00, 236.61it/s, cond_J=1.39e+00]
-Found 2 periodic points of minimal period 2
-[0.80595371 0.84973562]
-[0.47535588 0.46274208]
-Starting guess: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 10000/10000 [00:46<00:00, 215.41it/s, cond_J=1.92e+00]
-Found 2 periodic points of minimal period 2
-[0.8149268  0.87917722]
-[0.4483779  0.42282117]
-"""
+        main([3, 0.3, 3.1, 3.1, 50]) 
+        main([3, 0.3, 3.1, 3.4, 50]) 
+        main([3, 0.3, 3.1, 3.55, 50])
+        main([3, 0.3, 3.1, 3.8, 50])
+
+        
+        main([4, 0.3, 3.1, 3.1, 50]) 
+        main([4, 0.3, 3.1, 3.4, 50]) 
+        main([4, 0.3, 3.1, 3.55, 50])
+        main([4, 0.3, 3.1, 3.8, 50])
 
 
-"""
-(MachineLearning) student-210-173:L1 juanrodriguez$ python periodicPoints.py 
-Starting guess: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 10000/10000 [00:28<00:00, 346.12it/s, cond_J=1.46e+00]
-Found 2 periodic points of minimal period 1
-[0. 0.]
-[0.67741935 0.67741935]
-Starting guess: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 10000/10000 [00:28<00:00, 344.90it/s, cond_J=1.51e+00]
-Found 2 periodic points of minimal period 1
-[0. 0.]
-[0.68345666 0.70051177]
-Starting guess: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 10000/10000 [00:25<00:00, 392.21it/s, cond_J=1.55e+00]
-Found 2 periodic points of minimal period 1
-[0. 0.]
-[0.68615866 0.71094441]
-Starting guess: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 10000/10000 [00:27<00:00, 361.37it/s, cond_J=1.62e+00]
-Found 2 periodic points of minimal period 1
-[0. 0.]
-[0.69025989 0.72689488]
-Starting guess: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 10000/10000 [00:56<00:00, 176.93it/s, cond_J=2.21e+00]
-Found 2 periodic points of minimal period 2
-[0.76456652 0.76456652]
-[0.55801413 0.55801413]
-Starting guess: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 10000/10000 [00:43<00:00, 231.83it/s, cond_J=1.09e+00]
-Found 2 periodic points of minimal period 2
-[0.79737624 0.82726612]
-[0.49635601 0.49035224]
-Starting guess: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 10000/10000 [00:38<00:00, 258.79it/s, cond_J=1.39e+00]
-Found 2 periodic points of minimal period 2
-[0.80595371 0.84973562]
-[0.47535588 0.46274208]
-Starting guess: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 10000/10000 [00:43<00:00, 227.72it/s, cond_J=1.92e+00]
-Found 2 periodic points of minimal period 2
-[0.8149268  0.87917722]
-[0.4483779  0.42282117]
-"""
-
+    else:
+        main(sys.argv)
 
 
