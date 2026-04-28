@@ -1,21 +1,9 @@
 
+In this project, it was studied in depth a two-dimensional discrete-time dynamical system given by two logistic maps. The aim was to investigate how the long-term behaviour of the system changes for different parameter values, using fixed points, periodic points, phase portraits and a bifurcation diagram. Which was completed sucessfully.
 
+It is shown a typical progression of nonlinear dynamical systems for this model, which means that for smaller parameter values, trajectories may converge to a single attracting fixed point. The theoretical fixed points were calculated and match the posterior obtained results with the exception of the symmetric case $r_1=r_2=3.1$, where $x=y=1-\frac{1}{3.1}=0.67741935$ exists but due to not being attractive it does not show up in the numerical simulations. This system, therefore, converges to a stable period-2 orbit, from what we can conclude that the existence of a fixed point alone is not enough to describe the observed long-term behaviour, it's then clear that its stability is essential. 
 
+Additionally, it was observed that the symmetry between the two populations is broken when increasing $r_2$, while keeping $r_1=3.1$. The systems exhibits a period-2 behavior which then turns into an asymmetric orbit. On the other hand, for larger values of r such as $r_2=3.8$, the bifurcation cascade and the computation of periodic points both indicate a stable period-4 orbit. With even greater values, such as $r_2=3.95$, the system no longer converges to a small number of points, but instead produces a point cloud, suggesting more complex and chaotic dynamics.
 
-In this project, a discrete-time model of two coupled logistic maps was studied. This was done in order to understand how the long-term behaviour of the system changes with the growth parameters. The numerical results show that the system can exhibit several different dynamical regimes, ranging from convergence to periodic orbits to increasingly complex, apparently chaotic behaviour.
-
-For the symmetric case $r_1=r_2=3.1$, the theoretical non-trivial fixed point was found at 
-\[
-x=y=1-\frac{1}{3.1}=0.67741935.
-\]
-Although this fixed point exists mathematically, the numerical simulations show that it is not attractive for the chosen parameters. Instead, trajectories converge to a stable period-2 orbit. This illustrates an important feature of nonlinear dynamical systems: the existence of a fixed point does not necessarily mean that it determines the observed long-term dynamics.
-
-When the symmetry between the two populations is broken by increasing $r_2$ while keeping $r_1=3.1$, the system displays richer behaviour. For moderate values of $r_2$, the stable period-2 orbit persists but becomes asymmetric, with the two populations no longer following identical values. For larger values, such as $r_2=3.8$, the simulations show a transition to a stable period-4 orbit. Finally, for still higher values such as $r_2=3.95$, the bifurcation diagram and phase portraits suggest more complicated behaviour, with many possible long-term values forming a point cloud.
-
-Overall, the different numerical methods used in the lab give a consistent picture. The computation of periodic points, the bifurcation diagrams, and the phase portraits all indicate the same progression: as the growth parameter increases, the coupled logistic system moves from simple periodic behaviour to higher-period orbits and eventually to complex dynamics. This confirms that even a relatively simple coupled population model can produce rich nonlinear behaviour, including bifurcations and possible chaotic regimes.
-
-
-
-
-
+This is all to show that different numerical approaches give a consistent picture. All the numerical calculations and simulations act accordingly. This leads to the conclusion that deterministic systems can easily become more complex, generating seemingly random behaviors which can actually be predicted in a universal way.
 
