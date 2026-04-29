@@ -11,7 +11,7 @@ In this section we present the theory needed to solve the tasks of the lab.
 The model under investigation is
 \begin{align}
 	x_{n+1} &= (1-\varepsilon)r_1 x_n(1 - x_n) + \varepsilon r_2 y_n(1-y_n)\\
-	y_{n+1} &= (1-\varepsilon)r_2 y_n(1 - y_n) + \varepsilon r_1 x_n(1-x_n)\\
+	y_{n+1} &= (1-\varepsilon)r_2 y_n(1 - y_n) + \varepsilon r_1 x_n(1-x_n)
 \end{align}
 which is equivalent to a non-linear perturbation of a linear map:
 
@@ -63,13 +63,16 @@ so
 Looking for fixed points amounts to the root finding problem
 
 \begin{align}
+	\begin{split}
 	\symbf{G}(\symbf{x}) &= \symbf{F}(\symbf{x}) - \symbf{x} \\ 
-											 &= A \symbf{x} +\symbf{f}(\symbf{x}) - \symbf{x}\\
-											 &= A \symbf{x} + A \symbf{g}(\symbf{x}) -\symbf{x}\\
-											 &= A(\symbf{x} + \symbf{g}(\symbf{x})) - \symbf{x} \\
-											 &= 0\\
+						 &= A \symbf{x} +\symbf{f}(\symbf{x}) - \symbf{x}\\
+						 &= A \symbf{x} + A \symbf{g}(\symbf{x}) -\symbf{x}\\
+						 &= A(\symbf{x} + \symbf{g}(\symbf{x})) - \symbf{x} \\
+						 &= 0
+	\end{split}\\
 	\Rightarrow \symbf{x} + \symbf{g}(\symbf{x}) &= A^{-1}\symbf{x}\\
 	\iff \symbf{g}(\symbf{x}) &= (A^{-1} - I)\symbf{x}\\
+%\end{align*}\begin{align}
 	A^{-1} &= \frac{1}{\det(A)}{\textrm{adj}}(A) =
 	\frac{1}{\det(A)}
 	\begin{bmatrix}
@@ -124,12 +127,13 @@ Inserting Eq (\ref{eq:nullcline}) in the lower equation in (\ref{eq:system}) giv
 \begin{equation}
 	p(x) = x^4 + 2a x^3 + (a^2 - bd)x^2 + b(cd - ad)x
 \end{equation}
-from which we can readily factor $x$ and thus $\symbf{x}_1 = (0, 0)$ is the trivial root, and leaving
+From this we can readily factor $x$ and thus $\symbf{x}_1 = (0, 0)$ is the trivial root. This leaves us with
 \begin{equation}
 	q(x) = x^3 + 2a x^2 + (a^2 - bd)x + bd(c - a)
 \end{equation}
-since $\deg(q) = 3$ and $y(x)$ one-to-one for $b\neq 0$ then we can at most have 4 fixed points. In our case we might have even less
-than 4 fixed points since we also treat population rates on the square $[0,1]^2$.
+and the condition $q(x)=0$ as the relevant requirement for a fixed point.
+Since $\deg(q) = 3$ and $y(x)$ is a one-to-one mapping for $b\neq 0$, we can have, at most, four fixed points. In our case, we might have even less
+than four fixed points since we also treat population rates on the square $[0,1]^2$.
 
 \subsection{Population equilibrium \& Fixed points}
 
@@ -185,7 +189,7 @@ If we disregard the trivial fixed point $t\neq 0$, then we get that
 		t = 1 - \frac{1}{r_2}\\	
 	\end{cases}
 \end{equation}
-which can hold simultaneously only if $r_1 = r_2 = r$. Thus, except for the trivial fixed point then we can have a fixed point of equally 
+which can hold simultaneously only if $r_1 = r_2 = r$. Thus, except for the trivial fixed point, we can have a fixed point of equally 
 large population rates if the growth factors of both populations are equal. The second fixed point in the diagonal case is thus along a
 line through the origin $\symbf{x}=\lambda(r)\symbf{v}$: 
 

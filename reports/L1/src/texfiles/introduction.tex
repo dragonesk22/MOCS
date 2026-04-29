@@ -1,45 +1,39 @@
 \section{Problem statement \cite{Lecture}}
-In this lab we will be investigating a coupled logistic map. Logistic maps are an example for a dynamical system, a system that is governed by rule that determines how 
-the system evolves from one time step to the next. Added to that rule the system needs a state space and a notion of time. As we are working with discrete time scales, 
-the next step is obtained as follows: $x_{n+1}=f(x_n)$. \\
+In this lab we will be investigating a coupled logistic map. Logistic maps are an example for a dynamical system, a system that is governed by a rule that determines how 
+the system evolves from one time step to the next. Additionally to that rule, the system needs a state space and a notion of time. As we are working with discrete time scales, 
+the next step is obtained as follows: $x_{n+1}=f(x_n)$.
 
 The goal of the lab is to observe how this system behaves for different initial conditions. There are many different features we can use to study its behaviour. First, there are the 
 fixed points. These are the points where the update to the next state gives the same state again: $f(x^*) = x^*$. Next, a system can have periodic points. In this case the system 
-returns to the same state after a certain amount of iterations ($f^p(x) = x $for$ p \ge 2$). The stability of a fixed point can also be of interest. To investigate this, 
+returns to the same state after a certain amount of iterations ($f^p(x) = x \  \mathrm{for} \ p \ge 2$). The stability of a fixed point can also be of interest. To investigate this, 
 we can look at what happens when a small deviation $\delta$ from our fixed point occurs: 
-
-\begin{math}
+$$
 \delta = x_n - x^*
-\end{math}
+$$
 
 Using a Taylor expansion we can write the next time step as 
-
 $$
 x_{n+1} - x^* \approx f(x^*+\delta) - f(x^*) + f'(x^*+\delta)*\delta 
 $$
-
 which we can simplify to be 
-
 $$
 x_{n+1} - x^* \approx f'(x^*)(x_n -x^*)
 $$
 
-From this expression we can deduct whether a deviation from the fixed point will become larger or smaller. \\
+From this expression we can deduce whether a deviation from the fixed point will become larger or smaller.
 
-If $|f'(x^*)| < 1$ the deviation is getting smaller, the fixed point is stable. \\
+If $|f'(x^*)| < 1$ the deviation is getting smaller, the fixed point is stable.
 
-If $|f'(x^*)| > 1$ the deviation is getting larger, the fixed point is unstable.  \\
+If $|f'(x^*)| > 1$ the deviation is getting larger, the fixed point is unstable.
 
 Now, we would like to introduce the tasks of lab 1. The discrete-time model of two coupled logistical maps we are studying is supposed to simulate two competing 
 populations. The size of each population is, in comparison to uncoupled logistic maps, not only determined by its own size in the preceding generation but also by the size of the competing population in the 
-preceding generation through the coupling term. \\
+preceding generation through the coupling term.
 
 In the first task we will investigate the fixed points. We will look at several cases: the trivial fixed point, the diagonal case where $x^*=y^*$ and the asymmetric case where the growth parameters of both 
 populations are unequal. Next, we will investigate if any periodic points with period 2 or 3 exist. This will be done for several parameter sets as the behaviour of the 
 model changes for different growth parameters. To visualise the long-time orbit with different growth parameters we will make phase portraits. Lastly, to visualise the 
-different regimes we will plot the bifurcation cascade. This shows the x-y values that a certain starting point approaches for different growth parameters. \\
+different regimes we will plot the bifurcation cascade. This shows the x-y values that a certain starting point approaches for different growth parameters.
 
 All of these tasks together will give us an overview of the behaviour of the system: do we have fixed points and/ or periodic points? Are they stable? How does the behaviour 
 differ for different sets of parameters?
-
-
