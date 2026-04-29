@@ -1,8 +1,9 @@
 \subsection{Creating Phase Portraits}
-As explained in the theory part, to create a phase portrait the map needs to be iterated.
+As explained in the theory part, to create a phase portrait the map needs to be iterated over many time steps.
 To try to better capture the full phase space multiple random points are sampled from the state space as starting points.
 For each starting point the map is first iterated for 30 steps as a warm-up to have a cleaner plot.
 After this the map is further iterated for 200 more iterations and all points are plotted into the x-y plane.
 To improve the ability to recognize patterns, a colour gradient is used for each collection of points.
 This colour then serves as a hint to see how the location evolves over multiple iterations and makes, for example, the convergence towards a fixed point or the irregularity of the trajectory better visible.
-The figures from the results section for this subtask can be recreated by running the Python file \texttt{phasePortrait.py} handed in with the report as a script.
+The figures from the results section for this task can be recreated by running the Python file \texttt{phasePortrait.py} handed in with the report as a script. They 
+are saved in a folder named 'figures'.
