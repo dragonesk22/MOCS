@@ -51,7 +51,7 @@ so
     \end{bmatrix}.
 \end{equation}
 
-Looking for fixpoints amounts to the root finding problem
+Looking for fixed points amounts to the root finding problem
 
 \begin{align}
 	\symbf{G}(\symbf{x}) &= \symbf{F}(\symbf{x}) - \symbf{x} \\ 
@@ -105,7 +105,7 @@ Looking for fixpoints amounts to the root finding problem
 	\label{eq:system}
 \end{equation}
 
-Thus the fixpoints belong to the intersections of 2 parabolic surfaces. The simple nullcline (that is if we ought to find a fixpoint it 
+Thus the fixed points belong to the intersections of 2 parabolic surfaces. The simple nullcline (that is if we ought to find a fixed point it 
 is necessary for it to lie on this curve) is given by the first equation above
 \begin{equation}
 	y(x) = \frac{-x^2-ax}{b}
@@ -120,11 +120,11 @@ from which we can readily factor $x$ and thus $\symbf{x}_1 = (0, 0)$ is the triv
 	q(x) = x^3 + 2a x^2 + (a^2 - bd)x + bd(c - a)
 \end{equation}
 since $\deg(q) = 3$ and $y(x)$ one-to-one for $b\neq 0$ then we can at most have 4 fixed points. In our case we might have even less
-than 4 fix points since we also treat population rates on the square $[0,1]^2$.
+than 4 fixed points since we also treat population rates on the square $[0,1]^2$.
 
-\subsection{Population equilibrium \& Fix points}
+\subsection{Population equilibrium \& Fixed points}
 
-\subsubsection{Symmetric fix points}
+\subsubsection{Symmetric fixed points}
 
 If we consider the line parameterization $x = y = t$ where $t\in [0,1]$, which is the linear subspace of population rates of equal
 magnitude, we could ask if there is a rate $t^*$ such that $\symbf{G}(t^*) = 0$? Let $x = y = t$, then
@@ -169,15 +169,15 @@ magnitude, we could ask if there is a rate $t^*$ such that $\symbf{G}(t^*) = 0$?
 	\end{bmatrix}.
 \end{align}
 
-If we disregard the trivial fixpoint $t\neq 0$, then we have that
+If we disregard the trivial fixed point $t\neq 0$, then we get that
 \begin{equation}
 	\begin{cases}
 		t = 1 - \frac{1}{r_1}\\
 		t = 1 - \frac{1}{r_2}\\	
 	\end{cases}
 \end{equation}
-which can hold simultaneously only if $r_1 = r_2 = r$. Thus, except for the trivial fixpoint then we can have a fixpoint of equally 
-large population rates if the growth factors of both populations are equal. The second fixpoint in the diagonal case is thus along a
+which can hold simultaneously only if $r_1 = r_2 = r$. Thus, except for the trivial fixed point then we can have a fixed point of equally 
+large population rates if the growth factors of both populations are equal. The second fixed point in the diagonal case is thus along a
 line through the origin $\symbf{x}=\lambda(r)\symbf{v}$: 
 
 \begin{equation}
@@ -214,7 +214,7 @@ Since $ {\det}\left(\frac{\partial \symbf{G}}{\partial \symbf{x}}\right) = \lamb
 that $\symbf{x}_1$ is an isolated zero to $\symbf{G}$ as long as neither $\lambda_+ = 0$ or $\lambda_- = 0$, otherwise the 
 linearization becomes inconclusive and another branch, possibly off-diagonal can bifurcate from $\symbf{x}_1$. 
 
-\subsubsection{Antisymmetric fix points}
+\subsubsection{Antisymmetric fixed points}
 To see whether we have fixed points for the case $r_1\neq r_2$ we can consider the uncoupled case $\varepsilon = 0$
 
 
@@ -242,7 +242,7 @@ Then,
 	\symbf{x}_2(r_1, r_2) = \left(1 - \frac{1}{r_1}, 1 - \frac{1}{r_2}\right)
 \end{equation}
 which is off-diagonal and away from the singularity $\varepsilon = 1/2$ found in the determinant in Equation (\ref{eq:singularityeq}). 
-\subsubsection{Perturbation theory \& Antisymmetric fix points}
+\subsubsection{Perturbation theory \& Antisymmetric fixed points}
 Let
 \[
 r_1=r_0+\delta r_1^{(1)}+\mathcal O(\delta^2), \qquad
@@ -253,7 +253,7 @@ and seek a perturbative solutions of the form
 x(\delta)=x_0+\delta x_1+\mathcal O(\delta^2), \qquad
 y(\delta)=y_0+\delta y_1+\mathcal O(\delta^2).
 \]
-to the fix point equation.
+to the fixed point equation.
 
 Then
 \begin{align}
@@ -415,14 +415,14 @@ So
 \begin{equation}
 	\symbf{x}_1 = -\frac{u(t)\sigma}{2\lambda_+} \symbf{e}_+ - \frac{u(t)(1-2\varepsilon)\Delta}{2\lambda_-}\symbf{e}_-
 \end{equation}
-Thus, the total perturbation of the diagonal fix point is given by:
+Thus, the total perturbation of the diagonal fixed point is given by:
 
 \begin{equation}
 	\symbf{x}(\delta) = \symbf{x}_0 + \delta \symbf{x}_1 + \mathcal{O}(\delta^2) =  t\symbf{e}_+ + \delta \left(-\frac{u(t)\sigma}{2\lambda_+} \symbf{e}_+ - \frac{u(t)(1-2\varepsilon)\Delta}{2\lambda_-}\symbf{e}_-\right ) + \mathcal{O}(\delta^2)
 \end{equation}
 
-Which satisfies the fix point equation up to first order as long as $\lambda_\pm \neq 0$ which are the same conditions the 
-jacobian needs to satisfy to achieve invertibility on the diagonal fixpoint.
+Which satisfies the fixed point equation up to first order as long as $\lambda_\pm \neq 0$ which are the same conditions the 
+jacobian needs to satisfy to achieve invertibility on the diagonal fixed point.
 
 \newpage
 \section{Theoretical Background}
