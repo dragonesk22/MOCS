@@ -7,12 +7,6 @@
 
 \section{Use of LLM tools}
 
-If you used an LLM in a meaningful way, briefly state:
-\begin{itemize}
-  \item which prompts were important,
-  \item what output was useful,
-  \item what had to be corrected or verified.
-\end{itemize}
 
 For Task 2, ChatGPT was used as a debugging and code-refinement tool. The core programming work, including the implementation of Newton’s method, the search for period-2 and period-3 points, and the production of the corresponding plots, was carried out by us. When comparing the numerical results with those obtained in other parts of the assignment, we noticed that the code was returning more periodic points than expected. By uploading the code and using prompts such as “Check the Jacobian evaluation, update step, stopping criterion, and handling of failed iterations” and “Numerically identical solutions are counted multiple times, will a tolerance-based comparison work better than exact floating-point equality?”, we identified and corrected several numerical and logical issues in the implementation. This led to the addition of a tolerance-based duplicate filter, a minimal-period verification step, a direct numerical iteration routine, and safer convergence handling within Newton’s method.
 No LLM was used for Tasks 3 and 4. 
