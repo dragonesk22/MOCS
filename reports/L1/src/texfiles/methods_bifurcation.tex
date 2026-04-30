@@ -2,14 +2,14 @@
 For implementation of the map we use the function \verb+coupled_map+ from \verb+common.py+. This function calculates the next generation
  of x and y values from the given x and y values, $r_1$, $r_2$ and $\epsilon$. As we need more than one time step, we created the 
  function \verb+calc_timeline+, which returns the x and y values for a certain $r_2$ value. This function also has the option to choose 
- different numbers of steps and discard a certain number of timesteps from the beginning of the time series. \\
+ different numbers of steps and discard a certain number of timesteps from the beginning of the time series.
 
 Additionally, we set our constants to the values given in the task: $r_1 = 3.1$ and $\varepsilon=0.3$. For $r_2$ we created a linspace 
 from 2.8 to 3.97 with 800 values. The x and y values each iteration starts from are set to $x_0=0.2$ and $y_0=0.6$. 
-We decided to use 400 iterations and discard the first 150. We set these values at the beginning of our work and were satisfied with the results. \\
+We decided to use 400 iterations and discard the first 150. We set these values at the beginning of our work and were satisfied with the results.
  
 For each value in the $r_2$ linspace we then calculate the time series and save the x values. We then use \verb+plt.plot+ to plot all these 
-values and then move to the next $r_2$ value. Lastly, we added labels and the title and saved the figure. \\
+values and then move to the next $r_2$ value. Lastly, we added labels and the title and saved the figure.
 
 To obtain the bifurcation diagram (as in Figure \ref{fig:bifurcationcascade}) you need to run \verb+bifurcationCascade.py+. The figure will be displayed and saved 
-in the folder 'figures'. Thus, there must be a 'figures' folder where you run the code. 
+in the folder `figures'. Thus, there must be a `figures' folder where you run the code. 

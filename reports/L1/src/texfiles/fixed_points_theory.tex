@@ -19,7 +19,9 @@ F(x^*,y^*)=(x^*,y^*).
 \]
 
 
-In this context, fixed points correspond to equilibrium states, where the reproductive dynamics and the interaction between the two populations are balanced. This reflects in a constant population density from one generation to the next. So, by definition, in order to get the fixed points, one has to find the roots of the system.
+In this context, fixed points correspond to equilibrium states, where the reproductive dynamics and the interaction between the two populations are balanced.
+This is reflected in a constant population density from one generation to the next.
+So, by definition, in order to get the fixed points, one has to find the roots of the system.
 
 \subsubsection{Periodic Points}
 
@@ -36,15 +38,15 @@ and
 F^3(x,y)=F(F(F(x,y))).
 \]
 
-A period-2 and 3 points therefore satisfy, respectively,
+A period-2 and 3 point therefore satisfies, respectively,
 \[
 F^2(x,y)=(x,y)
 \]
-and
+or
 \[
 F^3(x,y)=(x,y),
 \]
-meaning that the orbit repeats after three iterations.
+meaning that the orbit repeats after two respectively three iterations.
 
 It is important, however, to distinguish between a point satisfying \(F^p(x,y)=(x,y)\) and a point having \emph{minimal period} \(p\). The minimal period is the smallest positive integer \(k\) such that
 \[
@@ -64,7 +66,7 @@ The numerical computation of periodic points can be formulated as a nonlinear ro
 G_p(x,y)=F^p(x,y)-(x,y).
 \]
 
-To determine id a point is periodic, the following condition has to be met:
+To determine if a point is periodic, the following condition has to be met:
 \[
 G_p(x,y)=
 \begin{pmatrix}

@@ -1,5 +1,18 @@
 \subsection{$p$-Orbits}
 
+
+Figure~\ref{fig:p_orbits_1} displays the period-1 points found by solving
+\(F(x,y)=(x,y)\) for \(\varepsilon=0.3\), \(r_1=3.1\), and different values of
+\(r_2\). For the symmetric case, \(r_1=r_2=3.1\), which goes accordingly with the theoretical
+prediction, where 
+\[
+x=y=1-\frac{1}{3.1}.
+\]
+One can also verify that, when one increases \(r_2\) and \(r_1\) is kept fixed, the fixed point moves away
+from the diagonal \(x=y\). In terms of physical interpretation, it is to be expected since now the growth parameter
+differs between both populations. The second population grows more rapidly, which can be observed by the stronger 
+increase in the \(y\)-coordinate.
+the 
 \begin{figure}[h!]
 \centering
 \begin{subfigure}{0.48\textwidth}
@@ -29,8 +42,35 @@
 \label{fig:p_orbits_1}
 \end{figure}
 
+The existence of these fixes points does not, however, describe the long-term behavior of the system.
+For that, one has to further study their stability, which can be achieve through the following period-p
+points and the respective bifurcation diagram.
+
+
 \newpage
 \subsubsection{$2$-orbits}
+
+Figure~\ref{fig:p_orbits_2} shows the points that satisfy
+\[
+F^2(x,y)=(x,y)
+\]
+with minimal period 2. This minimal condition, as observed previously, is fundamental for the study
+and identification of genuine period-p points. Although they satisfy \(F^2(x,y)=(x,y)\), they do not 
+count as genuine period-2 orbits. For the symmetric case \(r_1=r_2=3.1\), two period points are found,
+
+\[
+(0.76456652,0.76456652)
+\quad \text{and} \quad
+(0.55801413,0.55801413),
+\]
+
+explains why the phase portrait for the same parameters shows two attracting locations rather than
+convergence to the period-1 fixed point.
+
+For the assymetric case, \(r_2>r_1\), two fixed points were found and observed to move away from the diagonal,
+where the displacement increases with \(r_2\). One can easily observe this comparing \(r_2=3.55\) and \(r_2=3.8\), where the separation between the two points becomes larger. This is consistent with the bifurcation diagram, where the single branch splits into two and four branches, respectively.
+
+
 \begin{figure}[h!]
 \centering
 \begin{subfigure}{0.48\textwidth}
@@ -60,8 +100,20 @@
 \label{fig:p_orbits_2}
 \end{figure}
 
+
+\subsubsection{$3$-orbits}
+Following the project instructions, unlike initially expected, no genuine period-3 orbits were detected.
+This is a very particular case where it was observed that every fixed point satisfies \(F^3(x,y)=(x,y)\), and none is minimal, so those cannot be counted as period-3 orbits.
+
 \newpage
+
 \subsubsection{$4$-orbits}
+
+Following the given suggestion, annother period was tested, period-4. Which was found to describe the behavior 
+of the system as desired. Figure~\ref{fig:p_orbits_4} shows a genuine period-4 orbit for
+\((r_1,r_2,\varepsilon)=(3.1,3.8,0.3)\). This now goes along with the bifurcation diagram that exhibits four points 
+at approximately the same value of \(r_2\).
+
 \begin{figure}[h!]
   \centering
   \includegraphics[width=\textwidth]{figs/4_0.3_3.1_3.8.pdf}
@@ -71,4 +123,8 @@
 [0.79504902 0.85148034]}}
   \label{fig:p_orbits_4}
 \end{figure}
+
+ow a clearer description of the systems is achieved, the system cycles through four distinct states before repeating.
+This is a typical non-linear systems where the fixed pints change with the parameters exhibiting double-periodic dynamics.
+
 \newpage
