@@ -1,11 +1,49 @@
-\subsection{Game of Life Method}
-\texttt{scipy convolve} acording to theory uses \texttt{C} for computations.
+\subsection{Game of Life Numerics}
+\subsubsection{Computational domain}
+The computational domain is represented as a two–dimensional rectangular lattice
+$X \in \{0,1\}^{n\times n}$, stored using 8-bit unsigned integers (\texttt{np.uint8}) to minimize
+memory overhead while preserving binary state fidelity.
 
-8-bit unsigned integers \texttt{np.uint8} to store 0s and 1s and decrease uncesseracy
-memory usage.
+\subsubsection{Time evolution}
+The time evolution is implemented as a composition of a linear convolution operator and a pointwise
+non-linear update. The discrete convolution is computed using \texttt{scipy.ndimage.convolve},
+which internally executes optimized low-level (\texttt{C}) routines for efficiency. A fixed $3\times 3$
+kernel
 
-Parse RLE encoded strings for basic components (gosper gun and eater).
+\begin{equation}
+K =
+\begin{bmatrix*}
+    1 & 1 & 1\\
+    1 & 0 & 1 \\
+    1 & 1 & 1
+\end{bmatrix*}
+\end{equation}
+is used to compute the Moore neighborhood sum $N = K * X$. Boundary conditions are handled through
+either zero padding (\texttt{mode="constant"}) or periodic wrapping (\texttt{mode="wrap"}),
+allowing controlled comparison between finite and toroidal domains.
 
-Precomputation of states was employed so that the \texttt{GameOfLifeDebug.py} script was able
-to step backwards in time, since the update has no inverse. Helpful for validation.
+The non-linear map $X^{(t+1)} = \mathbb{1}\!\left(N^{(t)} = 3\right)
++ X^{(t)} \odot \mathbb{1}\!\left(N^{(t)} = 2\right)$ update is implemented via vectorized logical operations and
+cast back to \texttt{np.uint8}.
 
+\subsubsection{Initial conditions}
+Initial conditions are constructed programmatically by embedding predefined patterns encoded in
+Run Length Encoding (RLE). These patterns, such as the \emph{Gosper glider gun} and \emph{eater},
+are parsed into binary arrays and inserted into the domain using deterministic coordinate offsets.
+Geometric transformations (rotation and reflection) are applied to reuse base components.
+
+\subsubsection{Logical gates}
+Logical gates (\texttt{AND}, \texttt{OR}, \texttt{NOT}) are realized through spatial arrangements of
+these patterns. Signals are represented by streams of gliders, and logical behavior emerges from
+controlled interactions: emitters (guns) generate periodic signals, while eaters selectively suppress
+them. Gate inputs are encoded by the presence or absence of blocking eaters, and outputs are determined
+by whether a glider stream propagates to a designated location.
+
+\subsubsection{Debugging \& Visualization}
+Since the Game of Life update is not invertible, reverse time stepping is not defined. For debugging
+and validation, full state trajectories are precomputed and stored, enabling retrospective inspection
+of earlier configurations without requiring inversion of the dynamics.
+
+Time integration proceeds explicitly for a prescribed number of steps, storing each state in a list.
+Visualization is performed using \texttt{matplotlib} with real-time updates via \texttt{imshow},
+providing a direct mapping from lattice state to a binary image representation.
