@@ -1,6 +1,17 @@
-from RLE import parse_rle
-from pattern_processing import add_pattern, transform_pattern
+#!/usr/bin/env python3
+# created by Group Supermodels in VT2026
+# for the course Modelling of Complex Systems at Uppsala University
+# Group Members:
+# Juan Rodriguez
+# Björk Lucas
+# Vootele Mets
+# Marco Malosti
+# Sofia Fernandes
+# David Weingut
+
 import numpy as np
+from pattern_processing import add_pattern, transform_pattern
+from RLE import parse_rle
 
 gosper_gun ="""
 #N Gosper glider gun

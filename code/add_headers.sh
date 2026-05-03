@@ -1,7 +1,7 @@
 #!/bin/bash
-# set -x
-shopt -s globstar
-HEADER=$(cat <<EOF
+set -euo pipefail
+
+HEADER=$(cat <<'EOF'
 #!/usr/bin/env python3
 # created by Group Supermodels in VT2026
 # for the course Modelling of Complex Systems at Uppsala University
@@ -12,24 +12,21 @@ HEADER=$(cat <<EOF
 # Marco Malosti
 # Sofia Fernandes
 # David Weingut
+
 EOF
 )
-echo "will add header to each python file not containing 'Supermodels'"
-echo "header is: $HEADER
-END Of HEADER"
-for f in ./**/*.py; do
-    if [[ -f "$f" ]]; then
-        if grep -q "Supermodels" "$f"; then
-            echo "File $f is fine"
-        else
-            echo "File $f is either not a regular file or has no proper header, replacing"
-            if command -v sponge >/dev/null 2>&1; then
-                echo "$HEADER" | cat - "$f" | sponge "$f"
-            else
-                echo "sponge not available, will use manual backup"
-                cp "$f" "$f.bak"
-                echo "$HEADER" | cat - "$f.bak" >"$f"
-            fi
-        fi
+
+while IFS= read -r -d '' f; do
+    if grep -q "Supermodels" "$f"; then
+        echo "Skipping $f"
+        continue
     fi
-done
+
+    echo "Adding header to $f"
+    tmp="$(mktemp)"
+    {
+        printf '%s\n\n' "$HEADER"
+        cat "$f"
+    } > "$tmp"
+    mv "$tmp" "$f"
+done < <(find . -type f -name '*.py' -not -path '*/__pycache__/*' -print0)
