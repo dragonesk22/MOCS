@@ -33,6 +33,7 @@ jobs:
             working_directory: reports/L1/src
         - name: check for changes in pdf
           run: |
+            git status
             git diff reports/L1/src/main.pdf | grep -q . || echo "should_commit=false" >> "$GITHUB_ENV"
         - name: add updated PDF to github
           uses: EndBug/add-and-commit@v10
