@@ -52,32 +52,29 @@ and we use dirichlet boundary conditons or zero padding to handle the adjacency 
 \subsubsection{Logic gates in the Game of Life}
 In classical computation, basic logic gates such as AND, OR, and NOT act on one or two input streams and produce a single output stream. For example,
 \[
+\begin{array}{ccc}
 \begin{array}{@{}l@{}}
 \texttt{01001010}\\
 \texttt{10101010}\\
 \hline
 \texttt{00001010}
 \end{array}
-\quad \texttt{AND}
-\]
-
-\[
+&
 \begin{array}{@{}l@{}}
 \texttt{01001010}\\
 \texttt{10101010}\\
 \hline
 \texttt{11101010}
 \end{array}
-\quad \texttt{OR}
-\]
-
-\[
+&
 \begin{array}{@{}l@{}}
 \texttt{01001010}\\
 \hline
 \texttt{10110101}
 \end{array}
-\quad \texttt{NOT}
+\\
+\texttt{AND} & \texttt{OR} & \texttt{NOT}
+\end{array}
 \]
 Such gates implement a local transformation of binary information.
 
@@ -99,12 +96,25 @@ complemented with the ability to represent absence (0s) as meaningful informatio
 interaction between multiple input streams such that they can be combined to produce a third output stream, with the
 resulting configurations remaining composable within larger constructions.
 
+It is possible to realize \cite{golgatevideo} composable logic gates in the Game of Life by spatially arranging
+glider guns, eaters,
+and collision configurations such that controlled streams of gliders encode binary information.
+In this setting, glider presence corresponds to logical \texttt{1}, while the absence of a glider
+stream corresponds to \texttt{0}. By appropriately translating and positioning glider guns, and by
+placing eaters as stabilizing and filtering structures, one can engineer deterministic collision patterns
+that implement logical operations. Moreover, these constructions are required to be composable,
+in the sense that the output of one gate can be routed as the input to another without loss of
+computational fidelity.
 
 
 
-
+\newpage
 \subsubsection{Encoding of Inputs}
+See \texttt{GoLogic.py} and the different input lanes
 
 \subsubsection{Reading outputs}
+Reading outputs should be over a $4\times4$ bounding box, where a glider fits in?
+The glider in the output has an intercardinal direction.
+Synchronization?
 \subsubsection{Initial conditions for the different gates}
-
+See \texttt{GoLogic.py} for the different gates.

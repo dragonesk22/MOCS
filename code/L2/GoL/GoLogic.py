@@ -27,6 +27,14 @@ x = 4, y = 4, rule = B3/S23
 2o$bo$bobo$2b2o!
 """
 
+"""
+The origin of the universe is the point (y,x) = (0,0)
+which is the top left corner of the screen.
+y increases downwards and x increases to the right.
+
+Basic components gosper gun and eater.
+"""
+
 def NOT(x, A=0):
     gun = parse_rle(gosper_gun)
     eater = parse_rle(eater1)
@@ -35,10 +43,10 @@ def NOT(x, A=0):
     y_A, x_A = 1, 0
     add_pattern(x, parse_rle(gosper_gun), y_A, x_A)
     y_eA0, x_eA0 = y_A + 13, x_A + 27
-
     if A == 0:
         eater_A0 = transform_pattern(eater, rot=2, flip_lr=False, flip_ud=False)
         add_pattern(x, eater_A0, y_eA0, x_eA0)
+
     # ── Right lane ─────────────────────────
     gun_t = transform_pattern(gun, rot=0, flip_lr=True, flip_ud=False)
     y_D, x_D = y_A-1, x_A+45
