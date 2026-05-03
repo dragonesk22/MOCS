@@ -1,5 +1,5 @@
-name: compile-first-report
-run-name: Compile first report after push from ${{ github.actor }}
+name: compile-second-report
+run-name: Compile second report after push from ${{ github.actor }}
 on:
   pull_request:
     branches:
@@ -7,6 +7,9 @@ on:
     paths:
       - '**.tex'
   push:
+    paths:
+      - 'reports/L2/**'
+      - '!reports/L2/src/main.pdf'
 jobs:
     build-report:
       runs-on: ubuntu-latest
@@ -34,9 +37,9 @@ jobs:
         - name: check for changes in pdf
           run: |
             git diff reports/L2/src/main.pdf | grep -q . || echo "should_commit=false" >> "$GITHUB_ENV"
-        - name: add updated PDF to github
+        - name: add updated L2 PDF to github
           uses: EndBug/add-and-commit@v10
 #         if: ${{ env.should_commit }}
           with:
             add: reports/L2/src/main.pdf
-            message: "[skip actions] Automatic PDF compile"
+            message: "[skip actions] Automatic PDF compile, Lab 2"

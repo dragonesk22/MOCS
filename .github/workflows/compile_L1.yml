@@ -7,6 +7,9 @@ on:
     paths:
       - '**.tex'
   push:
+    paths:
+      - 'reports/L1/**'
+      - '!reports/L1/src/main.pdf'
 jobs:
     build-report:
       runs-on: ubuntu-latest
@@ -40,4 +43,5 @@ jobs:
 #         if: ${{ env.should_commit }}
           with:
             add: reports/L1/src/main.pdf
-            message: "[skip actions] Automatic PDF compile"
+            message: "[skip actions] Automatic PDF compile, Lab 1"
+            pull: '--rebase'
