@@ -35,6 +35,14 @@ rc('font', family='serif', size=12)
 
 
 def add_pattern(x, pattern, h, k):
+    """
+    Functuion to add a pattern to a lattice graph
+    :param x:
+    :param pattern:
+    :param h:
+    :param k:
+    :return:
+    """
     pattern = np.asarray(pattern)
 
     # Grid-based pattern (2D array)
