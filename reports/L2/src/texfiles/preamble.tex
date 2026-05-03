@@ -1,0 +1,185 @@
+% =========================
+% DOCUMENT CLASS
+% =========================
+
+\usepackage[a4paper,
+  top=2.8cm,
+  bottom=2.54cm,
+  left=3.8cm,
+  right=2.54cm]{geometry}
+\usepackage{parskip}
+\usepackage{url}
+
+% =========================
+% FONT (LuaLaTeX)
+% =========================
+\usepackage{fontspec}
+\setmainfont{TeX Gyre Termes}
+
+\usepackage{mathtools}
+\usepackage{unicode-math}
+\setmathfont{TeX Gyre Termes Math}
+\setmathfont{Latin Modern Math}[range={\int,\oint,\sum}]
+
+\thinmuskip=4mu
+\medmuskip=4mu plus 2mu minus 2mu
+\thickmuskip=5mu plus 5mu
+\removenolimits{\int}
+
+% =========================
+% LANGUAGE
+% =========================
+\usepackage[english]{babel}
+
+% =========================
+% CORE MATH PACKAGES
+% =========================
+\usepackage{amsmath,amsthm} % amssymb/amsfonts superseded by unicode-math in LuaLaTeX
+\usepackage{bm}
+
+% Graphs
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning, calc}
+
+% =========================
+% GRAPHICS / FIGURES
+% =========================
+\usepackage{graphicx}
+\setkeys{Gin}{width=\linewidth}
+\usepackage{float}
+
+\usepackage[labelsep=period,
+  figurename=Figure,
+  tablename=Table,
+  labelfont=bf]{caption}
+\usepackage{subcaption}
+
+\newfloat{listing}{htbp}{lol}
+\floatname{listing}{Listing}
+% =========================
+% COLORS / BOXES
+% =========================
+\usepackage[x11names]{xcolor}
+\usepackage[most]{tcolorbox}
+\usepackage{cancel}
+
+% =========================
+% ENUMERATION
+% =========================
+\usepackage{enumitem}
+
+% =========================
+% HEADERS / FOOTERS
+% =========================
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[R]{\nouppercase{\rightmark}}
+
+\makeatletter
+\renewcommand{\sectionmark}[1]{%
+  \markright{\thesection.\ #1}%
+}
+\renewcommand\@seccntformat[1]{%
+  \csname the#1\endcsname.\quad
+}
+\makeatother
+
+
+\usepackage{hyperref}
+\usepackage{bookmark}
+\usepackage{cleveref}
+\usepackage{theoremref}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue,
+  citecolor=blue,
+  urlcolor=blue
+}
+
+% =========================
+% EQUATIONS
+% =========================
+\numberwithin{equation}{section}
+
+% =========================
+% LINE NUMBERS
+% =========================
+\usepackage{lineno}
+\renewcommand\linenumberfont{\normalfont\scriptsize\color{black}}
+\renewcommand\thelinenumber{\arabic{linenumber}}
+\setlength\linenumbersep{12pt}
+
+% =========================
+% PAGE DECORATION
+% =========================
+\usepackage{eso-pic}
+\AddToShipoutPicture{%
+  \ifnum\value{page}=1
+    \AtPageLowerLeft{%
+      \raisebox{2.54cm}{%
+        \hspace*{3.55cm}\rule{0.5pt}{\textheight}
+        \hspace*{15.26cm}\rule{0.5pt}{\textheight}
+      }%
+    }%
+  \fi
+  \ifnum\value{page}>1
+    \AtPageLowerLeft{%
+      \raisebox{2.54cm}{%
+        \hspace*{3.55cm}\rule{0.5pt}{\textheight}
+      }%
+    }%
+  \fi
+}
+
+% =========================
+% THEOREMS
+% =========================
+\newtheoremstyle{nonitalic}
+  {3pt}{3pt}
+  {}{}{\bfseries}{.}{ }%
+  {\thmname{#1}\thmnumber{ #2}\thmnote{ (\textnormal{#3})}}
+
+\theoremstyle{nonitalic}
+
+\newtheorem{Definition}{Definition}[section]
+\newtheorem{Problem}{Problem}[section]
+\newtheorem{Anmärkning}{Anmärkning}[section]
+\newtheorem{Sats}{Sats}[section]
+\newtheorem{Bevis}{Bevis}[section]
+
+\crefname{Definition}{Definition}{Definitioner}
+\crefname{Problem}{Problem}{Problems}
+\crefname{Anmärkning}{Anmärkning}{Anmärkningar}
+\crefname{Sats}{Sats}{Satser}
+\crefname{Bevis}{Bevis}{Bevis}
+
+% =========================
+% TCB STYLES
+% =========================
+\tcbset{
+style1/.style={colback=gray!5!white, colframe=gray!50!black},
+style2/.style={colback=teal!10!white, colframe=teal!80!black},
+style3/.style={colback=yellow!10!white, colframe=black},
+style4/.style={colback=blue!3!white, colframe=black},
+style5/.style={colback=purple!5!white, colframe=purple!70!black},
+style6/.style={colback=red!5!white, colframe=red!80!black}
+}
+
+\newtcolorbox[auto counter, number within=section]{definitionbox}[2][]{%
+  enhanced,
+  style1,
+  fonttitle=\bfseries,
+  title=Definition \thetcbcounter\ – #2,
+  #1
+}
+
+\newtcolorbox[auto counter, number within=section]{satsbox}[2][]{%
+  enhanced,
+  style2,
+  fonttitle=\bfseries,
+  title=Sats \thetcbcounter\ – #2,
+  #1
+}
+
