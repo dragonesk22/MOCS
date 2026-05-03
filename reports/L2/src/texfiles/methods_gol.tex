@@ -1,4 +1,11 @@
 \subsection{Game of Life Method}
-\texttt{scipy convolve} acording to theory uses \texttt{C} for computations. 8-bit
-unsigned integers \texttt{np.uint8} to store 0s and 1s and decrease uncesseracy
+\texttt{scipy convolve} acording to theory uses \texttt{C} for computations.
+
+8-bit unsigned integers \texttt{np.uint8} to store 0s and 1s and decrease uncesseracy
 memory usage.
+
+Parse RLE encoded strings for basic components (gosper gun and eater).
+
+Precomputation of states was employed so that the \texttt{GameOfLifeDebug.py} script was able
+to step backwards in time, since the update has no inverse. Helpful for validation.
+
