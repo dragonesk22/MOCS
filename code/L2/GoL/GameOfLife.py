@@ -23,9 +23,19 @@ def F(X, K=np.array([
     [1, 1, 1],
     [1, 0, 1],
     [1, 1, 1]
-], dtype=np.uint8)):
-
-    N = convolve(X, K, mode="constant", cval=0)
+], dtype=np.uint8), mode="constant"):
+    """
+    :param X: 2D array data structure for rectangular lattice graph
+    :param K: 3x3 kernel
+    :return: Non-linear update of X
+    """
+    # Linear map
+    if mode == "constant":
+        N = convolve(X, K, mode=mode, cval=0)
+    else:
+        assert mode == "wrap", "mode must be 'wrap' or 'constant'"
+        N = convolve(X, K, mode=mode)
+    # Non-linear map
     return ((N == 3) | ((X == 1) & (N == 2))).astype(np.uint8)
 
 

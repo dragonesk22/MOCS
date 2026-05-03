@@ -1,3 +1,105 @@
-\subsection{Game of Life and Logic Gates}
-GOL AND LOGIC GATES HERE
+\subsection{Game of Life and Logic Gates}\subsubsection{Game of Life as a discrete dynamical system}
+
+Conway's Game of Life can be viewed as a discrete dynamical system on a rectangular lattice
+$X^{(t)} \in \{0,1\}^{m \times n}$, where each entry $X_{ij}^{(t)}$ represents the state of the cell
+at site $(i,j)$ at time $t$. The evolution of the system is determined by update rules that specify
+the state of each cell at the next time step, $X_{ij}^{(t+1)}$.
+
+\begin{definitionbox}[label=conwayrules]{Conway's rules \cite{GoLInteractiveCode}}
+\begin{enumerate}
+\item \textbf{Survival}: a live cell stays alive if it has 2 or 3 live neighbors.
+\item \textbf{Birth}: a dead cell becomes alive if it has exactly 3 live neighbors.
+\item \textbf{Death by isolation}: a live cell dies if it has fewer than 2 live neighbors.
+\item \textbf{Death by overcrowding}: a live cell dies if it has more than 3 live neighbors.
+\item \textbf{Neighborhood}: the neighbors of a cell are the 8 surrounding cells.
+\end{enumerate}
+\end{definitionbox}
+
+Let $N_{ij}^{(t)}$ denote the degree of node $X_{ij}^{(t)}$ at time $t$.
+Since each cell has eight neighbors, the relevant directions are the cardinal and intercardinal
+directions. Self-interaction is excluded, so the evolution of a cell depends only on its neighborhood.
+The quantity $N_{ij}^{(t)}$ can be computed as
+
+\begin{equation}
+N_{ij}^{(t)} =
+\sum_{p=-1}^1 \sum_{q=-1}^1 K_{p+2,q+2} X_{i+p,j+q}^{(t)},
+\end{equation}
+
+where $K$ is a $3 \times 3$ kernel. Equivalently,
+\begin{equation}
+N^{(t)} = K * X^{(t)},
+\end{equation}
+where $K * X^{(t)}$ denotes the convolution of the lattice $X^{(t)}$ with the kernel $K$.
+
+The update rule can then be written as
+\begin{equation}
+X_{ij}^{(t+1)}
+=
+\begin{cases}
+1, & \text{if } X_{ij}^{(t)} = 1 \text{ and } N_{ij}^{(t)} \in \{2,3\}, \\
+1, & \text{if } X_{ij}^{(t)} = 0 \text{ and } N_{ij}^{(t)} = 3, \\
+0, & \text{otherwise}.
+\end{cases}
+\end{equation}
+
+In vectorized form, this becomes
+\begin{equation}
+X^{(t+1)} = \mathbb{1}\!\left(N^{(t)} = 3\right)
++ X^{(t)} \odot \mathbb{1}\!\left(N^{(t)} = 2\right),
+\end{equation}
+and we use dirichlet boundary conditons or zero padding to handle the adjacency of boundary nodes.
+\newpage
+\subsubsection{Logic gates in the Game of Life}
+In classical computation, basic logic gates such as AND, OR, and NOT act on one or two input streams and produce a single output stream. For example,
+\[
+\begin{array}{@{}l@{}}
+\texttt{01001010}\\
+\texttt{10101010}\\
+\hline
+\texttt{00001010}
+\end{array}
+\quad \texttt{AND}
+\]
+
+\[
+\begin{array}{@{}l@{}}
+\texttt{01001010}\\
+\texttt{10101010}\\
+\hline
+\texttt{11101010}
+\end{array}
+\quad \texttt{OR}
+\]
+
+\[
+\begin{array}{@{}l@{}}
+\texttt{01001010}\\
+\hline
+\texttt{10110101}
+\end{array}
+\quad \texttt{NOT}
+\]
+Such gates implement a local transformation of binary information.
+
+In the Game of Life, which is a discrete dynamical system evolving on a lattice, one may view logic gates from a
+different perspective: not as abstract Boolean operators, but as spatially embedded computational devices. The
+initial state is a geometric configuration, and the update rule propagates that configuration through time (changes
+its geometry from one to another). From this viewpoint, the construction of a logic gate becomes a problem of geometric
+constraint and synchronization. The central question is which initial lattice configuration (i.e., which geometry) $X^{(0)}$
+can, under Conway's rules, evolve so as to realize deterministic, time-dependent binary information processing in the form of
+\texttt{AND}-, \texttt{OR}-, and \texttt{NOT}-gates?
+
+First, we need to construct an initial geometry that evolves, under Conway's rules, into a space-time signal. For 
+this we could use a train of \textit{gliders} that travels periodically and diagonally across the lattice
+\cite{gliderwiki}. To get an arbitrary length of space-time signals we migh use \textit{guns} that generate 
+gliders \cite{glidergunwiki}. 
+
+
+
+
+
+\subsubsection{Encoding of Inputs}
+
+\subsubsection{Reading outputs}
+\subsubsection{Initial conditions for the different gates}
 
