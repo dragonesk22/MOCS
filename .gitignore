@@ -17,3 +17,7 @@ _minted/
 __pycache__/
 /reports/L2/out/
 /main_local.pdf
+/code/L1/tmp.py
+/code/L1/tmp.py.bak
+/code/L1/tmp_notebook.ipynb
+/code/L1/.ipynb_checkpoints/tmp_notebook-checkpoint.ipynb
