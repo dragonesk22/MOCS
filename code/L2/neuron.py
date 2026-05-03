@@ -45,7 +45,7 @@ updateIntervalMs = 100
 randomOccupancy = 0.18
 rulesText = (
   "Neuron Cellular Automaton\n\n"
-  "1. A ready neuron becomes firing at the next step if exactl< two of its neighbours are firing.\n"
+  "1. A ready neuron becomes firing at the next step if exactly two of its neighbours are firing.\n"
   "2. A firing neuron becomes resting at the next step.\n"
   "3. A resting neuron becomes ready at the next step.\n"
   "This version uses periodic boundary conditions. Cells leaving one edge "
