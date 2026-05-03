@@ -6,19 +6,7 @@ from GoLogic import AND, OR, NOT
 rc('text', usetex=True)
 rc('font', family='serif', size=12)
 
-gosper_gun ="""
-#N Gosper glider gun
-#C This was the first gun discovered.
-#C As its name suggests, it was discovered by Bill Gosper.
-x = 36, y = 9, rule = B3/S23
-24bo$22bobo$12b2o6b2o12b2o$11bo3bo4b2o12b2o$2o8bo5bo3b2o$2o8bo3bob2o4b
-obo$10bo5bo7bo$11bo3bo$12b2o!
-"""
 
-eater1 = """
-x = 4, y = 4, rule = B3/S23
-2o$bo$bobo$2b2o!
-"""
 
 def F(X, K=np.array([
     [1, 1, 1],
