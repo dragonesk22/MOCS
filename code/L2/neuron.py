@@ -1,5 +1,9 @@
 """
+ * This code is based on 
+ *
  * gameOfLifeInteractive.py
+ *
+ * which was given to us in the context of the Modelling Complex Systems Course 2026 at Uppsala University
  *
  * Copyright (c) 2026, Jordi-Lluis Figueras
  *
@@ -14,17 +18,16 @@
  *
 """
 
-"""Interactive Conway's Game of Life board for classroom demonstrations.
+"""Neuron cellular automaton with periodic boundary conditions.
 
 Usage:
-  - Click on the grid to toggle cells before or during the simulation.
+  - Click on the grid once to produce a ready cell and twice for a firing cell
   - Press Run to start the evolution.
   - Press Pause to stop it.
   - Step advances one generation.
   - Clear resets the board.
   - Random fills the board with a random initial condition.
-  - Preset buttons load standard patterns such as the Gosper glider gun.
-
+  
 The board uses periodic boundary conditions, so gliders that leave one side of
 the grid re-enter on the opposite side.
 """
@@ -33,6 +36,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.widgets import Button
 from matplotlib.colors import ListedColormap
+from matplotlib.patches import Patch
 
 
 nRows = 30
@@ -40,59 +44,25 @@ nCols = 30
 updateIntervalMs = 100
 randomOccupancy = 0.18
 rulesText = (
-  "Conway's Game of Life rules\n\n"
-  "1. Survival: a live cell stays alive if it has 2 or 3 live neighbors.\n"
-  "2. Birth: a dead cell becomes alive if it has exactly 3 live neighbors.\n"
-  "3. Death by isolation: a live cell dies if it has fewer than 2 live neighbors.\n"
-  "4. Death by overcrowding: a live cell dies if it has more than 3 live neighbors.\n\n"
+  "Neuron Cellular Automaton\n\n"
+  "1. A ready neuron becomes firing at the next step if exactl< two of its neighbours are firing.\n"
+  "2. A firing neuron becomes resting at the next step.\n"
+  "3. A resting neuron becomes ready at the next step.\n"
   "This version uses periodic boundary conditions. Cells leaving one edge "
   "re-enter through the opposite edge."
 )
 
-gliderPattern = [
-  (0, 1),
-  (1, 2),
-  (2, 0),
-  (2, 1),
-  (2, 2),
-]
 
-pulsarPattern = [
-  (0, 2), (0, 3), (0, 4), (0, 8), (0, 9), (0, 10),
-  (2, 0), (2, 5), (2, 7), (2, 12),
-  (3, 0), (3, 5), (3, 7), (3, 12),
-  (4, 0), (4, 5), (4, 7), (4, 12),
-  (5, 2), (5, 3), (5, 4), (5, 8), (5, 9), (5, 10),
-  (7, 2), (7, 3), (7, 4), (7, 8), (7, 9), (7, 10),
-  (8, 0), (8, 5), (8, 7), (8, 12),
-  (9, 0), (9, 5), (9, 7), (9, 12),
-  (10, 0), (10, 5), (10, 7), (10, 12),
-  (12, 2), (12, 3), (12, 4), (12, 8), (12, 9), (12, 10),
-]
-
-gosperGliderGunPattern = [
-  (5, 1), (5, 2), (6, 1), (6, 2),
-  (5, 11), (6, 11), (7, 11), (4, 12), (8, 12), (3, 13), (9, 13),
-  (3, 14), (9, 14), (6, 15), (4, 16), (8, 16), (5, 17), (6, 17), (7, 17), (6, 18),
-  (3, 21), (4, 21), (5, 21), (3, 22), (4, 22), (5, 22), (2, 23), (6, 23),
-  (1, 25), (2, 25), (6, 25), (7, 25),
-  (3, 35), (4, 35), (3, 36), (4, 36),
-]
-
-gliderEaterPattern = [
-  (0, 0), (1, 0), (1, 1), (1, 2), (2, 3), (3, 3), (3, 2),
-  (15, 14), (15, 15), (15, 16), (16, 14), (17, 15),
-]
-
+'''
 presetPatterns = {
   "Gosper": gosperGliderGunPattern,
   "Glider": gliderPattern,
   "Glider+Eater": gliderEaterPattern,
   "Pulsar": pulsarPattern,
 }
+'''
 
 #new function to have three states
-
 def count_neighbors_by_state(grid, state):
     return sum(
         np.roll(np.roll(grid == state, i, axis=0), j, axis=1)
@@ -101,6 +71,7 @@ def count_neighbors_by_state(grid, state):
         if not (i == 0 and j == 0)
     )
 
+#list with ready and firing neighbours
 def lifeStep(grid):
     n1 = count_neighbors_by_state(grid, 1)
     n2 = count_neighbors_by_state(grid, 2)
@@ -115,24 +86,6 @@ def lifeStep(grid):
     return new
 
 
-#def lifeStep(grid):
- # """Return one Game-of-Life update with periodic boundary conditions."""
- # neighbors = (
- #   np.roll(np.roll(grid, 1, axis = 0), 1, axis = 1) +
-  #  np.roll(grid, 1, axis = 0) +
-  #  np.roll(np.roll(grid, 1, axis = 0), -1, axis = 1) +
-  #  np.roll(grid, 1, axis = 1) +
-   # np.roll(grid, -1, axis = 1) +
-   # np.roll(np.roll(grid, -1, axis = 0), 1, axis = 1) +
-  #  np.roll(grid, -1, axis = 0) +
-  #  np.roll(np.roll(grid, -1, axis = 0), -1, axis = 1)
- # )
-
-  #born = (grid == 0) & (neighbors == 3)
- # survive = (grid == 1) & ((neighbors == 2) | (neighbors == 3))  
- # return (born | survive).astype(int)
-
-
 class GameOfLifeApp:
   def __init__(self):
     self.grid = np.zeros((nRows, nCols), dtype = int)
@@ -143,16 +96,8 @@ class GameOfLifeApp:
 
     self.fig = plt.figure(figsize = (12, 9))
     self.ax = self.fig.add_axes([0.05, 0.08, 0.70, 0.86])
-    #self.image = self.ax.imshow(
-    #  self.grid,
-     # cmap = "inferno",
-     # interpolation = "nearest",
-     # vmin = 0,
-     # vmax = 2,
-     # origin = "upper",
-    #)
 
-    self.cmap = ListedColormap(["white", "black", "red"])
+    self.cmap = ListedColormap(["white", "black", "red"]) #colours used for the three states
 
     self.image = self.ax.imshow(
         self.grid,
@@ -163,7 +108,7 @@ class GameOfLifeApp:
         origin="upper",
     )
 
-    self.ax.set_title("Conway's Game of Life (periodic 100 x 100 grid)", fontsize = 14)
+    self.ax.set_title(f"Neuron Cellular Automaton (periodic {nRows} x {nCols} grid)", fontsize = 14)
     self.ax.set_xticks(np.arange(-0.5, nCols, 1), minor = True)
     self.ax.set_yticks(np.arange(-0.5, nRows, 1), minor = True)
     self.ax.grid(which = "minor", color = "lightgray", linewidth = 0.20)
@@ -179,19 +124,28 @@ class GameOfLifeApp:
     self.timer = self.fig.canvas.new_timer(interval = updateIntervalMs)
     self.timer.add_callback(self.advanceOneStep)
 
+    legendElements = [
+    Patch(facecolor="white", edgecolor="black", label="Resting"),
+    Patch(facecolor="black", edgecolor="black", label="Ready"),
+    Patch(facecolor="red", edgecolor="black", label="Firing"),
+    ]
+
+
+    self.ax.legend(
+      handles=legendElements,
+      loc="upper left",
+      bbox_to_anchor=(1.11, 0.5),
+    )
+    '''
     self.fig.text(0.80, 0.10,
     "States:\n0 = Resting\n1 = Ready\n2 = Firing",
     fontsize=10)
-
+    '''
     self.runButton = self._makeButton([0.80, 0.82, 0.15, 0.055], "Run", self.toggleRun)
     self.stepButton = self._makeButton([0.80, 0.75, 0.15, 0.055], "Step", self.stepOnce)
     self.clearButton = self._makeButton([0.80, 0.68, 0.15, 0.055], "Clear", self.clearGrid)
     self.randomButton = self._makeButton([0.80, 0.61, 0.15, 0.055], "Random", self.randomizeGrid)
-    #self.gosperButton = self._makeButton([0.80, 0.50, 0.15, 0.055], "Gosper", self.loadGosper)
-    #self.gliderButton = self._makeButton([0.80, 0.43, 0.15, 0.055], "Glider", self.loadGlider)
-    #self.gliderEaterButton = self._makeButton([0.80, 0.36, 0.15, 0.055], "Glider+Eater", self.loadGliderEater)
-    #self.pulsarButton = self._makeButton([0.80, 0.29, 0.15, 0.055], "Pulsar", self.loadPulsar)
-    self.rulesButton = self._makeButton([0.80, 0.18, 0.15, 0.055], "Rules", self.showRules)
+    self.rulesButton = self._makeButton([0.80, 0.54, 0.15, 0.055], "Rules", self.showRules)
 
     self.fig.canvas.mpl_connect("button_press_event", self.onMousePress)
     self.fig.canvas.mpl_connect("button_release_event", self.onMouseRelease)
@@ -245,14 +199,14 @@ class GameOfLifeApp:
       self.grid[row, col] = 1
 
     self.refreshDisplay()
-
+  '''
   def loadPreset(self, name):
     if self.isRunning:
       self.toggleRun(None)
 
     self.placePattern(presetPatterns[name])
     self.updateStatus(f"Loaded preset: {name}.")
-
+  '''
   def onMousePress(self, event):
     coordinates = self.gridCoordinates(event)
     if coordinates is None:
