@@ -8,7 +8,12 @@
 # Marco Malosti
 # Sofia Fernandes
 # David Weingut
+import os
+import sys
 
+script_dir = os.path.dirname(os.path.abspath(__file__))
+os.chdir(script_dir)
+sys.path.insert(0, script_dir)
 import numpy as np
 from scipy.ndimage import convolve
 import matplotlib.pyplot as plt
@@ -39,9 +44,27 @@ def F(X, K=np.array([
     return ((N == 3) | ((X == 1) & (N == 2))).astype(np.uint8)
 
 
+def load_live_cells(filename, n):
+    """can run GoL from an external file with one (x,y) per line"""
+    grid = np.zeros((n, n), dtype=np.uint8)
+    with open(filename) as f:
+        for line in f:
+            line = line.strip()
+            if not line or not line.startswith("("):
+                continue
+            xs, ys = line.strip("()").split(",")
+            grid[int(ys), int(xs)] = 1
+    return grid
+
+
 n = 400
-x = np.zeros((n, n), dtype=np.uint8)
-x = AND(x, A=1, B=1)
+# If a coordinate file is supplied (e.g. AND.txt / OR.txt / NOT.txt) load it,
+# otherwise fall back to building the gate in code.
+if len(sys.argv) > 1:
+    x = load_live_cells(sys.argv[1], n)
+else:
+    x = np.zeros((n, n), dtype=np.uint8)
+    x = AND(x, A=1, B=1)
 
 nsteps = 1000
 X = [None]*nsteps
