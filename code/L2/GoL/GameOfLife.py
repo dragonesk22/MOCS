@@ -1,27 +1,19 @@
 #!/usr/bin/env python3
-# created by Group Supermodels in VT2026
-# for the course Modelling of Complex Systems at Uppsala University
-# Group Members:
-# Juan Rodriguez
-# Björk Lucas
-# Vootele Mets
-# Marco Malosti
-# Sofia Fernandes
-# David Weingut
 import os
 import sys
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 os.chdir(script_dir)
 sys.path.insert(0, script_dir)
+
 import numpy as np
 from scipy.ndimage import convolve
 import matplotlib.pyplot as plt
 from matplotlib import rc
 from GoLogic import AND, OR, NOT
-rc('text', usetex=True)
-rc('font', family='serif', size=12)
 
+rc('text', usetex=False)
+rc('font', family='serif', size=12)
 
 
 def F(X, K=np.array([
@@ -29,12 +21,112 @@ def F(X, K=np.array([
     [1, 0, 1],
     [1, 1, 1]
 ], dtype=np.uint8), mode="constant"):
-    """
-    :param X: 2D array data structure for rectangular lattice graph
-    :param K: 3x3 kernel
-    :return: Non-linear update of X
-    """
-    # Linear map
+    if mode == "constant":
+        N = convolve(X, K, mode=mode, cval=0)
+    else:
+        assert mode == "wrap", "mode must be 'wrap' or 'constant'"
+        N = convolve(X, K, mode=mode)
+
+    return ((N == 3) | ((X == 1) & (N == 2))).astype(np.uint8)
+
+
+def load_live_cells(filename, n):
+    grid = np.zeros((n, n), dtype=np.uint8)
+    with open(filename) as f:
+        for line in f:
+            line = line.strip()
+            if not line or not line.startswith("("):
+                continue
+            xs, ys = line.strip("()").split(",")
+            grid[int(ys), int(xs)] = 1
+    return grid
+
+
+def build_gate(gate, n, A, B=0):
+    x = np.zeros((n, n), dtype=np.uint8)
+
+    if gate == "AND":
+        x = AND(x, A=A, B=B)
+    elif gate == "OR":
+        x = OR(x, A=A, B=B)
+    elif gate == "NOT":
+        x = NOT(x, A=A)
+
+    return x
+
+
+n = 400
+nsteps = 1000
+gate = "NOT"
+
+plt.ion()
+
+if gate in ["AND", "OR"]:
+    cases = [(0, 0), (0, 1), (1, 0), (1, 1)]
+
+    fig, axs = plt.subplots(2, 2, figsize=(10, 10), constrained_layout=True)
+    axs = axs.flatten()
+
+    states = []
+    images = []
+
+    for i, (A, B) in enumerate(cases):
+        x = build_gate(gate, n, A, B)
+        states.append(x)
+
+        im = axs[i].imshow(x, cmap="binary", interpolation="nearest", origin="upper")
+        images.append(im)
+
+        axs[i].set_title(f"{gate}: A={A}, B={B}", fontsize=14)
+        axs[i].set_xlabel("x")
+        axs[i].set_ylabel("y")
+        axs[i].set_xlim(0, 220)
+        axs[i].set_ylim(220, 0)
+        axs[i].set_xticks(np.arange(0, 221, 50))
+        axs[i].set_yticks(np.arange(0, 221, 50))
+
+    for k in range(nsteps):
+        for i in range(len(states)):
+            images[i].set_data(states[i])
+
+        fig.suptitle(f"{gate} gate | time step = {k}", fontsize=18)
+        plt.pause(0.025)
+
+        for i in range(len(states)):
+            states[i] = F(states[i])
+
+elif gate == "NOT":
+    cases = [0, 1]
+
+    fig, axs = plt.subplots(1, 2, figsize=(10, 5), constrained_layout=True)
+
+    states = []
+    images = []
+
+    for i, A in enumerate(cases):
+        x = build_gate(gate, n, A)
+        states.append(x)
+
+        im = axs[i].imshow(x, cmap="binary", interpolation="nearest", origin="upper")
+        images.append(im)
+
+        axs[i].set_title(f"{gate}: A={A}", fontsize=14)
+        axs[i].set_xlabel("x")
+        axs[i].set_ylabel("y")
+        axs[i].set_xlim(0, 220)
+        axs[i].set_ylim(220, 0)
+        axs[i].set_xticks(np.arange(0, 221, 50))
+        axs[i].set_yticks(np.arange(0, 221, 50))
+
+    for k in range(nsteps):
+        for i in range(len(states)):
+            images[i].set_data(states[i])
+
+        fig.suptitle(f"{gate} gate | time step = {k}", fontsize=18)
+        plt.pause(0.025)
+
+        for i in range(len(states)):
+            states[i] = F(states[i])    # Linear map
     if mode == "constant":
         N = convolve(X, K, mode=mode, cval=0)
     else:
