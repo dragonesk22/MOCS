@@ -1,3 +1,6 @@
 \subsection{GHCA theory}
-
-GHCA THEORY HERE
+The Greenberg-Hastings Cellular Auomaton, GHCA for short, is a Cellular Automaton with three distinct categories of cell states.
+The first category consists of just a single state and is the \texttt{ready} state, assigned the numerical value $0$ in our implementation.
+This state is the only one that can survive a step unchanged while for the others the value always gets incremented by one.
+The second category is \texttt{firing}.
+A total of $e$ states are firing where $e$ is an input parameter, this corresponds to the values $1$ to $e$ being the firing states in our model.
