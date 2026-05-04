@@ -60,13 +60,19 @@ def read_and_parse_grid(file: pathlib.Path, size: int):
     with file.open() as f:
         for line in f:
             line = line.strip()
-            x, y, val = [int(i) for i in parse_regex.match(line).groups()]
+            if len(line) == 0:
+                continue
+            print(line)
+            try:
+                x, y, val = [int(i) for i in parse_regex.match(line).groups()]
+            except Exception:
+                print(f"can't parse line '{line}', skipping")
             grid[x, y] = val
     return grid
 
 
 def write_grid_to_file(grid: np.ndarray, file: pathlib.Path):
-    with file.open("w+") as f:
+    with file.open("w") as f:
         for (idx, val) in np.ndenumerate(grid):
             print("(", end='', file=f)
             print(*[*idx, int(val)], sep=",", end=")\n", file=f)
