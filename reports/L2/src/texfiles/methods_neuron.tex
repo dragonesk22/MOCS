@@ -1,2 +1,19 @@
-\subsection{Neuron Automaton Method}
-FOR IMPLEMENTATION OF NEURON AUTOMATON...
+\subsection{Neuron Cellular Automaton}
+The script for the implementation of the neuron cellular automaton is \verb+neuron.py+. The code is based on \verb+gameOfLifeInteractiveToric.py+, which was available on the 
+Studium page of the course.
+
+Now, we will present how the code works. At first, the number of rows and columns of the grid as well the speed of the simulation are defined. 
+Additionally, the rules text is added. This text is displayed when clicking the "rules"-button while running the script. 
+Next, we have implemented the new function \verb+count_neighbors_by_state+ that can calculate the number of neighbours in a certain state. 
+This function is necessary as we will be working with three different states instead of two.
+The function takes the grid and the state that we want to determine the number of neighbours for as arguments. 
+The neighbours for each gridpoint are found using \verb+numpy.roll+ to include the periodic boundary conditions. 
+As the next step we have updated the \verb+lifeStep+ function. Now, we first create the grids of neighbours in states 1 and 2 and apply the rules afterwards. 
+State 0 represents the resting neurons, state 1 the ready neurons and state 2 the firing neurons. The function then returns the updated grid. 
+
+In the constructor of the \verb+GameOfLifeApp+ class the visualisation is defined. This includes the buttons that are displayed and their actions. 
+The time step for the continuous run is defined as well. 
+
+The following parameters are fixed in the code: the number of rows and columns is set to 30 each. For the random population of the grid, 
+the probability for state 0 is 0.7, for state 1 it is 0.2 and for state 2 it is 0.1. Initially, all cells are in state 0 (resting). Clicking once sets them to
+state 1 and clicking another time to state 2. 
