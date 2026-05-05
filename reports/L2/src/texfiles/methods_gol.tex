@@ -21,8 +21,8 @@ handle insertion and transformation before simulation.
 In addition, the function \texttt{load\_live\_cells(filename, n)} loads external initial configurations from text files containing one live cell per line in the format \texttt{(x,y)}. The file is converted into an $n\times n$ binary array by setting \texttt{grid[y,x] = 1}. This supports the coordinate-list representation used for the initial gate configurations.
 
 \subsubsection{Logical gates}
-The logical gates \texttt{AND}, \texttt{OR}, and \texttt{NOT} are implemented by spatial arrangements of glider guns and eaters. Signals are encoded as glider streams emitted by Gosper guns. Boolean inputs are represented through the initial configuration: an input value of $1$ leaves the corresponding signal unobstructed, whereas an input value of $0$ places an eater on the signal path and suppresses propagation.
-
-For the \texttt{AND} and \texttt{OR} gates, all four input combinations were simulated.
-While the \texttt{NOT} gate was tested for both possible input values.
+The logical gates \texttt{AND}, \texttt{OR}, and \texttt{NOT} are implemented by spatial arrangements of glider guns and eaters. Signals are encoded as glider
+ streams emitted by Gosper guns. Boolean inputs are represented through the initial configuration: an input value of $1$ leaves the corresponding signal
+ unobstructed, whereas an input value of $0$ places an eater on the signal path and suppresses propagation. For the \texttt{AND} and \texttt{OR} gates, all
+  four input combinations were simulated. While the \texttt{NOT} gate was tested for both possible input values.
 The output was read from a designated output lane: the presence of a propagating glider stream was interpreted as logical $1$, and its absence as logical $0$.

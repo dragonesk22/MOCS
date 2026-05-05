@@ -45,7 +45,7 @@ X^{(t+1)} = \mathbb{1}\!\left(N^{(t)} = 3\right)
 \end{equation}
 We use dirichlet boundary conditons or zero padding to handle the adjacency of boundary nodes.
 
-\subsubsection{Logic gates in the Game of Life}
+\subsubsection*{Logic gates in the Game of Life}
 In classical computation, the basic logic gates \texttt{AND}, \texttt{OR}, and \texttt{NOT} act on one or two binary input streams and produce a binary output stream. They implement a local transformation of information.
 
 In the Game of Life, by contrast, computation is realized not by abstract Boolean operators but by spatially embedded dynamical processes on a lattice. The initial condition is a geometric configuration, and Conway's update rule evolves this configuration through time. The problem of building a logic gate is therefore a problem of geometric design and synchronization: one seeks an initial configuration $X^{(0)}$ that evolves, under the Game of Life rules, into a deterministic spatiotemporal process implementing \texttt{AND}, \texttt{OR}, or \texttt{NOT}.
@@ -53,7 +53,7 @@ In the Game of Life, by contrast, computation is realized not by abstract Boolea
 This is achieved by using gliders as moving signals and glider guns as periodic sources of such signals \cite{gliderwiki,glidergunwiki}. Glider trajectories function as wires, constraining the direction of information flow; in the absence of interference, the signal propagates persistently along these paths. To represent binary information, the presence of a glider stream is interpreted as \texttt{1}, while its absence is interpreted as \texttt{0}. Eaters are used as stabilizing and filtering structures, suppressing selected streams and enabling controlled interactions between multiple inputs. By translating and positioning guns, eaters, and collision regions appropriately, one obtains deterministic and composable gate constructions \cite{golgatevideo}, so that the output of one gate may be routed as the input of another without loss of logical meaning.
 computational fidelity.
 
-\subsubsection{Encoding of Inputs}
+\subsection{Encoding of Inputs}
 
 \begin{definitionbox}[label=signalencoding]{Encoding binary signals}
 Signal generation is achieved using the Gosper glider gun, which produces a periodic sequence of gliders with fixed phase and spacing. Through geometric transformations (rotations and reflections), identical guns can be oriented to produce signals in any required intercardinal direction. Each gun occupies a finite region of the lattice (for the canonical gun, $36 \times 9$ cells), but its function is not the static occupancy of this region; rather, it continuously emits a sequence of mobile patterns that carry information across the lattice. Consequently, the encoding is fundamentally dynamic and cannot be reduced to a fixed memory footprint.
@@ -62,7 +62,7 @@ Signal generation is achieved using the Gosper glider gun, which produces a peri
 \begin{enumerate}
 \item \textbf{Signal 1} \texttt{(TRUE)}: This is represented by the \textbf{prescence} of a \textbf{glider}. This
 signal propagates dynamically across a spatial lane across the lattice in fixed intercardinal directions.
-\item \textbf{Signal 0} \texttt{(FALSE)}: Defined as the \textbf{inexistence} of a \textbf{glider}.  Its realization
+\item \textbf{Signal 0} \texttt{(FALSE)}: Defined as the \textbf{absence} of a \textbf{glider}.  Its realization
 depends on the observation point. There are two basic cases:
     \begin{itemize}
     \item \textbf{Blocking}: Physically \textit{obstructing} a Gosper gun.
@@ -91,22 +91,20 @@ configuration.
 \end{enumerate}
 \end{definitionbox}
 
-\subsubsection{Reading outputs}
+\subsection{Reading outputs}
 Reading the state of a logic gate in the Game of Life is a measurement of \textbf{spatial-temporal presence}. The
 output of a gate is not solely a boolean value, but a \textbf{vector}. Since the gliders only propagate along
 intercardinal diagonals (NE, NW, SE, SW), the observation window must be placed precisely in the \textit{firing lane} of
 the logic gate's exit path.
 
-\paragraph{$4 \times 4$ Observation Window.} To detect a 1 signal (the presence of a glider), the observer must
+\subsubsection{Observation Window \& Detection logic}
+To detect a 1 signal (the presence of a glider), the observer must
 define a static bounding box of 4×4 cells at a specific coordinate $(x,y)$ on the lattice. Because a glider is a
-dynamic pattern that fits within $4\times 4$ area during its four-generation cycle.
-\paragraph{Detection logic.} The output is considered to have the assigned \texttt{TRUE} value if the correct number of
-live cells within the $4 \times 4$, and the distribution are characteristic of the glider.
+dynamic pattern that fits within $4\times 4$ area during its four-generation cycle. The output is considered to have
+the assigned \texttt{TRUE} value if the correct number of  live cells within the $4 \times 4$, and the distribution are characteristic of the glider.
 
-\paragraph{Composition.} If a gate’s output needs to be routed to a different input, one must apply rotations or
-reflections to the initial gun configuration to ensure the output vector aligns with the next gate's input requirements.
-
-\paragraph{Synchorinization.} If the observation window is checked at generation $T$, but the glider arrives at $T+1$,
-the \texttt{READ} might detect a partial pattern (fragmentation) or an empty box, resulting in a false \textbf{0}.
+\subsubsection{Synchorinization}
+If the observation window is checked at generation $T$, but the glider arrives at $T+1$,
+the \texttt{READ} might detect a partial pattern (fragmentation) or an empty box, resulting in a false \texttt{0}.
 Strictly speaking, one could a priori calculate the Manhattan distance the glider travels to ensure the output is
 sampled only when the signal has had enough generations to reach the observation box.
