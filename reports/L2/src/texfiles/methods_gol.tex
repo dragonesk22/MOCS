@@ -1,29 +1,15 @@
-\subsection{Game of Life Numerics}
+\subsection{Numerical methods for Game of Life}
 
 \subsubsection{Computational domain}
-The computational domain is represented as a two-dimensional rectangular lattice
-$X \in \{0,1\}^{n\times n}$, where each entry corresponds to one cell of the automaton.
-The state variable is stored as an 8-bit unsigned integer array, \texttt{np.uint8}, in order to
-minimize memory overhead while preserving the binary structure of the model. In the simulations
-reported here, we use a square grid with $n=400$.
+The computational domain is represented as a two-dimensional rectangular lattice $X \in \{0,1\}^{n\times n}$, where
+each entry corresponds to one cell of the automaton.
 
 \subsubsection{Time evolution}
 The time evolution is implemented as a composition of a linear convolution operation and a pointwise
 non-linear update. The discrete convolution is computed using \texttt{scipy.ndimage.convolve}. A fixed
-$3\times 3$ kernel
-\begin{equation}
-K =
-\begin{bmatrix}
-    1 & 1 & 1\\
-    1 & 0 & 1\\
-    1 & 1 & 1
-\end{bmatrix}
-\end{equation}
-is used to compute the Moore neighbourhood sum
-\begin{equation}
-N^{(t)} = K * X^{(t)}.
-\end{equation}
-The central entry of the kernel is zero, so the cell itself is excluded from the neighbour count.
+$3\times 3$ kernel is used to compute the Moore neighbourhood sum $N^{(t)} = K * X^{(t)}.$.
+The central entry of the kernel is zero, so the cell itself is excluded from the neighbour count. The update function allows both zero-padding boundaries, set by the parameter
+\texttt{mode="constant"}.
 
 The Game of Life update rule is then applied by vectorized logical operations:
 \begin{equation}
@@ -35,69 +21,25 @@ X^{(t+1)}
 X^{(t)} \wedge \mathbb{1}\!\left(N^{(t)} = 2\right)
 \right].
 \end{equation}
-Thus, a dead cell becomes alive if it has exactly three live neighbours, while a live cell survives if
-it has two or three live neighbours. The resulting Boolean array is cast back to \texttt{np.uint8}.
-
-The update function allows both zero-padding boundaries, implemented with
-\texttt{mode="constant"}, and periodic boundaries, implemented with \texttt{mode="wrap"}. For the
-logical-gate simulations, zero-padding boundaries are used, since the gates are placed away from the
-domain boundary and the construction is intended to represent a finite portion of an otherwise empty
-Game of Life plane.
 
 \subsubsection{Initial conditions}
-Initial conditions are constructed programmatically in \texttt{GoLogic.py}. The basic components are
-the Gosper glider gun and the eater, both stored in Run Length Encoding (RLE). The RLE strings are
-parsed into binary arrays using a custom parser and inserted into the computational domain at fixed
-coordinate offsets. This makes the construction reproducible, since each component is always placed
-at the same location for a given input condition.
+Initial conditions are generated programmatically in \texttt{GoLogic.py}. The basic building blocks are the Gosper
+glider gun and the eater, both stored in Run Length Encoding (RLE). A custom parser converts each RLE string into a
+binary array using \texttt{RLE.py} and \texttt{add\_pattern}. Before adding a pattern one can transform it
+appropriately with the \texttt{transform\_pattern} function in \texttt{pattern\_processing.py}.
+handle insertion and transformation before simulation.
 
-The code also implements geometric transformations of these base components, including rotations and
-left-right or up-down reflections. This allows the same gun and eater patterns to be reused in
-different orientations. The helper functions \texttt{add\_pattern} and \texttt{transform\_pattern}
-are used to insert and transform the components before simulation.
-
-In addition to programmatic construction, the script includes a function
-\texttt{load\_live\_cells(filename, n)}, which can read initial configurations from external text
-files. These files contain one live cell per line in the format \texttt{(x,y)}. The file is converted
-into an $n\times n$ binary array by setting \texttt{grid[y,x] = 1}. This was used to support the
-required coordinate-list representation of the initial gate configurations.
+In addition, the function \texttt{load\_live\_cells(filename, n)} loads external initial configurations from text files containing one live cell per line in the format \texttt{(x,y)}. The file is converted into an $n\times n$ binary array by setting \texttt{grid[y,x] = 1}. This supports the coordinate-list representation used for the initial gate configurations.
 
 \subsubsection{Logical gates}
-The logical gates \texttt{AND}, \texttt{OR}, and \texttt{NOT} are realized through spatial
-arrangements of glider guns and eaters. Signals are represented by streams of gliders emitted by
-Gosper glider guns. Logical input values are encoded by modifying the initial configuration: an input
-value of $1$ corresponds to allowing the relevant signal to propagate, while an input value of $0$
-corresponds to placing an eater so that the corresponding signal is suppressed.
+The logical gates \texttt{AND}, \texttt{OR}, and \texttt{NOT} are implemented by spatial arrangements of glider guns and eaters. Signals are encoded as glider streams emitted by Gosper guns. Boolean inputs are represented through the initial configuration: an input value of $1$ leaves the corresponding signal unobstructed, whereas an input value of $0$ places an eater on the signal path and suppresses propagation.
 
-For the \texttt{AND} and \texttt{OR} gates, all four input combinations were simulated:
+For the \texttt{AND} and \texttt{OR} gates, all four input combinations were simulated,
 \[
-(A,B) \in \{(0,0),(0,1),(1,0),(1,1)\}.
+(A,B) \in \{(0,0),(0,1),(1,0),(1,1)\},
 \]
-For the \texttt{NOT} gate, the two possible input values were simulated:
+while the \texttt{NOT} gate was tested for both possible input values,
 \[
 A \in \{0,1\}.
 \]
-The output was read visually from the designated output lane. The presence of a propagating glider
-stream in this lane was interpreted as logical output $1$, while its absence was interpreted as
-logical output $0$.
-
-\subsubsection{Simulation procedure and visualization}
-For each gate, the corresponding initial condition is created on a $400\times 400$ lattice and then
-iterated for \texttt{nsteps = 1000} time steps. The automaton is advanced explicitly by repeated
-application of the update function. For visualization, \texttt{matplotlib.pyplot.imshow} is used with
-a binary colour map, so that live and dead cells are directly represented as black and white pixels.
-
-To compare input cases systematically, the simulations for each gate were displayed in a single
-window. The \texttt{AND} and \texttt{OR} gates were shown using a $2\times 2$ subplot layout, with one
-panel for each input pair. The \texttt{NOT} gate was shown using a $1\times 2$ layout, with one panel
-for each input value. Each panel was labelled with the corresponding input condition, and the figure
-title displayed the current time step. The axes were restricted to the active region of the lattice
-so that the glider interactions and output signal were easier to observe.
-
-\subsubsection{Debugging and validation}
-Since the Game of Life update rule is not invertible, reverse time stepping is not defined. Validation
-therefore relied on forward simulations and direct inspection of the time evolution. The simulation
-was run for each input condition, and the observed outputs were compared with the expected Boolean
-truth tables of the corresponding gates. The time-step label in the visualization made it possible to
-select representative snapshots showing the initial configuration, signal propagation, gate
-interaction, and final output behaviour.
+The output was read from a designated output lane: the presence of a propagating glider stream was interpreted as logical $1$, and its absence as logical $0$.
