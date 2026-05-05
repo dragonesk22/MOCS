@@ -6,20 +6,32 @@
 \input{texfiles/conclusion}
 
 \section{Use of LLM tools}
+\subsection{Game of Life}
+\paragraph{RLE prompt:}  Create an rle loader to import standard Game of Life patterns directly. The output was a
+complete functional script \texttt{RLE.py} that parses strings like
+\begin{quote}
+\verb+24bo11b$22bobo11b$12b2o6b2...+
+\end{quote}
+, which encode binary patterns stored in a Wiki page.
+
 \subsection{Neuron cellular automaton}
 The code in \verb+neuron.py+ is based on \verb+gameOfLifeInteractiveToric.py+ from the lecture. We used ChatGPT to modify the code. The prompt was 
 "I would like to change the rules of the game. I need to have three different states for each cell now and new rules, how can I implement this?" and additionally added the 
 original code. This returned good instructions on where the code needs modification. Additionally, we looked up the documentation of the functions used by ChatGPT and made 
 some modifications to its suggestions.  
 
-
+\newpage
 \section*{Files submitted}
 The following files have been submitted with this report: \\
 \begin{enumerate}
-  \item \verb+common.py+
-  \item \verb+periodicPoints.py+
-  \item \verb+phasePortrait.py+
-  \item \verb+bifurcationCascade.py+
+  \item \verb+GameOfLife.py+
+  \item \verb+GameOfLifeDebug.py+
+  \item \verb+GoLogic.py+
+  \item \verb+pattern_processing.py+
+  \item \verb+RLE.py+
+  \item \verb+NOT.txt+
+  \item \verb+AND.txt+
+  \item \verb+OR.txt+
 \end{enumerate}
 
 

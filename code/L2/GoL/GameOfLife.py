@@ -126,14 +126,7 @@ elif gate == "NOT":
         plt.pause(0.025)
 
         for i in range(len(states)):
-            states[i] = F(states[i])    # Linear map
-    if mode == "constant":
-        N = convolve(X, K, mode=mode, cval=0)
-    else:
-        assert mode == "wrap", "mode must be 'wrap' or 'constant'"
-        N = convolve(X, K, mode=mode)
-    # Non-linear map
-    return ((N == 3) | ((X == 1) & (N == 2))).astype(np.uint8)
+            states[i] = F(states[i])  # Linear map
 
 
 def load_live_cells(filename, n):
@@ -159,11 +152,10 @@ else:
     x = AND(x, A=1, B=1)
 
 nsteps = 1000
-X = [None]*nsteps
+X = [None] * nsteps
 X[0] = x.copy()
-for k in range(nsteps-1):
-    X[k+1] = F(X[k])
-
+for k in range(nsteps - 1):
+    X[k + 1] = F(X[k])
 
 plt.ion()
 fig, ax = plt.subplots()

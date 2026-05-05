@@ -13,7 +13,6 @@ import numpy as np
 
 def add_pattern(x, pattern, h, k):
     """
-    Generalized by ChatGPT to also handle nd-arrays for transformations
     :param x:
     :param pattern:
     :param h: y coordinate
