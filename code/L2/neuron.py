@@ -1,7 +1,7 @@
 """
  * This code is based on 
  *
- * gameOfLifeInteractive.py
+ * gameOfLifeInteractiveToric.py
  *
  * which was given to us in the context of the Modelling Complex Systems Course 2026 at Uppsala University
  *
@@ -42,7 +42,6 @@ from matplotlib.patches import Patch
 nRows = 30
 nCols = 30
 updateIntervalMs = 100
-randomOccupancy = 0.18
 rulesText = (
   "Neuron Cellular Automaton\n\n"
   "1. A ready neuron becomes firing at the next step if exactly two of its neighbours are firing.\n"
@@ -52,15 +51,6 @@ rulesText = (
   "re-enter through the opposite edge."
 )
 
-
-'''
-presetPatterns = {
-  "Gosper": gosperGliderGunPattern,
-  "Glider": gliderPattern,
-  "Glider+Eater": gliderEaterPattern,
-  "Pulsar": pulsarPattern,
-}
-'''
 
 #new function to have three states
 def count_neighbors_by_state(grid, state):
@@ -182,7 +172,7 @@ class GameOfLifeApp:
     if self.grid[row, col] != value:
       self.grid[row, col] = value
       self.refreshDisplay()
-
+  '''
   def placePattern(self, pattern, anchorRow = None, anchorCol = None):
     if anchorRow is None:
       patternHeight = max(row for row, _ in pattern) + 1
@@ -197,9 +187,9 @@ class GameOfLifeApp:
       row = (anchorRow + rowOffset) % nRows
       col = (anchorCol + colOffset) % nCols
       self.grid[row, col] = 1
-
+  
     self.refreshDisplay()
-  '''
+  
   def loadPreset(self, name):
     if self.isRunning:
       self.toggleRun(None)
@@ -266,21 +256,9 @@ class GameOfLifeApp:
     probs = [0.7, 0.2, 0.1]  # states 0,1,2
     self.grid = np.random.choice([0,1,2], size=(nRows,nCols), p=probs)
 
-    #self.grid = (np.random.random((nRows, nCols)) < randomOccupancy).astype(int)
+    
     self.refreshDisplay()
     self.updateStatus("Random initial condition loaded.")
-
-  #def loadGosper(self, _event):
-    #self.loadPreset("Gosper")
-
-  #def loadGlider(self, _event):
-    #self.loadPreset("Glider")
-
-  #def loadGliderEater(self, _event):
-    #self.loadPreset("Glider+Eater")
-
-  #def loadPulsar(self, _event):
-    #self.loadPreset("Pulsar")
 
 
   def showRules(self, _event):
