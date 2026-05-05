@@ -11,17 +11,6 @@ $3\times 3$ kernel is used to compute the Moore neighbourhood sum $N^{(t)} = K *
 The central entry of the kernel is zero, so the cell itself is excluded from the neighbour count. The update function allows both zero-padding boundaries, set by the parameter
 \texttt{mode="constant"}.
 
-The Game of Life update rule is then applied by vectorized logical operations:
-\begin{equation}
-X^{(t+1)}
-=
-\mathbb{1}\!\left(N^{(t)} = 3\right)
-\vee
-\left[
-X^{(t)} \wedge \mathbb{1}\!\left(N^{(t)} = 2\right)
-\right].
-\end{equation}
-
 \subsubsection{Initial conditions}
 Initial conditions are generated programmatically in \texttt{GoLogic.py}. The basic building blocks are the Gosper
 glider gun and the eater, both stored in Run Length Encoding (RLE). A custom parser converts each RLE string into a
@@ -34,12 +23,6 @@ In addition, the function \texttt{load\_live\_cells(filename, n)} loads external
 \subsubsection{Logical gates}
 The logical gates \texttt{AND}, \texttt{OR}, and \texttt{NOT} are implemented by spatial arrangements of glider guns and eaters. Signals are encoded as glider streams emitted by Gosper guns. Boolean inputs are represented through the initial configuration: an input value of $1$ leaves the corresponding signal unobstructed, whereas an input value of $0$ places an eater on the signal path and suppresses propagation.
 
-For the \texttt{AND} and \texttt{OR} gates, all four input combinations were simulated,
-\[
-(A,B) \in \{(0,0),(0,1),(1,0),(1,1)\},
-\]
-while the \texttt{NOT} gate was tested for both possible input values,
-\[
-A \in \{0,1\}.
-\]
+For the \texttt{AND} and \texttt{OR} gates, all four input combinations were simulated.
+While the \texttt{NOT} gate was tested for both possible input values.
 The output was read from a designated output lane: the presence of a propagating glider stream was interpreted as logical $1$, and its absence as logical $0$.
