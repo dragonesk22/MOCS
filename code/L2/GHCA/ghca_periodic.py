@@ -16,16 +16,42 @@ import pathlib
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 from matplotlib import colors
+import sys
+import os
+import glob
 
 
-def find_periodic_state(grid: np.array, exc: int, N: int):
+def save_sequence(seq_grids, path: pathlib.Path, N: int):
+    print(f"saving sequence to {str(path)}", file=sys.stderr)
+    if path.is_dir() and path.exists():
+        to_delete = glob.glob(str(path) + "*.png")
+        for delt in to_delete:
+            os.remove(delt)
+    else:
+        path.mkdir()
+    for i in range(len(seq_grids)):
+        saveat = path.joinpath(f"{i:04d}.png")
+        print(f"saving grid to {saveat}")
+        mpl.image.imsave(saveat,
+                         np.array(seq_grids[i]),
+                         vmin=0,
+                         vmax=N,
+                         cmap="viridis",
+                         dpi=50)
+
+
+def find_periodic_state(grid: np.array, exc: int, N: int, write_seq=None):
     seen_states = [grid.tolist()]
     while True:
         grid = stepGHCA(grid, exc, N)
         if grid.tolist() in seen_states:
             first_occurred = seen_states.index(grid.tolist())
-            print(f"found periodic state, transient: {first_occurred} steps,"
-                  f" period: {len(seen_states)-first_occurred}")
+            print(
+                f"found periodic state, transient: {first_occurred} steps,"
+                f" period: {len(seen_states)-first_occurred} steps",
+                file=sys.stderr)
+            if write_seq is not None:
+                save_sequence(seen_states[first_occurred:], write_seq, N)
             return grid
         else:
             seen_states.append(grid.tolist())
@@ -60,6 +86,11 @@ def main():
                     type=int)
     ap.add_argument("filename", nargs="?", type=pathlib.Path)
     ap.add_argument("-o", "--output", nargs="?", type=pathlib.Path)
+    ap.add_argument("--save-image",
+                    nargs="?",
+                    type=pathlib.Path,
+                    help="Path to save graphical version of periodic state as")
+    ap.add_argument("--sequence-dir", nargs="?", type=pathlib.Path)
     args = ap.parse_args()
 
     if args.num_states < 3:
@@ -76,22 +107,29 @@ def main():
     grid = random_grid(
         args.size,
         args.num_states) if args.filename is None else read_and_parse_grid(
-            args.filename)
+            args.filename, args.size)
 
-    periodic_state = find_periodic_state(grid, args.excited, args.num_states)
+    periodic_state = find_periodic_state(grid, args.excited, args.num_states,
+                                         args.sequence_dir)
     if args.output is not None:
         write_grid_to_file(periodic_state, args.output)
 
-    if args.show:
-        fig, (ax, colorax) = plt.subplots(ncols=2, width_ratios=[10, 1])
+    if args.show or args.save_image is not None:
+        fig, (ax, colorax) = plt.subplots(ncols=2, width_ratios=[20, 1])
         cmap = mpl.colormaps["viridis"].resampled(args.num_states)
-        img = ax.imshow(grid, cmap=cmap)
+        img = ax.imshow(periodic_state, cmap=cmap)
         colornorm = colors.BoundaryNorm(np.arange(-0.5, args.num_states + 0.5),
                                         cmap.N)
         cbar = plt.colorbar(plt.cm.ScalarMappable(norm=colornorm, cmap=cmap),
                             cax=colorax)
         cbar.set_ticks(range(args.num_states))
-        plt.show()
+        plt.tight_layout()
+        if args.save_image is not None:
+            fig.savefig(args.save_image)
+        if args.show:
+            plt.show()
+        else:
+            plt.close(fig)
 
 
 if __name__ == "__main__":

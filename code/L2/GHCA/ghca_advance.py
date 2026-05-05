@@ -60,6 +60,10 @@ def main():
                     default="0")
     ap.add_argument("filename", nargs="?", type=pathlib.Path)
     ap.add_argument("-o", "--output", nargs="?", type=pathlib.Path)
+    ap.add_argument("--save-image",
+                    nargs="?",
+                    type=pathlib.Path,
+                    help="Path to save graphical version of final state as")
     args = ap.parse_args()
 
     if args.num_states < 3:
@@ -77,8 +81,11 @@ def main():
             args.filename, args.size)
     grid = grid.astype(np.uint8 if args.num_states < 256 else np.int)
 
-    if args.show:
+    if args.show or args.save_image is not None:
         fig, (ax, colorax) = plt.subplots(ncols=2, width_ratios=[10, 1])
+        fig.suptitle(
+            f"GHCA with size {args.size}x{args.size} with $N={args.num_states}$, $e={args.excited}$"
+        )
         cmap = mpl.colormaps["viridis"].resampled(args.num_states)
         colornorm = colors.BoundaryNorm(np.arange(-0.5, args.num_states + 0.5),
                                         cmap.N)
@@ -86,8 +93,15 @@ def main():
         cbar = plt.colorbar(plt.cm.ScalarMappable(norm=colornorm, cmap=cmap),
                             cax=colorax)
         cbar.set_ticks(range(args.num_states))
-        plt.show(block=False)
+        fig.canvas.draw()
+        plt.tight_layout()
+        if args.show:
+            plt.show(block=False)
 
+    if args.show:
+        img.set_data(grid)
+        fig.canvas.draw()
+        fig.canvas.flush_events()
     for _ in range(args.nsteps):
         grid = stepGHCA(grid, args.excited, args.num_states)
         if args.show:
@@ -95,11 +109,16 @@ def main():
             fig.canvas.draw()
             fig.canvas.flush_events()
         time.sleep(args.delay)
+        if not grid.any():
+            break
         #plt.imshow(grid)
         #plt.show()
 
     if args.output is not None:
         write_grid_to_file(grid, args.output)
+
+    if args.save_image is not None:
+        fig.savefig(args.save_image)
 
     if args.show:
         plt.imshow(grid, cmap="viridis")

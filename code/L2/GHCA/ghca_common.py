@@ -15,6 +15,7 @@ import numpy as np
 import itertools
 import pathlib
 import re
+import sys
 
 
 def stepGHCA(grid: np.array, exc: int, N: int):
@@ -25,22 +26,15 @@ def stepGHCA(grid: np.array, exc: int, N: int):
     exc: number of excited states
     N: number of total states
     """
-    print(grid)
-    print(f"grid shape: {grid.shape}")
     neighbours = np.dstack([
         np.roll(grid, i, axis=j)
         for (i, j) in itertools.product([-1, 1], [0, 1])
     ])
-    print(f"neighbours shape: {neighbours.shape}")
-    print(neighbours)
     next_grid = np.zeros_like(grid)
     next_grid[grid > 0] = (grid[grid > 0] + 1) % N
-    print(next_grid)
     now_excited = np.any(
         (neighbours > 0) & (neighbours <= exc), axis=2) & (grid == 0)
-    print(now_excited)
     next_grid[now_excited] = 1
-    print(next_grid)
     return next_grid
 
 
@@ -54,7 +48,7 @@ def random_grid(size: int,
     return grid
 
 
-def read_and_parse_grid(file: pathlib.Path, size: int):
+def read_and_parse_grid(file: pathlib.Path, size: int, debug=False):
     grid = np.zeros((size, size))
     parse_regex = re.compile(r"^\((\d+),(\d+),(\d+)\)$")
     with file.open() as f:
@@ -62,11 +56,12 @@ def read_and_parse_grid(file: pathlib.Path, size: int):
             line = line.strip()
             if len(line) == 0:
                 continue
-            print(line)
+            if debug:
+                print(line, file=sys.stderr)
             try:
                 x, y, val = [int(i) for i in parse_regex.match(line).groups()]
             except Exception:
-                print(f"can't parse line '{line}', skipping")
+                print(f"can't parse line '{line}', skipping", file=sys.stderr)
             grid[x, y] = val
     return grid
 
