@@ -1,8 +1,8 @@
 \section{Problem statement}
 
-In this lab we will be investigating classical examples of cellular automata. Cellular automata are ...
+A cellular automaton is built by defining a grid and interaction rules between neighbours. Each point in the grid is a cell, which can inhabit a finite amount of different states, and the interaction rules can switch the state of each cell individually. In this project, we will look into the three types of cellular automata. The first one is Conway's Game of Life, the second one is a simple three-state automaton and the third one is Greenberg-Hastings cellular automaton (GHCA). The different systems are described later in their own subsections of this report.
 
-The goal of the lab is to investigate how simple sets of rules like Defitions (\ref{conwayrules}, \ref{neuronrules} \& \ref{def:GHCArules}) on lattice graphs:
+These systems can exhibit interesting behaviour through simple, local rules. One can observe emergence, macroscopic effects which are difficult to derive from the microscopic interactions between neighbours. Such behaviour is varied and different between each system and allows for representations of real-world systems, e.g. emulating logical gates in Conway's Game of Life or the firing of neurons in the simple automata. More precisely, the local interaction rules can:
 \begin{enumerate}
 \item Give rise to discrete dynamical systems, and how different initial conditions affect the state of the system over time.
 \item Manifest the causal dependence to complex phenomena like
@@ -10,9 +10,8 @@ The goal of the lab is to investigate how simple sets of rules like Defitions (\
     \item Turing completeness
     \item Universal computation (both via. realisation of a Boolean basis)
     \item Simulation of neuron activation
-    \item Stability and oscillatory behaviour in lattice-based dynamical systems $S^\Lambda$, where $\Lambda \subset \mathbb{Z}^d$ and $S$ is a finite alphabet
-     (e.g.\ $\{0,1\}$, \{firing, resting, ready\} or \{resting, excitation, refractory\}), in comparison with dynamical systems on continuous function spaces.
+    \item Stability and oscillatory behaviour in lattice-based dynamical systems $S^\Lambda$, where $\Lambda \subset \mathbb{Z}^d$ and $S$ is a finite alphabet (e.g. \{0,1\}, \{firing, resting, ready\} or \{resting, excitation, refractory\}), in comparison with dynamical systems on continuous function spaces.
     \end{itemize}
 \end{enumerate}
 
-All of these tasks will give us an overview of the characteristics in cellular automata ...
+The models make up clear examples of a complex dynamical systems, whose time evolution can offer seemingly chaotic behaviour. The aim of this project is to simulate and study this phenomenon for the three different cellular automata.
