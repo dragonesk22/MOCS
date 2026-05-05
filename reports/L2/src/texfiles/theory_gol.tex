@@ -88,7 +88,7 @@ can, under Conway's rules, evolve so as to realize deterministic, time-dependent
 
 First, we need to construct an initial geometry that evolves, under Conway's rules, into a space-time signal. For 
 this we could use a train of \textit{gliders} that travels periodically and diagonally across the lattice
-\cite{gliderwiki}. To get an arbitrary length of space-time signals we migh use \textit{guns} that generate 
+\cite{gliderwiki}. To get an arbitrary length of space-time signals we might use \textit{guns} that generate 
 gliders \cite{glidergunwiki}. The trajectories along which gliders evolve act as rigid wiring, thereby constraining
 the direction of information flow. In the absence of any interference, the signal propagates persistently along these paths.
 To obtain a richer computational structure, this simple stream of gliders (interpretable as a sequence of 1s) must be
@@ -120,7 +120,7 @@ Signal generation is achieved using the Gosper glider gun, which produces a peri
 \item \textbf{Signal 1} \texttt{(TRUE)}: This is represented by the \textbf{prescence} of a \textbf{glider}. This
 signal propagates dynamically across a spatial lane across the lattice in fixed intercardinal directions.
 \item \textbf{Signal 0} \texttt{(FALSE)}: Defined as the \textbf{inexistence} of a \textbf{glider}.  Its realization
-depends on observation point there are two basic cases
+depends on the observation point. There are two basic cases:
     \begin{itemize}
     \item \textbf{Blocking}: Physically \textit{obstructing} a Gosper gun.
     \item \textbf{Annihilation}: Using collision trajectories or \textit{eaters} to remove a glider from the stream
@@ -136,7 +136,7 @@ Logic is performed through the interaction of these signals. Because gliders are
 \item \textbf{Glider-Glider Collision}: These collisions are different depending on their spatiotemporal initial
 configuration.
     \begin{itemize}
-    \item Requires: Antiparallel streams \&precies phase sync.
+    \item Requires: Antiparallel streams \& precise phase sync.
     \item Result: \textbf{Mutual Annihilation} (functioning as a switch) \textit{or} \textbf{Fragmentation}. It also
     induces a space-dependent signal delay.
     \end{itemize}
@@ -162,7 +162,7 @@ reflections to the initial gun configuration to ensure the output vector aligns 
 
 \paragraph{Synchorinization.} If the observation window is checked at generation $T$, but the glider arrives at $T+1$,
 the \texttt{READ} might detect a partial pattern (fragmentation) or an empty box, resulting in a false \textbf{0}.
-Strictly speaking, on could a priori calculate the Manhattan distance the glider travels to ensure the output is
+Strictly speaking, one could a priori calculate the Manhattan distance the glider travels to ensure the output is
 sampled only when the signal has had enough generations to reach the observation box.
 
 \subsubsection{Initial conditions for the different gates}
