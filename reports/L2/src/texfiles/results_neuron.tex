@@ -1,14 +1,25 @@
 \subsection{Neuron Automaton Results}
 
 
-Using random initial conditions in the neuron automation usually led to either the whole system eventually dying out and being inert in the "ready" condition or to infinitely forward moving gliders appearing. By experimenting several initial conditions were constructed that would lead to interesting developments of the system such as a periodic oscillator or a pattern that infinitely generates more moving patterns. Some interesting initial conditions are pictured below. 
+Using random initial conditions in the neuron automation usually led to either the whole system eventually dying out and being inert in the "ready" condition or to stable, infinitely forward moving gliders appearing. An example of a random initial pattern evolving into stable gliders is shown in figure \ref{fig:random}.
 
-First, a number of infinitely moving gliders were identified. Figure \ref{fig:gliders} shows three examples. Those kinds of patterns move infinitely in their initial direction unless they collide with another pattern.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\linewidth]{figs/neuron/gliders.png}
-    \caption{Three examples of infinitely moving patterns. The two patterns on the left move in the upward direction and the one on the right moves diagonally down and right.}
+    \includegraphics[width=0.5\linewidth]{figs/neuron/random.png}
+    \caption{1) a random initial condition for the automation 2) system after evolving into a stable state with two infinitely moving gliders.}
+    \label{fig:random}
+\end{figure}
+
+By experimenting, several initial conditions were constructed that would lead to interesting developments of the system such as a periodic oscillator or a pattern that infinitely generates more moving patterns. Some interesting initial conditions are pictured below. 
+
+First, a number of infinitely moving gliders were identified. Those kinds of patterns move infinitely in their initial direction unless they collide with another pattern. 
+Since the grid boundary conditions are periodical the infinite movement is represented by periodically crossing one boundary and appearing on another. Figure \ref{fig:gliders} shows three such examples. In this as well as the other figures of this section black indicates the ready state, red indicates the firing state and white indicates the resting state. 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{figs/neuron/gliders.png}
+    \caption{Three examples of infinitely moving patterns. The two patterns on the left move in the upward direction and the one on the right moves diagonally to the lower-right.}
     \label{fig:gliders}
 \end{figure}
 
@@ -16,7 +27,7 @@ By having two simple gliders collide with eachother using the initial conditions
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\linewidth]{figs/neuron/bouncer.png}
+    \includegraphics[width=0.5\linewidth]{figs/neuron/bouncer.png}
     \caption{Initial condition that leads to two gliders bouncing in a 90 degree angle}
     \label{fig:bouncer}
 \end{figure}
@@ -25,7 +36,7 @@ It is also possible to set up a pattern that stays in the same location and osci
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\linewidth]{figs/neuron/oscillator.png}
+    \includegraphics[width=0.5\linewidth]{figs/neuron/oscillator.png}
     \caption{A three step oscillating pattern}
     \label{fig:oscillator}
 \end{figure}
@@ -34,7 +45,7 @@ Figure \ref{fig:rake} shows a pattern that moves forward and periodically create
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\linewidth]{figs/neuron/rake_full.png}
+    \includegraphics[width=0.5\linewidth]{figs/neuron/rake_full.png}
     \caption{A pattern that while moving forward creates other moving patterns. 1) initial condition 2) system after some steps. the bottom two shapes are gliders moving to the left and right.}
     \label{fig:rake}
 \end{figure}
