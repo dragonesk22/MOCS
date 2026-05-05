@@ -1,6 +1,5 @@
 \subsection{Neuron Cellular Automaton}
-The script for the implementation of the neuron cellular automaton is \verb+neuron.py+. The code is based on \verb+gameOfLifeInteractiveToric.py+, which was available on the 
-Studium page of the course.
+The script for the implementation of the neuron cellular automaton is \verb+neuron.py+. The code is based on \verb+gameOfLifeInteractiveToric.py+, which was available on the Studium page of the course. The code can be run using command \verb+python3 neuron.py+.
 
 Now, we will present how the code works. At first, the number of rows and columns of the grid as well the speed of the simulation are defined. 
 Additionally, the rules text is added. This text is displayed when clicking the "rules"-button while running the script. 
@@ -15,5 +14,4 @@ In the constructor of the \verb+GameOfLifeApp+ class the visualisation is define
 The time step for the continuous run is defined as well. 
 
 The following parameters are fixed in the code: the number of rows and columns is set to 30 each. For the random population of the grid, 
-the probability for state 0 is 0.7, for state 1 the probability is 0.2 and 0.1 for state 2. Initially, all cells are in state 0 (resting). Clicking once sets them to
-state 1 and clicking another time to state 2. 
+the probability for state 0 is 0.1, for state 1 the probability is 0.8 and 0.1 for state 2. Initially, all cells are in state 1 (ready). Clicking once sets them to state 2 (firing) and clicking another time to state 0 (resting). 
