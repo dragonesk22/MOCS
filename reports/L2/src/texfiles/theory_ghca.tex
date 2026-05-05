@@ -1,6 +1,22 @@
-\subsection{GHCA theory}
-The Greenberg-Hastings Cellular Auomaton, GHCA for short, is a Cellular Automaton with three distinct categories of cell states.
-The first category consists of just a single state and is the \texttt{ready} state, assigned the numerical value $0$ in our implementation.
-This state is the only one that can survive a step unchanged while for the others the value always gets incremented by one.
-The second category is \texttt{firing}.
-A total of $e$ states are firing where $e$ is an input parameter, this corresponds to the values $1$ to $e$ being the firing states in our model.
+\subsection{Greenberg-Hastings Cellular Automaton - Theory}
+
+The Greenberg-Hastings Cellular Automaton (GHCA) is a model defined on an $n\times n$ square lattice with $N$ different states for each cell. The grid evolves according to the rules presented in the following definition.
+
+\begin{definitionbox}[label=def:GHCArules]{GHCA rules \cite{Lecture}}
+On the square lattice, each cell can inhabit a "resting" state, in which it remains until activation. The cell can undergo "excitement", which means it exits the resting state and starts evolving through the $e-1$ excited states available. The cell will then reach the "refractory" states, of which there are $N-e-1$. In total, there are $N$ states. Each cell interacts with itself and with other cells in its Neumann neighbourhood, which include the 4 closest, non-diagonal, neighbours. The cell evolves according to the following rules:
+\begin{enumerate}
+\item \textbf{Resting}: A cell finds itself in this state a time-step after being in the final refractory state.
+
+State $N \rightarrow$ State $0$.
+\item \textbf{Excitation}: If a resting cell has at least one neighbour in the excited state, it turns excited in the next step. If the cell already is in one of the excited states, it evolves into the next excited state in the next time-step.
+
+State $0 \leq k < e \rightarrow$ State $0 < k+1 \leq e$.
+\item \textbf{Refractory}: A cell changes to the initial refracted state one time-step after reaching the final excited state. It then continues to evolve into each subsequent refractory state for each time-step. If the cell is in the final refractory state, next time-step sees it return to the resting state.
+
+State $e \leq k < N \rightarrow$ State $e < k+1 \leq N$.
+\end{enumerate}
+\end{definitionbox}
+
+The GHCA can be described as the following set: $u^{(t)} = (0,1,\dots,e,e+1\dots,N)^{n\times n}$, where $u^{(t)}_{(i,j)}$ gives the state of the cell at position $(i,j)$ in the grid at time $t$. In the equality, the $0$ denotes the resting state, the $1, \dots , e$ denote the excited states and the $e+1, \dots, N$ denote the refractory states. It can also be viewed as a discrete dynamical system 
+
+GHCA is a dynamical model, which can start from whichever initial state and evolve according to the rules in definition \ref{def:GHCArules}. The evolution is difficult to predict, which makes this a chaotic system. As each cell can inhabit $N$ possible states and there are $n^2$ cells in the grid, which in turn gives the cardinality of the set of all possible initial conditions to be $N^{n^{2}}$.
