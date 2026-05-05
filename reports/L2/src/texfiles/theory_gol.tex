@@ -56,7 +56,7 @@ computational fidelity.
 \subsection{Encoding of Inputs}
 
 \begin{definitionbox}[label=signalencoding]{Encoding binary signals}
-Signal generation is achieved using the Gosper glider gun, which produces a periodic sequence of gliders with fixed phase and spacing. Through geometric transformations (rotations and reflections), identical guns can be oriented to produce signals in any required intercardinal direction. Each gun occupies a finite region of the lattice (for the canonical gun, $36 \times 9$ cells), but its function is not the static occupancy of this region; rather, it continuously emits a sequence of mobile patterns that carry information across the lattice. Consequently, the encoding is fundamentally dynamic and cannot be reduced to a fixed memory footprint.
+Signal generation is achieved using the Gosper glider gun, which produces a periodic sequence of gliders with fixed phase and spacing. Through geometric transformations (rotations and reflections), identical guns can be oriented to produce signals in any required intercardinal direction.
 \newline
 
 \begin{enumerate}
@@ -103,8 +103,7 @@ define a static bounding box of 4×4 cells at a specific coordinate $(x,y)$ on t
 dynamic pattern that fits within $4\times 4$ area during its four-generation cycle. The output is considered to have
 the assigned \texttt{TRUE} value if the correct number of  live cells within the $4 \times 4$, and the distribution are characteristic of the glider.
 
-\subsubsection{Synchorinization}
+\subsubsection{Synchronization}
 If the observation window is checked at generation $T$, but the glider arrives at $T+1$,
-the \texttt{READ} might detect a partial pattern (fragmentation) or an empty box, resulting in a false \texttt{0}.
-Strictly speaking, one could a priori calculate the Manhattan distance the glider travels to ensure the output is
-sampled only when the signal has had enough generations to reach the observation box.
+the \texttt{READ} might detect a partial pattern (fragmentation) or an empty box, resulting in a false \texttt{0} or
+instabilities.
