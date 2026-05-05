@@ -5,6 +5,7 @@
 \section{Conclusion}
 \input{texfiles/conclusion}
 
+\newpage
 \section{Use of LLM tools}
 \subsection{Game of Life}
 \paragraph{RLE prompt:}  Create an rle loader to import standard Game of Life patterns directly. The output was a
@@ -14,10 +15,12 @@ complete functional script \texttt{RLE.py} that parses strings like
 \end{quote}
 , which encode binary patterns stored in a Wiki page.
 
-\subsection{Game of Life}
-\paragraph{Text Files prompt:}  Generate three text files containing the initial live-cell coordinates for an AND gate, an OR gate, and a NOT gate. The files should be called \texttt{AND.txt}, \texttt{OR.txt}, and \texttt{NOT.txt}. Each file should contain one live cell per line, written in the format \texttt{(x,y)}.
-
+\paragraph{Text Files prompt:}  Generate three text files containing the initial live-cell coordinates for an AND gate, an OR gate, and a NOT gate. The files should be called \texttt{AND.txt}, \texttt{OR.txt}, and \texttt{NOT.txt}. Each file should contain one live cell per line, written in the format \texttt{(x,y)}
 This was used to generate possible text files, so one can try running them with the code.
+
+\paragraph{Debug interface prompt:} Take the simple visualization of the precomputed Game of Life and add functionality so that space bar works as pause/play
+ and left/right as previous/next frames and output the python file \texttt{GameOfLifeDebug.py}. This was used for quick prototyping of the engineering of the
+  logic gates.
 
 
 
