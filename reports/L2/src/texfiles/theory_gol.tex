@@ -57,8 +57,6 @@ computational fidelity.
 
 \begin{definitionbox}[label=signalencoding]{Encoding binary signals}
 Signal generation is achieved using the Gosper glider gun, which produces a periodic sequence of gliders with fixed phase and spacing. Through geometric transformations (rotations and reflections), identical guns can be oriented to produce signals in any required intercardinal direction.
-\newline
-
 \begin{enumerate}
 \item \textbf{Signal 1} \texttt{(TRUE)}: This is represented by the \textbf{prescence} of a \textbf{glider}. This
 signal propagates dynamically across a spatial lane across the lattice in fixed intercardinal directions.
@@ -73,7 +71,6 @@ depends on the observation point. There are two basic cases:
 \begin{definitionbox}[label=sigintmech]{Signal Interaction Mechanics}
 Logic is performed through the interaction of these signals. Because gliders are sensitive to
 \textbf{synchronization}, the timing of these interactions is as important as their location.
-\newline
 
 \begin{enumerate}
 \item \textbf{Glider-Glider Collision}: These collisions are different depending on their spatiotemporal initial
@@ -97,13 +94,11 @@ output of a gate is not solely a boolean value, but a \textbf{vector}. Since the
 intercardinal diagonals (NE, NW, SE, SW), the observation window must be placed precisely in the \textit{firing lane} of
 the logic gate's exit path.
 
-\subsubsection{Observation Window \& Detection logic}
+\subsubsection{Observation Window, Detection logic \& Synchronization}
 To detect a 1 signal (the presence of a glider), the observer must
 define a static bounding box of 4×4 cells at a specific coordinate $(x,y)$ on the lattice. Because a glider is a
 dynamic pattern that fits within $4\times 4$ area during its four-generation cycle. The output is considered to have
 the assigned \texttt{TRUE} value if the correct number of  live cells within the $4 \times 4$, and the distribution are characteristic of the glider.
-
-\subsubsection{Synchronization}
 If the observation window is checked at generation $T$, but the glider arrives at $T+1$,
 the \texttt{READ} might detect a partial pattern (fragmentation) or an empty box, resulting in a false \texttt{0} or
 instabilities.
