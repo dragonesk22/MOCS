@@ -1,14 +1,16 @@
 \subsection{Theory}
 
 
-Similar to the Game of Life, the neuron automaton is a two-dimensional cellular automaton. Each cell can be in one of three states: "ready", "resting", and "firing". The state of each cell at the next time step is determined by its current state of the cell and the states of its eight neighbors according to the following rules:
+Similar to the Game of Life, the neuron automaton is a two-dimensional cellular automaton. 
+Each cell can be in one of three states: "ready", "resting", and "firing". 
+The state of each cell at the next time step is determined by the current state of the cell and the states of its eight neighbors according to the following rules:
 
 \begin{definitionbox}[label=neuronrules]{Neuron cellular automata rules}
 \begin{enumerate}
-\item \textbf{Firing}: a cell in the "ready" state will transition to the "firing" state in the next time step if it has at least two neighbors in the "firing" state.
+\item \textbf{Firing}: a cell in the "ready" state will transition to the "firing" state in the next time step if it has exactly two neighbors in the "firing" state.
 \item \textbf{Resting}: a cell in the "firing" state will transition to the "resting" state in the next time step.
 \item \textbf{Ready}: a cell in the "resting" state will transition to the "ready" state in the next time step.
 \end{enumerate}
 \end{definitionbox}
 
-This kind of cellural automata simulates the behavior of neurons in a simplified way. The ready to firing to resting cycle mimics the action potential of a neuron, where a neuron fires when it receives enough stimulation from its neighbors and then goes through a refractory period before it can fire again. The interactions between cells can lead to complex patterns, including waves of activity and oscillations, which are reminiscent of neural activity in the brain.    
+This kind of cellular automaton simulates the behavior of neurons in a simplified way. The ready to firing to resting cycle mimics the action potential of a neuron, where a neuron fires when it receives enough stimulation from its neighbors and then goes through a refractory period before it can fire again. The interactions between cells can lead to complex patterns, including waves of activity and oscillations, which are reminiscent of neural activity in the brain.    
