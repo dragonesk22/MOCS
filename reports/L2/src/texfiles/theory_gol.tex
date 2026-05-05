@@ -1,6 +1,6 @@
 \subsection{Game of Life as a discrete dynamical system}
-Conway's Game of Life can be viewed as a discrete dynamical system on a rectangular lattice
-$X^{(t)} \in \{0,1\}^{m \times n}$, where each entry $X_{ij}^{(t)}$ represents the state of the cell
+Conway's Game of Life can be viewed as a discrete dynamical system on a rectangular
+lattice $X^{(t)} \in \{0,1\}^{m \times n}$, where each entry $X_{ij}^{(t)}$ represents the state of the cell
 at site $(i,j)$ at time $t$. The evolution of the system is determined by update rules that specify
 the state of each cell at the next time step, $X_{ij}^{(t+1)}$.
 
@@ -113,28 +113,3 @@ reflections to the initial gun configuration to ensure the output vector aligns 
 the \texttt{READ} might detect a partial pattern (fragmentation) or an empty box, resulting in a false \textbf{0}.
 Strictly speaking, one could a priori calculate the Manhattan distance the glider travels to ensure the output is
 sampled only when the signal has had enough generations to reach the observation box.
-
-\subsubsection{Initial conditions for the different gates}
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=.65\textwidth]{figs/GoL/NOT_IC}
-  \caption{Two Gosper glider guns: the left gun provides a constant input stream, while the input channel injects gliders traveling in the south-east direction. No input is encoded by inserting an eater in the SE input stream. The output is read as gliders propagating in the south-west direction.}
-  \label{fig:NOT_0}
-\end{figure}
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=.75\textwidth]{figs/GoL/AND_IC}
-  \caption{Three Gosper glider guns: the two leftmost generate south-east-directed input streams. An eater suppresses the south-west output unless both inputs
-   are present. In the absence of inputs, additional eaters are placed along the collision paths to block spurious gliders. The output is read as a
-   south-east-directed stream.}
-  \label{fig:AND_0}
-\end{figure}
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=.75\textwidth]{figs/GoL/OR_IC}
-  \caption{Four Gosper glider guns: the second and third generate south-east-directed input streams. Logical zeros are implemented by placing eaters along the input collision paths. The output is read as a south-east-directed stream.}
-  \label{fig:OR_0}
-\end{figure}
