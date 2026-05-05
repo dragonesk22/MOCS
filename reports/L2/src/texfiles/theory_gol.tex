@@ -1,6 +1,6 @@
 \subsection{Game of Life as a discrete dynamical system}
-Conway's Game of Life can be viewed as a discrete dynamical system on a rectangular lattice
-$X^{(t)} \in \{0,1\}^{m \times n}$, where each entry $X_{ij}^{(t)}$ represents the state of the cell
+Conway's Game of Life can be viewed as a discrete dynamical system on a rectangular
+lattice $X^{(t)} \in \{0,1\}^{m \times n}$, where each entry $X_{ij}^{(t)}$ represents the state of the cell
 at site $(i,j)$ at time $t$. The evolution of the system is determined by update rules that specify
 the state of each cell at the next time step, $X_{ij}^{(t+1)}$.
 
@@ -58,7 +58,6 @@ computational fidelity.
 
 \subsubsection{Encoding of Inputs}
 
-
 \begin{definitionbox}[label=signalencoding]{Encoding binary signals}
 Signal generation is achieved using the Gosper glider gun, which produces a periodic sequence of gliders with fixed phase and spacing. Through geometric transformations (rotations and reflections), identical guns can be oriented to produce signals in any required intercardinal direction. Each gun occupies a finite region of the lattice (for the canonical gun, $36 \times 9$ cells), but its function is not the static occupancy of this region; rather, it continuously emits a sequence of mobile patterns that carry information across the lattice. Consequently, the encoding is fundamentally dynamic and cannot be reduced to a fixed memory footprint.
 \newline
@@ -87,7 +86,7 @@ configuration.
     \item Result: \textbf{Mutual Annihilation} (functioning as a switch) \textit{or} \textbf{Fragmentation}. It also
     induces a space-dependent signal delay.
     \end{itemize}
-    \item \textbf{Glider-Eater Interaction}: These interactions are \("\)less\("\) sensitive to synchronization.
+    \item \textbf{Glider-Eater Interaction}: These interactions are \textit{less} sensitive to synchronization.
     \begin{itemize}
     \item Requires: Specific placement/orientation of the Eater.
     \item Result: \textbf{Glider Annihilation/Absorpbtion} or \textbf{fragmentation}.
@@ -96,9 +95,12 @@ configuration.
 \end{definitionbox}
 
 \subsubsection{Reading outputs}
-Reading the state of a logic gate in the Game of Life is a measurement of \textbf{spatial-temporal presence}. The output of a gate is not solely a boolean value, but a \textbf{vector}. Since the gliders only propagate along intercardinal diagonals (NE,NW,SE,SW), the observation window must be placed precisely in the "firing line" of the logic gate's exit path.
+Reading the state of a logic gate in the Game of Life is a measurement of \textbf{spatial-temporal presence}. The
+output of a gate is not solely a boolean value, but a \textbf{vector}. Since the gliders only propagate along
+intercardinal diagonals (NE, NW, SE, SW), the observation window must be placed precisely in the \texit{firing lane} of
+the logic gate's exit path.
 
-\paragraph{$4 \times 4$ Observation Window.} To detect a "1" signal (the presence of a glider), the observer must
+\paragraph{$4 \times 4$ Observation Window.} To detect a 1 signal (the presence of a glider), the observer must
 define a static bounding box of 4×4 cells at a specific coordinate $(x,y)$ on the lattice. Because a glider is a
 dynamic pattern that fits within $4\times 4$ area during its four-generation cycle.
 \paragraph{Detection logic.} The output is considered to have the assigned \texttt{TRUE} value if the correct number of
@@ -111,28 +113,3 @@ reflections to the initial gun configuration to ensure the output vector aligns 
 the \texttt{READ} might detect a partial pattern (fragmentation) or an empty box, resulting in a false \textbf{0}.
 Strictly speaking, one could a priori calculate the Manhattan distance the glider travels to ensure the output is
 sampled only when the signal has had enough generations to reach the observation box.
-
-\subsubsection{Initial conditions for the different gates}
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=.65\textwidth]{figs/GoL/NOT_IC}
-  \caption{Two Gosper glider guns: the left gun provides a constant input stream, while the input channel injects gliders traveling in the south-east direction. No input is encoded by inserting an eater in the SE input stream. The output is read as gliders propagating in the south-west direction.}
-  \label{fig:NOT_0}
-\end{figure}
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=.75\textwidth]{figs/GoL/AND_IC}
-  \caption{Three Gosper glider guns: the two leftmost generate south-east-directed input streams. An eater suppresses the south-west output unless both inputs
-   are present. In the absence of inputs, additional eaters are placed along the collision paths to block spurious gliders. The output is read as a
-   south-east-directed stream.}
-  \label{fig:AND_0}
-\end{figure}
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=.75\textwidth]{figs/GoL/OR_IC}
-  \caption{Four Gosper glider guns: the second and third generate south-east-directed input streams. Logical zeros are implemented by placing eaters along the input collision paths. The output is read as a south-east-directed stream.}
-  \label{fig:OR_0}
-\end{figure}
