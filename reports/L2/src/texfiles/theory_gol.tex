@@ -24,10 +24,7 @@ N_{ij}^{(t)} =
 \sum_{p=-1}^1 \sum_{q=-1}^1 K_{p+2,q+2} X_{i+p,j+q}^{(t)},
 \end{equation}
 
-where $K$ is a $3 \times 3$ kernel with ones except the center entry that is equal to zero. Equivalently,
-\begin{equation}
-N^{(t)} = K * X^{(t)},
-\end{equation}
+where $K$ is a $3 \times 3$ kernel with ones except the center entry that is equal to zero. Equivalently $N^{(t)} = K * X^{(t)},$
 where $K * X^{(t)}$ denotes the convolution of the lattice $X^{(t)}$ with the kernel $K$.
 
 The update rule can then be written as
