@@ -15,6 +15,8 @@ import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 from matplotlib import rc
 from RLE import parse_rle
+rc('text', usetex=True)
+rc('font', family='serif', size=12)
 
 gosper_gun ="""
 #N Gosper glider gun
@@ -266,7 +268,9 @@ x = np.zeros((n, n), dtype=np.uint8)
 #x = OR(x, A=1, B=1)
 #x = NOT(x, A=1)
 #x = AND2(x, A=1, B=0)
-x = NOT2(x)
+#x = NOT2(x, A=1)
+
+x = AND2(x, A=1, B=1)
 
 
 nsteps = 1000
@@ -285,8 +289,7 @@ state = {'frame': 0, 'paused': False}
 def _update_title():
     status = 'PAUSED' if state['paused'] else 'PLAYING'
     ax.set_title(
-        f'step {state["frame"]:04d} / {nsteps - 1}   [{status}]  '
-        r'$\leftarrow$ / $\rightarrow$ step   SPACE pause',
+        f'AND-gate initial condition $t = {state["frame"]}$, ',
         fontsize=9
     )
     # Title is not part of blit artists, so force a full draw on title changes
@@ -316,6 +319,9 @@ def on_key(event):
         im.set_data(X[state['frame']])
         _update_title()
 
+    elif event.key == 's':
+        plt.savefig('output.pdf', format='pdf', dpi=200)
+
 
 # ── Figure setup ──────────────────────────────────────────────────────────────
 
@@ -324,8 +330,7 @@ fig, ax = plt.subplots()
 im = ax.imshow(X[0].astype(np.float32), cmap='binary',
                interpolation='nearest', vmin=0, vmax=1,
                animated=True)          # <-- marks this artist for blit
-ax.set_xticks([])
-ax.set_yticks([])
+
 _update_title()
 
 fig.canvas.mpl_connect('key_press_event', on_key)

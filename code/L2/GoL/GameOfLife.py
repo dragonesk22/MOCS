@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 from matplotlib import rc
 from GoLogic import AND, OR, NOT
 
-rc('text', usetex=False)
+rc('text', usetex=True)
 rc('font', family='serif', size=12)
 
 
@@ -58,7 +58,6 @@ def build_gate(gate, n, A, B=0):
 n = 400
 nsteps = 1000
 gate = "NOT"
-
 plt.ion()
 
 if gate in ["AND", "OR"]:
@@ -77,23 +76,37 @@ if gate in ["AND", "OR"]:
         im = axs[i].imshow(x, cmap="binary", interpolation="nearest", origin="upper")
         images.append(im)
 
-        axs[i].set_title(f"{gate}: A={A}, B={B}", fontsize=14)
-        axs[i].set_xlabel("x")
-        axs[i].set_ylabel("y")
-        axs[i].set_xlim(0, 220)
-        axs[i].set_ylim(220, 0)
-        axs[i].set_xticks(np.arange(0, 221, 50))
-        axs[i].set_yticks(np.arange(0, 221, 50))
+        axs[i].set_title(f"{gate}: $A={A}$, $B={B}$", fontsize=14)
+        axs[i].set_xlabel("$x$")
+        axs[i].set_ylabel("$y$")
+        axs[i].set_xlim(0, 160)
+        axs[i].set_ylim(100, 0)
+
+    suptitle = fig.suptitle(f"{gate}-gate, $t = 0$", fontsize=18)
+
+    # Initial draw once, then cache the background for fast redraws
+    fig.canvas.draw()
+    background = fig.canvas.copy_from_bbox(fig.bbox)
 
     for k in range(nsteps):
-        for i in range(len(states)):
-            images[i].set_data(states[i])
+        # Update the automaton first
+        states = [F(s) for s in states]
 
-        fig.suptitle(f"{gate} gate | time step = {k}", fontsize=18)
-        plt.pause(0.025)
+        # Fast redraw path
+        fig.canvas.restore_region(background)
 
-        for i in range(len(states)):
-            states[i] = F(states[i])
+        for im, s, ax in zip(images, states, axs):
+            im.set_data(s)
+            ax.draw_artist(im)
+
+        suptitle.set_text(f"{gate}-gate, $t = {k}$")
+        fig.draw_artist(suptitle)
+
+        fig.canvas.blit(fig.bbox)
+        fig.canvas.flush_events()
+
+        if k == 464 or k == 465:
+            fig.savefig(f"./{gate}_{k}.pdf", format="pdf", bbox_inches="tight")
 
 elif gate == "NOT":
     cases = [0, 1]
@@ -110,20 +123,21 @@ elif gate == "NOT":
         im = axs[i].imshow(x, cmap="binary", interpolation="nearest", origin="upper")
         images.append(im)
 
-        axs[i].set_title(f"{gate}: A={A}", fontsize=14)
-        axs[i].set_xlabel("x")
-        axs[i].set_ylabel("y")
-        axs[i].set_xlim(0, 220)
-        axs[i].set_ylim(220, 0)
-        axs[i].set_xticks(np.arange(0, 221, 50))
-        axs[i].set_yticks(np.arange(0, 221, 50))
+        axs[i].set_title(f"{gate}: $A={A}$", fontsize=14)
+        axs[i].set_xlabel("$x$")
+        axs[i].set_ylabel("$y$")
+        axs[i].set_xlim(0, 100)
+        axs[i].set_ylim(35, 0)
 
     for k in range(nsteps):
         for i in range(len(states)):
             images[i].set_data(states[i])
 
-        fig.suptitle(f"{gate} gate | time step = {k}", fontsize=18)
+        fig.suptitle(f"{gate}–gate, $t = {k}$", fontsize=18)
         plt.pause(0.025)
+
+        if k == 488:
+            plt.savefig(f"./{gate}_{k}.pdf", format="pdf", bbox_inches="tight")
 
         for i in range(len(states)):
             states[i] = F(states[i])  # Linear map

@@ -1,5 +1,4 @@
-\subsection{Game of Life and Logic Gates}\subsubsection{Game of Life as a discrete dynamical system}
-
+\subsection{Game of Life as a discrete dynamical system}
 Conway's Game of Life can be viewed as a discrete dynamical system on a rectangular lattice
 $X^{(t)} \in \{0,1\}^{m \times n}$, where each entry $X_{ij}^{(t)}$ represents the state of the cell
 at site $(i,j)$ at time $t$. The evolution of the system is determined by update rules that specify
@@ -25,7 +24,7 @@ N_{ij}^{(t)} =
 \sum_{p=-1}^1 \sum_{q=-1}^1 K_{p+2,q+2} X_{i+p,j+q}^{(t)},
 \end{equation}
 
-where $K$ is a $3 \times 3$ kernel. Equivalently,
+where $K$ is a $3 \times 3$ kernel with ones except the center entry that is equal to zero. Equivalently,
 \begin{equation}
 N^{(t)} = K * X^{(t)},
 \end{equation}
@@ -42,73 +41,21 @@ X_{ij}^{(t+1)}
 \end{cases}
 \end{equation}
 
-In vectorized form, this becomes
+This shows that the update rule is a non-linear composition of a linear map:
 \begin{equation}
 X^{(t+1)} = \mathbb{1}\!\left(N^{(t)} = 3\right)
 + X^{(t)} \odot \mathbb{1}\!\left(N^{(t)} = 2\right),
 \end{equation}
-and we use dirichlet boundary conditons or zero padding to handle the adjacency of boundary nodes.
-\newpage
+We use dirichlet boundary conditons or zero padding to handle the adjacency of boundary nodes.
+
 \subsubsection{Logic gates in the Game of Life}
-In classical computation, basic logic gates such as AND, OR, and NOT act on one or two input streams and produce a single output stream. For example,
-\[
-\begin{array}{ccc}
-\begin{array}{@{}l@{}}
-\texttt{01001010}\\
-\texttt{10101010}\\
-\hline
-\texttt{00001010}
-\end{array}
-&
-\begin{array}{@{}l@{}}
-\texttt{01001010}\\
-\texttt{10101010}\\
-\hline
-\texttt{11101010}
-\end{array}
-&
-\begin{array}{@{}l@{}}
-\texttt{01001010}\\
-\hline
-\texttt{10110101}
-\end{array}
-\\
-\texttt{AND} & \texttt{OR} & \texttt{NOT}
-\end{array}
-\]
-Such gates implement a local transformation of binary information.
+In classical computation, the basic logic gates \texttt{AND}, \texttt{OR}, and \texttt{NOT} act on one or two binary input streams and produce a binary output stream. They implement a local transformation of information.
 
-In the Game of Life, which is a discrete dynamical system evolving on a lattice, one may view logic gates from a
-different perspective: not as abstract Boolean operators, but as spatially embedded computational devices. The
-initial state is a geometric configuration, and the update rule propagates that configuration through time (changes
-its geometry from one to another). From this viewpoint, the construction of a logic gate becomes a problem of geometric
-constraint and synchronization. The central question is which initial lattice configuration (i.e., which geometry) $X^{(0)}$
-can, under Conway's rules, evolve so as to realize deterministic, time-dependent binary information processing in the form of
-\texttt{AND}-, \texttt{OR}-, and \texttt{NOT}-gates?
+In the Game of Life, by contrast, computation is realized not by abstract Boolean operators but by spatially embedded dynamical processes on a lattice. The initial condition is a geometric configuration, and Conway's update rule evolves this configuration through time. The problem of building a logic gate is therefore a problem of geometric design and synchronization: one seeks an initial configuration $X^{(0)}$ that evolves, under the Game of Life rules, into a deterministic spatiotemporal process implementing \texttt{AND}, \texttt{OR}, or \texttt{NOT}.
 
-First, we need to construct an initial geometry that evolves, under Conway's rules, into a space-time signal. For 
-this we could use a train of \textit{gliders} that travels periodically and diagonally across the lattice
-\cite{gliderwiki}. To get an arbitrary length of space-time signals we might use \textit{guns} that generate 
-gliders \cite{glidergunwiki}. The trajectories along which gliders evolve act as rigid wiring, thereby constraining
-the direction of information flow. In the absence of any interference, the signal propagates persistently along these paths.
-To obtain a richer computational structure, this simple stream of gliders (interpretable as a sequence of 1s) must be
-complemented with the ability to represent absence (0s) as meaningful information. Furthermore, one requires mechanisms for
-interaction between multiple input streams such that they can be combined to produce a third output stream, with the
-resulting configurations remaining composable within larger constructions.
-
-It is possible to realize \cite{golgatevideo} composable logic gates in the Game of Life by spatially arranging
-glider guns, eaters,
-and collision configurations such that controlled streams of gliders encode binary information.
-In this setting, glider presence corresponds to logical \texttt{1}, while the absence of a glider
-stream corresponds to \texttt{0}. By appropriately translating and positioning glider guns, and by
-placing eaters as stabilizing and filtering structures, one can engineer deterministic collision patterns
-that implement logical operations. Moreover, these constructions are required to be composable,
-in the sense that the output of one gate can be routed as the input to another without loss of
+This is achieved by using gliders as moving signals and glider guns as periodic sources of such signals \cite{gliderwiki,glidergunwiki}. Glider trajectories function as wires, constraining the direction of information flow; in the absence of interference, the signal propagates persistently along these paths. To represent binary information, the presence of a glider stream is interpreted as \texttt{1}, while its absence is interpreted as \texttt{0}. Eaters are used as stabilizing and filtering structures, suppressing selected streams and enabling controlled interactions between multiple inputs. By translating and positioning guns, eaters, and collision regions appropriately, one obtains deterministic and composable gate constructions \cite{golgatevideo}, so that the output of one gate may be routed as the input of another without loss of logical meaning.
 computational fidelity.
 
-
-
-\newpage
 \subsubsection{Encoding of Inputs}
 
 
@@ -157,7 +104,7 @@ dynamic pattern that fits within $4\times 4$ area during its four-generation cyc
 \paragraph{Detection logic.} The output is considered to have the assigned \texttt{TRUE} value if the correct number of
 live cells within the $4 \times 4$, and the distribution are characteristic of the glider.
 
-\paragraph{Composition.} If a gate’s output needs to be routed to a different input, you must apply rotations or
+\paragraph{Composition.} If a gate’s output needs to be routed to a different input, one must apply rotations or
 reflections to the initial gun configuration to ensure the output vector aligns with the next gate's input requirements.
 
 \paragraph{Synchorinization.} If the observation window is checked at generation $T$, but the glider arrives at $T+1$,
@@ -166,6 +113,26 @@ Strictly speaking, one could a priori calculate the Manhattan distance the glide
 sampled only when the signal has had enough generations to reach the observation box.
 
 \subsubsection{Initial conditions for the different gates}
-Initial conditions to AND:
-Image
-Then input is say SE, output is NW
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=.65\textwidth]{figs/GoL/NOT_IC}
+  \caption{Two Gosper glider guns: the left gun provides a constant input stream, while the input channel injects gliders traveling in the south-east direction. No input is encoded by inserting an eater in the SE input stream. The output is read as gliders propagating in the south-west direction.}
+  \label{fig:NOT_0}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=.75\textwidth]{figs/GoL/AND_IC}
+  \caption{Three Gosper glider guns: the two leftmost generate south-east-directed input streams. An eater suppresses the south-west output unless both inputs
+   are present. In the absence of inputs, additional eaters are placed along the collision paths to block spurious gliders. The output is read as a
+   south-east-directed stream.}
+  \label{fig:AND_0}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=.75\textwidth]{figs/GoL/OR_IC}
+  \caption{Four Gosper glider guns: the second and third generate south-east-directed input streams. Logical zeros are implemented by placing eaters along the input collision paths. The output is read as a south-east-directed stream.}
+  \label{fig:OR_0}
+\end{figure}
