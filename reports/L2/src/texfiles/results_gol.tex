@@ -58,3 +58,20 @@
   \caption{Input gliders also move diagonally from the top of the grid towards the lower-right part of the grid. The output is shown in the outgoing diagonal channel after the region of collision. In this case, the output channel contains a glider when, at least, one of the two input gliders is present.}
   \label{fig:OR}
 \end{figure}
+
+In the snapshots above, the realization of logic gates within a computer simulation of the
+Game of Life is presented. The validity of the implementation of \texttt{AND} and \texttt{OR} logic gates (see Figures
+(\ref{fig:AND} \& \ref{fig:OR})) can be verified succinctly: both produce a south-east directed output stream that is
+consistent with their respective truth tables. The \texttt{NOT}-gate has a south-west directed output stream, that
+negates input signals via collision (in Figure (\ref{fig:NOT}) the gliders are in a collision course where the
+mutually annihilate each other).
+
+From this, one may conclude that a Boolean basis is effectively implemented within the system.
+Once the principles for composing these gates into larger circuits are understood, increasingly complex computational structures can be constructed.
+The existence of logic gates within the Game of Life implies that they form a functionally complete basis for Boolean logic.
+Consequently, any Boolean function can be expressed as a finite composition of such gates. This property is fundamental for the construction of general
+ computational devices. In particular, it is possible to design patterns that behave as a
+ \href{https://en.wikipedia.org/wiki/Finite-state_machine}{finite-state machine} coupled to two counters.
+Such a system is computationally equivalent to a
+\href{https://en.wikipedia.org/wiki/Universal_Turing_machine}{universal Turing machine}.
+
