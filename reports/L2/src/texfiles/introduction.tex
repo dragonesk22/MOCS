@@ -1,14 +1,14 @@
 \section{Problem statement}
 
-A cellular automaton is built by defining a grid and interaction rules between neighbours. Each point in the grid is a cell, which can inhabit a finite amount of different states, and the interaction rules can switch the state of each cell individually. In this project, we will look into the three types of cellular automata. The first one is Conway's Game of Life, the second one is a simple three-state automaton and the third one is Greenberg-Hastings cellular automaton (GHCA). The different systems are described later in their own subsections of this report.
+A cellular automaton is built by defining a grid and interaction rules between neighbours. Each point in the grid is a cell, which can inhabit a finite amount of different states, and the interaction rules can switch the state of each cell individually. In this project, we will look into three types of cellular automata. The first one is Conway's Game of Life, the second one is a simple three-state automaton and the third one is the Greenberg-Hastings cellular automaton (GHCA). The different systems are described later in their own subsections of this report.
 
-These systems can exhibit interesting behaviour through simple, local rules. One can observe emergence, macroscopic effects which are difficult to derive from the microscopic intracellular and intercellular interactions. Such rules and behaviour varies between each system and allows for representations of real-world systems, e.g. emulating logical gates in Conway's Game of Life or the firing of neurons in the simple automata. More precisely, the local interaction rules can:
+These systems can exhibit interesting behaviour through simple, local rules. One can observe emergence, macroscopic effects which are difficult to derive from the microscopic interactions between neighbours. Such behaviour is varied and different between each system and allows for representations of real-world systems, e.g. emulating logical gates in Conway's Game of Life or the firing of neurons in the simple automata. More precisely, the local interaction rules can:
 \begin{enumerate}
-\item Give rise to discrete dynamical systems, and how different initial conditions affect the state of the system over time.
-\item Manifest the causal dependence to complex phenomena like
+\item Give rise to discrete dynamical systems where different initial conditions affect the state of the entire system over time
+\item Enable the evolution of complex phenomena like
     \begin{itemize}
     \item Turing completeness
-    \item Universal computation (both via. realisation of a Boolean basis)
+    \item Universal computation (both this and Turing Completeness via the realisation of a Boolean basis)
     \item Simulation of neuron activation
     \item Stability and oscillatory behaviour in lattice-based dynamical systems $S^\Lambda$, where $\Lambda \subset \mathbb{Z}^d$ and $S$ is a finite alphabet (e.g. \{0,1\}, \{firing, resting, ready\} or \{resting, excitation, refractory\}), in comparison with dynamical systems on continuous function spaces.
     \item Diffusion of wave patterns
@@ -16,4 +16,4 @@ These systems can exhibit interesting behaviour through simple, local rules. One
     \end{itemize}
 \end{enumerate}
 
-The models make up clear examples of a complex dynamical systems, whose time evolution can offer seemingly chaotic behaviour. The aim of this project is to simulate and study this phenomenon for the three different cellular automata.
+The models make up clear examples of complex dynamical systems, whose time evolution can offer seemingly chaotic behaviour. The aim of this project is to simulate and study this phenomenon for the three different cellular automata.
