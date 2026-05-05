@@ -1,31 +1,31 @@
 \subsection{Numerical methods for Game of Life}
 
-\subsection{Computational domain}
+\subsubsection{Computational domain}
 The computational domain is represented as a two-dimensional rectangular lattice $X \in \{0,1\}^{n\times n}$, where
 each entry corresponds to one cell of the automaton.
 
-\subsection{Time evolution}
-The time evolution is implemented as a composition of a linear convolution operation and a pointwise
-non-linear update. The discrete convolution is computed using \texttt{scipy.ndimage.convolve}. A fixed
-$3\times 3$ kernel is used to compute the Moore neighbourhood sum $N^{(t)} = K * X^{(t)}.$.
-The central entry of the kernel is zero, so the cell itself is excluded from the neighbour count. The update function allows both zero-padding boundaries, set by the parameter
-\texttt{mode="constant"}.
-
-\subsection{Initial conditions}
+\subsubsection{Initial conditions \& Time evolution}
 Initial conditions are generated programmatically in \texttt{GoLogic.py}. The basic building blocks are the Gosper
 glider gun and the eater, both stored in Run Length Encoding (RLE). A custom parser converts each RLE string into a
 binary array using \texttt{RLE.py} and \texttt{add\_pattern}. Before adding a pattern one can transform it
 appropriately with the \texttt{transform\_pattern} function in \texttt{pattern\_processing.py}.
-handle insertion and transformation before simulation.
+handle insertion and transformation before simulation. In addition, the function \texttt{load\_live\_cells(filename, n)}
+loads external initial configurations from text files containing one live cell per line in the format \texttt{(x,y)}.
+The file is converted into an $n\times n$ binary array by setting \texttt{grid[y,x] = 1}.
+This supports the coordinate-list representation used for the initial gate configurations.
 
-In addition, the function \texttt{load\_live\_cells(filename, n)} loads external initial configurations from text files containing one live cell per line in the format \texttt{(x,y)}. The file is converted into an $n\times n$ binary array by setting \texttt{grid[y,x] = 1}. This supports the coordinate-list representation used for the initial gate configurations.
+The time evolution is implemented as a composition of a linear convolution operation and a pointwise
+non-linear update. The discrete convolution is computed using \texttt{scipy.ndimage.convolve}. A fixed
+$3\times 3$ kernel is used to compute the Moore neighbourhood sum $N^{(t)} = K * X^{(t)}$.
+The central entry of the kernel is zero, so the cell itself is excluded from the neighbour count. The update
+function allows both zero-padding boundaries, set by the parameter \texttt{mode="constant"}.
 
-\subsection{Logical gates}
+\subsubsection{Logic gate engineering}
 The logical gates \texttt{AND}, \texttt{OR}, and \texttt{NOT} are implemented by spatial arrangements of glider guns and eaters.
 Signals are encoded as glider streams emitted by Gosper guns. Boolean inputs are represented through the initial configuration: an input value of $1$ leaves the
-corresponding signal unobstructed, whereas an input value of $0$ places an eater on the signal path and suppresses propagation. For the \texttt{AND} and \texttt{OR} gates, all four input combinations were simulated.
-While the \texttt{NOT} gate was tested for both possible input values. The output was read from a designated output lane: the presence of a propagating glider stream was interpreted as logical $1$, and its absence as logical $0$.
+corresponding signal unobstructed, whereas an input value of $0$ places an eater on the signal path and suppresses propagation. For the \texttt{AND} and \texttt{OR} gates, all four input combinations were simulated. While the \texttt{NOT} gate was tested for both possible input values.
+The output was read from a designated output lane: the presence of a propagating glider stream was interpreted as logical $1$, and its absence as logical $0$.
 
-\subsection{EXECUTION}
+\subsubsection{Execution}
 The implementation can be executed with \texttt{python3 GameOfLife.py AND.txt}, adapting the text file for
-whatever is kdesired. For a different output, where no file is used, one can simply run the code as \texttt{python3 GameOfLife.py}.
+whatever is desired. For a different output, where no file is used, one can simply run the code as \texttt{python3 GameOfLife.py}.
