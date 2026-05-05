@@ -57,7 +57,7 @@ def build_gate(gate, n, A, B=0):
 
 n = 400
 nsteps = 1000
-gate = "NOT"
+gate = "OR"
 plt.ion()
 
 if gate in ["AND", "OR"]:
@@ -105,7 +105,7 @@ if gate in ["AND", "OR"]:
         fig.canvas.blit(fig.bbox)
         fig.canvas.flush_events()
 
-        if k == 464 or k == 465:
+        if k == 0:
             fig.savefig(f"./{gate}_{k}.pdf", format="pdf", bbox_inches="tight")
 
 elif gate == "NOT":
@@ -136,7 +136,7 @@ elif gate == "NOT":
         fig.suptitle(f"{gate}–gate, $t = {k}$", fontsize=18)
         plt.pause(0.025)
 
-        if k == 488:
+        if k == 0:
             plt.savefig(f"./{gate}_{k}.pdf", format="pdf", bbox_inches="tight")
 
         for i in range(len(states)):
